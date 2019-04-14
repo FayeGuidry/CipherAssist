@@ -19,7 +19,7 @@ This is a plaintext cryptography application with multiple encryption standards 
 Push feature branches (formatted feature-\*), merge into development branch. Releases will have their own branches after each initial release, where features and/or fixes can be merged in during deployment. Development branch is always a release ahead of the most recent feature branch. Final releases will be merged into master, with any later work being done on their corresponding release branch.
 
 ## Credits
-Project Lead, Software Design - Connor Guidry (ConnorGuidry)
+Project Lead, GUI Integration, Documentation - Connor Guidry (ConnorGuidry)
 
 GUI Design and Implementation - Geoffery Powell (Geoffery10)
 
