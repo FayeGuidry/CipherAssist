@@ -1,5 +1,8 @@
 package cipherassist.verification;
 
-public class Hashmap {
+public class Hashmap 
+{
+	//Test comment
+	/**hash map example**/
 
 }
