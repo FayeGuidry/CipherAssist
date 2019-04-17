@@ -7,7 +7,7 @@ This is a plaintext cryptography application with multiple encryption standards 
 
 1.1 - Upgrade to encrypt and decrypt text files rather than just plaintext input.
 
-2.0 - Upgrade to encrypt and decrypt any type of file. Add command-line functionality for advanced usage, large batch processing.
+2.0 - Upgrade to encrypt and decrypt any type of file. Add command-line functionality for advanced usage, large batch processing. Add file hash generator/hash validator function.
 
 ## Installation
 {WIP}
