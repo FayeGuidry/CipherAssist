@@ -6,15 +6,20 @@ package cipherassist.encryption;
  */
 public interface EncryptionMethod 
 {
-	/** Takes plaintext string and key string
+	/** 
 	 * @return Returns encrypted text as String
 	 */
-	public String getEncryptedString(String plaintext, String key);
+	public String getEncryptedString(String plaintext);
 	
 	
-	/** Takes ciphertext string and key string
+	/** 
 	 * @return Returns decrypted text as String
 	 */
-	public String getDecryptedString(String ciphertext, String key);
+	public String getDecryptedString(String ciphertext);
 	
+	
+	/**
+	 * @param key Encryption key as a string
+	 */
+	public void getKey(String key);
 }
