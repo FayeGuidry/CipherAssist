@@ -29,11 +29,14 @@ public class ROT13 extends EncryptionBase implements EncryptionMethod
 	
 	private String encrypt(String text)
 	{
-		String result;
+		String result = "";
 		
+		for (int count = 0; count < text.length(); ++count)
+		{
+			result += shift13(text.charAt(count));
+		}
 		
-		
-		return "test";
+		return result;
 	}
 	
 	private char shift13(char c)
@@ -43,6 +46,7 @@ public class ROT13 extends EncryptionBase implements EncryptionMethod
 		switch (c) {
 		case ' ':
 			shiftedChar = ' ';
+			break;
 		case 'A':
 			shiftedChar = 'N';
 			break;
@@ -200,7 +204,7 @@ public class ROT13 extends EncryptionBase implements EncryptionMethod
 			shiftedChar = 'm';
 			break;
 		default:
-			shiftedChar = ' ';
+			shiftedChar = c;
 			break;
 		}
 		
