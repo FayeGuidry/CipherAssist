@@ -1,6 +1,7 @@
 package cipherassist.fileio;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,6 +20,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 
 import cipherassist.user.User;
+import cipherassist.verification.Hashmap;
 
 public class CipherIO {
 
@@ -83,4 +85,25 @@ public class CipherIO {
 		return unsealedUser;
 	}
 
+	public static void store(Hashmap hashmap) throws IOException
+	{
+		FileOutputStream outStream = new FileOutputStream("userdata.dat");
+		ObjectOutputStream objectOutputFile = new ObjectOutputStream(outStream);
+				
+		objectOutputFile.writeObject(hashmap);
+		
+		objectOutputFile.close();
+	}
+	
+	public static Hashmap access() throws IOException, ClassNotFoundException
+	{
+		FileInputStream inStream = new FileInputStream(("userdata.dat"));
+		ObjectInputStream objectInputFile = new ObjectInputStream(inStream);
+		
+		Hashmap hashmap = (Hashmap) objectInputFile.readObject();
+		
+		objectInputFile.close();
+		
+		return hashmap;
+	}
 }
