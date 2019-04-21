@@ -10,7 +10,11 @@ public class User implements Serializable
 	private String password = "password1";
 	private String username = "JohnDoe";
 	
-	
+	public User(String username, String password)
+	{
+		this.username = username;
+		this.password = password;
+	}
 	
 	public String getPassword()
 	{
