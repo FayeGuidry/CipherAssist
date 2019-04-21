@@ -12,9 +12,9 @@ public class VaultItem implements Serializable
 	
 	public VaultItem()
 	{
-		setData("This is a secret");
-		setFilename("Secret Stuff");
-		setTimestamp("01-01-1999");
+		setData("");
+		setFilename("");
+		setTimestamp("");
 	}
 
 	public String getTimestamp() {
