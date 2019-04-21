@@ -7,8 +7,8 @@ public class User implements Serializable
 	private static final long serialVersionUID = 8167391005507975683L;
 	
 	private Vault vault = new Vault();
-	private String password = "password1";
-	private String username = "JohnDoe";
+	private String password = "";
+	private String username = "";
 	
 	public User(String username, String password)
 	{
