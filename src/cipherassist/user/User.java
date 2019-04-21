@@ -10,6 +10,8 @@ public class User implements Serializable
 	private String password = "password1";
 	private String username = "JohnDoe";
 	
+	
+	
 	public String getPassword()
 	{
 		return password;
