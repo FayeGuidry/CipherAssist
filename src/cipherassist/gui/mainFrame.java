@@ -32,11 +32,19 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.DropMode;
 import javax.swing.JDesktopPane;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.ListSelectionModel;
+import javax.swing.JTextArea;
+import java.awt.Button;
 
 public class mainFrame 
 {
 	//Initialize JFrame
 	private JFrame frmCipherAssist;
+	private JTextField key_textField;
 
 	
 	//Launch
@@ -89,7 +97,17 @@ public class mainFrame
 		frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCipherAssist.getContentPane().setLayout(new CardLayout(0, 0));
 		
+		//===============================================================
+		//                            Forms
+		//===============================================================
+		
+		JPanel main_frm = new JPanel();
 		JPanel login_frm = new JPanel();
+		
+		//===============================================================
+		//                            Forms
+		//===============================================================
+		
 		frmCipherAssist.getContentPane().add(login_frm, "name_455107982965741");
 		login_frm.setLayout(new BorderLayout(0, 0));
 		
@@ -164,8 +182,15 @@ public class mainFrame
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				//Action goes here
+				//Check Login info here
+				boolean loginTrue = true;
 				
+				//Continue to menu
+				if (loginTrue == true)
+				{
+					main_frm.setVisible(true);
+					login_frm.setVisible(false);
+				}
 			}
 		});
 		btnLogin.setBackground(Color.GRAY);
@@ -240,26 +265,124 @@ public class mainFrame
 		panel_8.setBackground(Color.DARK_GRAY);
 		panel_4_north.add(panel_8, BorderLayout.SOUTH);
 		
-		JPanel createAccount_frm = new JPanel();
-		createAccount_frm.setBackground(Color.DARK_GRAY);
-		frmCipherAssist.getContentPane().add(createAccount_frm, "name_455973417632460");
-		createAccount_frm.setLayout(new BorderLayout(0, 0));
+		main_frm.setBackground(Color.DARK_GRAY);
+		frmCipherAssist.getContentPane().add(main_frm, "name_455973417632460");
+		main_frm.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_11_center = new JPanel();
+		panel_11_center.setBorder(UIManager.getBorder("TitledBorder.border"));
 		panel_11_center.setBackground(Color.DARK_GRAY);
-		createAccount_frm.add(panel_11_center, BorderLayout.CENTER);
+		main_frm.add(panel_11_center, BorderLayout.CENTER);
+		panel_11_center.setLayout(new GridLayout(10, 2, 0, 0));
+		
+		JLabel lblEncrypMeth = new JLabel("Encryption Method:");
+		lblEncrypMeth.setForeground(Color.WHITE);
+		panel_11_center.add(lblEncrypMeth);
+		
+		JList list = new JList();
+		list.setLayoutOrientation(JList.VERTICAL_WRAP);
+		list.setVisibleRowCount(2);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setBackground(Color.LIGHT_GRAY);
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Test 1", "Test 2", "Test 3", "Test 4", "Test 5"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		panel_11_center.add(list);
+		
+		JLabel lblKey = new JLabel("Key:");
+		lblKey.setForeground(Color.WHITE);
+		panel_11_center.add(lblKey);
+		
+		key_textField = new JTextField();
+		key_textField.setBackground(Color.LIGHT_GRAY);
+		panel_11_center.add(key_textField);
+		key_textField.setColumns(10);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
+		panel_11_center.add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnClearKey = new JButton("Clear");
+		btnClearKey.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				key_textField.setText("");
+			}
+		});
+		btnClearKey.setBackground(Color.GRAY);
+		panel.add(btnClearKey, BorderLayout.EAST);
+		
+		JButton btnGenerateKey = new JButton("Generate");
+		btnGenerateKey.setBackground(Color.GRAY);
+		panel.add(btnGenerateKey, BorderLayout.CENTER);
+		
+		JLabel lblInput = new JLabel("Input:");
+		lblInput.setForeground(Color.WHITE);
+		lblInput.setBackground(Color.DARK_GRAY);
+		panel_11_center.add(lblInput);
+		
+		JTextArea input_textArea = new JTextArea();
+		input_textArea.setRows(2);
+		input_textArea.setBackground(Color.LIGHT_GRAY);
+		panel_11_center.add(input_textArea);
+		
+		JLabel lblOutput = new JLabel("Output:");
+		lblOutput.setForeground(Color.WHITE);
+		panel_11_center.add(lblOutput);
+		
+		JTextArea Output_textArea = new JTextArea();
+		Output_textArea.setBackground(Color.LIGHT_GRAY);
+		panel_11_center.add(Output_textArea);
 		
 		JPanel panel_10_west = new JPanel();
 		panel_10_west.setBackground(Color.DARK_GRAY);
 		FlowLayout fl_panel_10_west = (FlowLayout) panel_10_west.getLayout();
 		fl_panel_10_west.setHgap(20);
 		fl_panel_10_west.setVgap(20);
-		createAccount_frm.add(panel_10_west, BorderLayout.WEST);
+		main_frm.add(panel_10_west, BorderLayout.WEST);
 		
 		JPanel panel_9_east = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_9_east.getLayout();
-		flowLayout.setHgap(20);
-		createAccount_frm.add(panel_9_east, BorderLayout.EAST);
+		main_frm.add(panel_9_east, BorderLayout.EAST);
 		panel_9_east.setBackground(Color.DARK_GRAY);
+		panel_9_east.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_1_west = new JPanel();
+		panel_1_west.setBackground(Color.DARK_GRAY);
+		panel_9_east.add(panel_1_west, BorderLayout.WEST);
+		panel_1_west.setLayout(new BorderLayout(0, 0));
+		
+		JLabel imageLogo = new JLabel("");
+		imageLogo.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		panel_1_west.add(imageLogo, BorderLayout.NORTH);
+		
+		JButton btnAccessVault = new JButton("Open Vault");
+		btnAccessVault.setBackground(Color.GRAY);
+		panel_1_west.add(btnAccessVault);
+		
+		JButton btnSettings = new JButton("Settings");
+		btnSettings.setBackground(Color.GRAY);
+		panel_1_west.add(btnSettings, BorderLayout.SOUTH);
+		
+		JPanel panel_2_east = new JPanel();
+		panel_2_east.setBackground(Color.DARK_GRAY);
+		panel_9_east.add(panel_2_east, BorderLayout.EAST);
+		
+		JPanel panel_1_north = new JPanel();
+		panel_1_north.setBackground(Color.DARK_GRAY);
+		FlowLayout fl_panel_1_north = (FlowLayout) panel_1_north.getLayout();
+		fl_panel_1_north.setVgap(10);
+		main_frm.add(panel_1_north, BorderLayout.NORTH);
+		
+		JPanel panel_2_south = new JPanel();
+		FlowLayout fl_panel_2_south = (FlowLayout) panel_2_south.getLayout();
+		fl_panel_2_south.setVgap(10);
+		panel_2_south.setBackground(Color.DARK_GRAY);
+		main_frm.add(panel_2_south, BorderLayout.SOUTH);
 	}
 }
