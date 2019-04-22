@@ -37,7 +37,6 @@ public class mainFrame
 {
 	//Initialize JFrame
 	private JFrame frmCipherAssist;
-	private JFrame login;
 
 	
 	//Launch
@@ -95,31 +94,31 @@ public class mainFrame
 		login_frm.setLayout(new BorderLayout(0, 0));
 		
 		//Panels
-		JPanel panel_1 = new JPanel();
-		login_frm.add(panel_1, BorderLayout.EAST);
-		panel_1.setBackground(Color.DARK_GRAY);
-		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
-		flowLayout.setHgap(110);
+		JPanel panel_1_east = new JPanel();
+		login_frm.add(panel_1_east, BorderLayout.EAST);
+		panel_1_east.setBackground(Color.DARK_GRAY);
+		FlowLayout fl_panel_1_east = (FlowLayout) panel_1_east.getLayout();
+		fl_panel_1_east.setHgap(110);
 		
-		JPanel panel_2 = new JPanel();
-		login_frm.add(panel_2, BorderLayout.WEST);
-		panel_2.setBackground(Color.DARK_GRAY);
-		FlowLayout flowLayout_1 = (FlowLayout) panel_2.getLayout();
-		flowLayout_1.setHgap(110);
+		JPanel panel_2_west = new JPanel();
+		login_frm.add(panel_2_west, BorderLayout.WEST);
+		panel_2_west.setBackground(Color.DARK_GRAY);
+		FlowLayout fl_panel_2_west = (FlowLayout) panel_2_west.getLayout();
+		fl_panel_2_west.setHgap(110);
 		
-		JPanel panel_5 = new JPanel();
-		login_frm.add(panel_5, BorderLayout.CENTER);
-		panel_5.setLayout(new BorderLayout(0, 0));
+		JPanel panel_5_center = new JPanel();
+		login_frm.add(panel_5_center, BorderLayout.CENTER);
+		panel_5_center.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		panel_5.add(panel, BorderLayout.CENTER);
-		panel.setBorder(UIManager.getBorder("TitledBorder.border"));
-		panel.setBackground(Color.DARK_GRAY);
-		panel.setLayout(new GridLayout(0, 2, 0, 10));
+		JPanel panel_12_signin = new JPanel();
+		panel_5_center.add(panel_12_signin, BorderLayout.CENTER);
+		panel_12_signin.setBorder(UIManager.getBorder("TitledBorder.border"));
+		panel_12_signin.setBackground(Color.DARK_GRAY);
+		panel_12_signin.setLayout(new GridLayout(0, 2, 0, 10));
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setForeground(Color.WHITE);
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblUsername);
+		panel_12_signin.add(lblUsername);
 		
 		//Username Text Field
 		//Username Label
@@ -127,12 +126,12 @@ public class mainFrame
 		username_Textfield = new JTextField();
 		username_Textfield.setHorizontalAlignment(SwingConstants.LEFT);
 		username_Textfield.setBackground(Color.LIGHT_GRAY);
-		panel.add(username_Textfield);
+		panel_12_signin.add(username_Textfield);
 		username_Textfield.setColumns(10);
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblPassword);
+		panel_12_signin.add(lblPassword);
 		
 		//Password Text Field
 		//Password Label
@@ -140,13 +139,18 @@ public class mainFrame
 		password_Textfield = new JTextField();
 		password_Textfield.setHorizontalAlignment(SwingConstants.LEFT);
 		password_Textfield.setBackground(Color.LIGHT_GRAY);
-		panel.add(password_Textfield);
+		panel_12_signin.add(password_Textfield);
 		password_Textfield.setColumns(10);
 		
-		JPanel panel_3 = new JPanel();
-		panel_5.add(panel_3, BorderLayout.SOUTH);
-		panel_3.setBackground(Color.DARK_GRAY);
-		panel_3.setLayout(new GridLayout(0, 1, 10, 5));
+		JPanel panel_login_create = new JPanel();
+		panel_login_create.setBackground(Color.DARK_GRAY);
+		panel_5_center.add(panel_login_create, BorderLayout.SOUTH);
+		panel_login_create.setLayout(new CardLayout(0, 0));
+		
+		JPanel panel_login_buttons = new JPanel();
+		panel_login_create.add(panel_login_buttons, "name_456638280110000");
+		panel_login_buttons.setBackground(Color.DARK_GRAY);
+		panel_login_buttons.setLayout(new GridLayout(0, 1, 10, 5));
 		
 		
 		
@@ -155,7 +159,7 @@ public class mainFrame
 		//===============================================================
 		
 		//Login Account Button
-		JButton btnLogin = new JButton("Login Account");
+		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -165,68 +169,97 @@ public class mainFrame
 			}
 		});
 		btnLogin.setBackground(Color.GRAY);
-		panel_3.add(btnLogin);
+		panel_login_buttons.add(btnLogin);
 		
 		//Creating Account Button
 		JButton btnCreateAccount = new JButton("Create Account");
 		btnCreateAccount.setBackground(Color.GRAY);
-		panel_3.add(btnCreateAccount);
+		panel_login_buttons.add(btnCreateAccount);
+		
+		JPanel panel_create_buttons = new JPanel();
+		panel_create_buttons.setBackground(Color.DARK_GRAY);
+		panel_login_create.add(panel_create_buttons, "name_456645496345286");
+		panel_create_buttons.setLayout(new GridLayout(2, 1, 0, 5));
+		
+		JButton btnCreate = new JButton("Create");
+		btnCreate.setBackground(Color.GRAY);
+		btnCreate.setForeground(Color.BLACK);
+		panel_create_buttons.add(btnCreate);
+		
+		JButton btnCancel_Create = new JButton("Cancel");
+		btnCancel_Create.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				panel_login_buttons.setVisible(true);
+				panel_create_buttons.setVisible(false);
+			}
+		});
+		btnCancel_Create.setBackground(Color.GRAY);
+		panel_create_buttons.add(btnCancel_Create);
 		
 		//This is what happens when you click a button
 		btnCreateAccount.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				//Action goes here
-				
+				panel_create_buttons.setVisible(true);
+				panel_login_buttons.setVisible(false);
 			}
 		});
-		
-		//Quit Button
-		JButton btnQuit = new JButton("Quit");
-		btnQuit.setBackground(Color.GRAY);
-		panel_3.add(btnQuit);
 		
 		//===============================================================
 		//                           BUTTONS
 		//===============================================================
 		
-		JPanel panel_6 = new JPanel();
-		login_frm.add(panel_6, BorderLayout.SOUTH);
-		FlowLayout flowLayout_3 = (FlowLayout) panel_6.getLayout();
-		flowLayout_3.setVgap(30);
-		panel_6.setBackground(Color.DARK_GRAY);
+		JPanel panel_6_south = new JPanel();
+		login_frm.add(panel_6_south, BorderLayout.SOUTH);
+		FlowLayout fl_panel_6_south = (FlowLayout) panel_6_south.getLayout();
+		fl_panel_6_south.setVgap(45);
+		panel_6_south.setBackground(Color.DARK_GRAY);
 		
 		//Panels are being used to format the page and can otherwise be ignored.
-		JPanel panel_4 = new JPanel();
-		login_frm.add(panel_4, BorderLayout.NORTH);
-		panel_4.setBackground(Color.DARK_GRAY);
-		panel_4.setLayout(new BorderLayout(0, 0));
+		JPanel panel_4_north = new JPanel();
+		login_frm.add(panel_4_north, BorderLayout.NORTH);
+		panel_4_north.setBackground(Color.DARK_GRAY);
+		panel_4_north.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_7 = new JPanel();
 		FlowLayout flowLayout_2 = (FlowLayout) panel_7.getLayout();
 		flowLayout_2.setVgap(10);
 		panel_7.setBackground(Color.DARK_GRAY);
-		panel_4.add(panel_7, BorderLayout.NORTH);
+		panel_4_north.add(panel_7, BorderLayout.NORTH);
 		
 		//This is the logoImage 
 		JLabel logoImage = new JLabel("");
-		panel_4.add(logoImage);
+		panel_4_north.add(logoImage);
 		logoImage.setHorizontalAlignment(SwingConstants.CENTER);
 		logoImage.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logoandtext_150.png")));
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBackground(Color.DARK_GRAY);
-		panel_4.add(panel_8, BorderLayout.SOUTH);
+		panel_4_north.add(panel_8, BorderLayout.SOUTH);
 		
-		//This is what happens when you click a button
-		btnQuit.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				//Action goes here
-				
-			}
-		});
+		JPanel createAccount_frm = new JPanel();
+		createAccount_frm.setBackground(Color.DARK_GRAY);
+		frmCipherAssist.getContentPane().add(createAccount_frm, "name_455973417632460");
+		createAccount_frm.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_11_center = new JPanel();
+		panel_11_center.setBackground(Color.DARK_GRAY);
+		createAccount_frm.add(panel_11_center, BorderLayout.CENTER);
+		
+		JPanel panel_10_west = new JPanel();
+		panel_10_west.setBackground(Color.DARK_GRAY);
+		FlowLayout fl_panel_10_west = (FlowLayout) panel_10_west.getLayout();
+		fl_panel_10_west.setHgap(20);
+		fl_panel_10_west.setVgap(20);
+		createAccount_frm.add(panel_10_west, BorderLayout.WEST);
+		
+		JPanel panel_9_east = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_9_east.getLayout();
+		flowLayout.setHgap(20);
+		createAccount_frm.add(panel_9_east, BorderLayout.EAST);
+		panel_9_east.setBackground(Color.DARK_GRAY);
 	}
 }
