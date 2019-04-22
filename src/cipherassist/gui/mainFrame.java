@@ -26,15 +26,18 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.DropMode;
+import javax.swing.JDesktopPane;
 
 public class mainFrame 
 {
 	//Initialize JFrame
 	private JFrame frmCipherAssist;
+	private JFrame login;
 
 	
 	//Launch
@@ -82,39 +85,30 @@ public class mainFrame
 		frmCipherAssist.setResizable(false);
 		frmCipherAssist.setForeground(Color.DARK_GRAY);
 		frmCipherAssist.getContentPane().setBackground(Color.DARK_GRAY);
-		frmCipherAssist.getContentPane().setLayout(new BorderLayout(0, 0));
 		frmCipherAssist.setBackground(Color.DARK_GRAY);
 		frmCipherAssist.setBounds(100, 100, 720, 480);
 		frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCipherAssist.getContentPane().setLayout(new CardLayout(0, 0));
 		
-		//Panels are being used to format the page and can otherwise be ignored.
-		JPanel panel_4 = new JPanel();
-		panel_4.setBackground(Color.DARK_GRAY);
-		FlowLayout flowLayout_2 = (FlowLayout) panel_4.getLayout();
-		flowLayout_2.setVgap(30);
-		frmCipherAssist.getContentPane().add(panel_4, BorderLayout.NORTH);
-		
-		//This is the logoImage 
-		JLabel logoImage = new JLabel("");
-		panel_4.add(logoImage);
-		logoImage.setHorizontalAlignment(SwingConstants.CENTER);
-		logoImage.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logoandtext_150.png")));
+		JPanel login_frm = new JPanel();
+		frmCipherAssist.getContentPane().add(login_frm, "name_455107982965741");
+		login_frm.setLayout(new BorderLayout(0, 0));
 		
 		//Panels
 		JPanel panel_1 = new JPanel();
+		login_frm.add(panel_1, BorderLayout.EAST);
 		panel_1.setBackground(Color.DARK_GRAY);
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
 		flowLayout.setHgap(110);
-		frmCipherAssist.getContentPane().add(panel_1, BorderLayout.WEST);
 		
 		JPanel panel_2 = new JPanel();
-		frmCipherAssist.getContentPane().add(panel_2, BorderLayout.EAST);
+		login_frm.add(panel_2, BorderLayout.WEST);
 		panel_2.setBackground(Color.DARK_GRAY);
 		FlowLayout flowLayout_1 = (FlowLayout) panel_2.getLayout();
 		flowLayout_1.setHgap(110);
 		
 		JPanel panel_5 = new JPanel();
-		frmCipherAssist.getContentPane().add(panel_5, BorderLayout.CENTER);
+		login_frm.add(panel_5, BorderLayout.CENTER);
 		panel_5.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -122,30 +116,27 @@ public class mainFrame
 		panel.setBorder(UIManager.getBorder("TitledBorder.border"));
 		panel.setBackground(Color.DARK_GRAY);
 		panel.setLayout(new GridLayout(0, 2, 0, 10));
-		//Panels
-		
-		//Username Label
-		JTextField username_Textfield;
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setForeground(Color.WHITE);
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblUsername);
 		
 		//Username Text Field
+		//Username Label
+		JTextField username_Textfield;
 		username_Textfield = new JTextField();
 		username_Textfield.setHorizontalAlignment(SwingConstants.LEFT);
 		username_Textfield.setBackground(Color.LIGHT_GRAY);
 		panel.add(username_Textfield);
 		username_Textfield.setColumns(10);
-		
-		//Password Label
-		JTextField password_Textfield;
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblPassword);
 		
 		//Password Text Field
+		//Password Label
+		JTextField password_Textfield;
 		password_Textfield = new JTextField();
 		password_Textfield.setHorizontalAlignment(SwingConstants.LEFT);
 		password_Textfield.setBackground(Color.LIGHT_GRAY);
@@ -170,6 +161,7 @@ public class mainFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				//Action goes here
+				
 			}
 		});
 		btnLogin.setBackground(Color.GRAY);
@@ -195,23 +187,46 @@ public class mainFrame
 		btnQuit.setBackground(Color.GRAY);
 		panel_3.add(btnQuit);
 		
+		//===============================================================
+		//                           BUTTONS
+		//===============================================================
+		
+		JPanel panel_6 = new JPanel();
+		login_frm.add(panel_6, BorderLayout.SOUTH);
+		FlowLayout flowLayout_3 = (FlowLayout) panel_6.getLayout();
+		flowLayout_3.setVgap(30);
+		panel_6.setBackground(Color.DARK_GRAY);
+		
+		//Panels are being used to format the page and can otherwise be ignored.
+		JPanel panel_4 = new JPanel();
+		login_frm.add(panel_4, BorderLayout.NORTH);
+		panel_4.setBackground(Color.DARK_GRAY);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_7 = new JPanel();
+		FlowLayout flowLayout_2 = (FlowLayout) panel_7.getLayout();
+		flowLayout_2.setVgap(10);
+		panel_7.setBackground(Color.DARK_GRAY);
+		panel_4.add(panel_7, BorderLayout.NORTH);
+		
+		//This is the logoImage 
+		JLabel logoImage = new JLabel("");
+		panel_4.add(logoImage);
+		logoImage.setHorizontalAlignment(SwingConstants.CENTER);
+		logoImage.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logoandtext_150.png")));
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(Color.DARK_GRAY);
+		panel_4.add(panel_8, BorderLayout.SOUTH);
+		
 		//This is what happens when you click a button
 		btnQuit.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				//Action goes here
+				
 			}
 		});
-		
-		//===============================================================
-		//                           BUTTONS
-		//===============================================================
-		
-		JPanel panel_6 = new JPanel();
-		FlowLayout flowLayout_3 = (FlowLayout) panel_6.getLayout();
-		flowLayout_3.setVgap(30);
-		panel_6.setBackground(Color.DARK_GRAY);
-		frmCipherAssist.getContentPane().add(panel_6, BorderLayout.SOUTH);
 	}
 }
