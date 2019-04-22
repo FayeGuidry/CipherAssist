@@ -67,7 +67,8 @@ public class mainFrame
 	}
 
 	//This creates the frame
-	public mainFrame() {
+	public mainFrame() 
+	{
 		initialize();
 	}
 
@@ -90,7 +91,7 @@ public class mainFrame
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(Color.DARK_GRAY);
 		FlowLayout flowLayout_2 = (FlowLayout) panel_4.getLayout();
-		flowLayout_2.setVgap(35);
+		flowLayout_2.setVgap(30);
 		frmCipherAssist.getContentPane().add(panel_4, BorderLayout.NORTH);
 		
 		//This is the logoImage 
@@ -156,9 +157,23 @@ public class mainFrame
 		panel_3.setBackground(Color.DARK_GRAY);
 		panel_3.setLayout(new GridLayout(0, 1, 10, 5));
 		
+		
+		
 		//===============================================================
 		//                           BUTTONS
 		//===============================================================
+		
+		//Login Account Button
+		JButton btnLogin = new JButton("Login Account");
+		btnLogin.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				//Action goes here
+			}
+		});
+		btnLogin.setBackground(Color.GRAY);
+		panel_3.add(btnLogin);
 		
 		//Creating Account Button
 		JButton btnCreateAccount = new JButton("Create Account");
@@ -171,6 +186,7 @@ public class mainFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				//Action goes here
+				
 			}
 		});
 		
@@ -194,7 +210,7 @@ public class mainFrame
 		
 		JPanel panel_6 = new JPanel();
 		FlowLayout flowLayout_3 = (FlowLayout) panel_6.getLayout();
-		flowLayout_3.setVgap(40);
+		flowLayout_3.setVgap(30);
 		panel_6.setBackground(Color.DARK_GRAY);
 		frmCipherAssist.getContentPane().add(panel_6, BorderLayout.SOUTH);
 	}
