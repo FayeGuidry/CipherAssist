@@ -4,14 +4,19 @@ import cipherassist.verification.LinkedMap.Node;
 
 public class HashMap 
 {
-	private LinkedMap[] numBuckets;
 	private int capacity = 10;
+	private LinkedMap[] numBuckets;
 	//private LinkedMap list = new LinkedMap();
 	private int size;
 	
 	public HashMap()
 	{
 		this.numBuckets = new LinkedMap[capacity];
+		
+		for(int i = 0; i < capacity; i++)
+		{
+			numBuckets[i] = new LinkedMap();
+		}
 	}
 	
 	public int getSize()
@@ -29,7 +34,7 @@ public class HashMap
 		int hashCod = key.length();
 		if(hashCod < 0)
 			hashCod = hashCod + numBuckets.length;
-		return hashCod%numBuckets.length;
+		return hashCod % numBuckets.length;
 	}
 	
 	public void add(String key, String value)

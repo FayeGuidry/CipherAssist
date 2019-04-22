@@ -7,6 +7,7 @@ public class LinkedMap
 	
 	public LinkedMap()
 	{
+		//System.out.println("Linked Map made");
 		firstNode = null;
 		numberOfEntries = 0;
 	}
@@ -30,8 +31,13 @@ public class LinkedMap
 		}
 		else
 		{
-			firstNode.next = newNode;
-		}	
+			Node currentNode = firstNode;
+			while(currentNode.getNext() != null)
+			{
+				currentNode = currentNode.getNext();
+			}
+			currentNode.setNext(newNode);
+		}
 		numberOfEntries++;
 	}
 	

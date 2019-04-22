@@ -7,20 +7,21 @@ public class DemoClass
 		HashMap first = new HashMap();
 		
 		first.add("Password", "Username");
+		System.out.println(first.getSize());
+		System.out.println(first.get("Password"));
+		first.add("Passwor3", "Usernam3");
 		
-		first.add("Password2", "Username2");
+		first.add("Passwor1", "Usernam1");
 		
-		first.add("Password3", "Username3");
+		first.add("Passwor6", "Usernam7");
 		
-		first.add("Password4", "Username4");
+		System.out.println(first.get("ISUCK"));
 		
-		//System.out.println(first.get("ISUCK"));
+		System.out.println(first.get("Passwor3"));
 		
-		//System.out.println(first.get("Password3"));
-		
-		//System.out.println(first.get("Password2"));
+		System.out.println(first.get("Passwor1"));
 		
 		System.out.println(first.getSize());
-	
+		
 	}
 }
