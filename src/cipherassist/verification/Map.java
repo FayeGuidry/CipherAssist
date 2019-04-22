@@ -7,6 +7,7 @@ public class Map<K,V> {
 	ArrayList<HashNode<K, V>>bucket=new ArrayList<>();
 	int numBuckets=10;
 	int size;
+	
 	public Map()
 	{
 		for(int i=0;i<numBuckets;i++)
@@ -24,13 +25,16 @@ public class Map<K,V> {
 	}
 	private int getBucketIndex(K key)
 	{
-		int hashCod=key.hashCode();
+		int hashCod = key.hashCode();
+		if(hashCod < 0)
+			hashCod *= numBuckets + 10;
 		return hashCod%numBuckets;
 	}
+
 	public V get(K key)
 	{
 		int index=getBucketIndex(key);
-		HashNode<K, V> head=bucket.get(index);
+		HashNode<K, V> head = bucket.get(index);
 		while(head!=null)
 		{
 			if(head.key.equals(key))
@@ -82,7 +86,7 @@ public class Map<K,V> {
 		int index=getBucketIndex(key);
 		System.out.println(index);
 		HashNode<K, V>head=bucket.get(index);
-		HashNode<K, V>toAdd=new HashNode<>();
+		HashNode<K, V>toAdd = new HashNode<>();
 		toAdd.key=key;
 		toAdd.value=value;
 		if(head==null)
@@ -122,7 +126,7 @@ public class Map<K,V> {
 				bucket.add(null);
 			}
 			for(HashNode<K, V> headNode:tmp)
-			{
+			{ 
 				while(headNode!=null)
 				{
 					add(headNode.key, headNode.value);
@@ -135,11 +139,19 @@ public class Map<K,V> {
 		
 	}
 	
-	public class HashNode<K,V> {
+	@SuppressWarnings("hiding")
+	private class HashNode<K,V> {
 		K key;
 		V value;
 		HashNode<K, V>next;
-		public HashNode(K key, V value)
+		
+		private HashNode()
+		{
+			this.key = null;
+			this.value = null;
+		}
+		
+		private HashNode(K key, V value)
 		{
 			this.key = key;
 			this.value = value;
