@@ -4,24 +4,23 @@ import cipherassist.verification.LinkedMap.Node;
 
 public class HashMap 
 {
-	private int capacity = 10;
-	private LinkedMap[] numBuckets;
-	//private LinkedMap list = new LinkedMap();
-	private int size;
+	private int capacity = 10; // number of buckets
+	private LinkedMap[] numBuckets; // An array of linked list
+	private int size; //Keep track on entries
 	
-	public HashMap()
+	public HashMap() //initialize constructor
 	{
-		this.numBuckets = new LinkedMap[capacity];
+		this.numBuckets = new LinkedMap[capacity]; //initialize the size of the array
 		
 		for(int i = 0; i < capacity; i++)
 		{
-			numBuckets[i] = new LinkedMap();
+			numBuckets[i] = new LinkedMap(); //create linked list object for each array[i]
 		}
 	}
 	
 	public int getSize()
 	{
-		return size;
+		return size; //return number of entries
 	}
 	
 	public boolean isEmpty()
@@ -29,16 +28,33 @@ public class HashMap
 		return size == 0;
 	}
 	
-	public int getBucketIndex(String key)
+	public int makeHash(String key)
 	{
-		int hashCod = key.length();
-		if(hashCod < 0)
-			hashCod = hashCod + numBuckets.length;
-		return hashCod % numBuckets.length;
+		/*
+		 * A simple hash algorithm
+		 */
+		int hash = 0;
+		for(int i = 0; i < key.length(); i++)
+		{
+			hash = key.charAt(i) + 20;
+		}
+		return hash; 
 	}
 	
+	public int getBucketIndex(String key)
+	{
+		/*
+		 * get the index number by modulo the array size
+		 */
+		int hashCod = makeHash(key);
+		return hashCod % numBuckets.length;
+	}
+
 	public void add(String key, String value)
 	{
+		/*
+		 * adding a new node to an array
+		 */
 		int index = getBucketIndex(key);
 		System.out.println(index);
 		numBuckets[index].add(value, key);
@@ -47,6 +63,9 @@ public class HashMap
 	
 	public String get(String key)
 	{
+		/*
+		 * getting the value with a given key
+		 */
 		int index = getBucketIndex(key);
 		Node head = numBuckets[index].get(key);
 		while(head != null)
@@ -62,6 +81,9 @@ public class HashMap
 
 	public String remove(String key)
 	{
+		/*
+		 * removing the value with a given key
+		 */
 		int index = getBucketIndex(key);
 		Node head = numBuckets[index].get(key);
 		while(head != null)
@@ -77,52 +99,4 @@ public class HashMap
 		}
 		return null;
 	}
-	
-	/*private class HashNode
-	{
-		private String value;
-		private String key;
-		private HashNode next;
-		
-		private HashNode()
-		{
-			this(null, null);
-		}
-		
-		private HashNode(String key, String value)
-		{
-			this.key = key;
-			this.value = value;
-		}
-
-		public String getValue() 
-		{
-			return value;
-		}
-
-		public void setValue(String value) 
-		{
-			this.value = value;
-		}
-
-		public String getKey() 
-		{
-			return key;
-		}
-
-		public void setKey(String key) 
-		{
-			this.key = key;
-		}
-
-		public HashNode getNext() 
-		{
-			return next;
-		}
-
-		public void setNext(HashNode next) 
-		{
-			this.next = next;
-		}	
-	}*/
 }

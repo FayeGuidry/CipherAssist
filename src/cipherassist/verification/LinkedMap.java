@@ -108,6 +108,25 @@ public class LinkedMap
 		return found;
 	}
 	
+	public Node get(String key) 
+	{
+		/*
+		 * getting the node by given key
+		 * When the key is same as the given key
+		 * it return the whole node
+		 */
+		Node currentNode = firstNode;
+		while(currentNode != null)
+		{
+			if(currentNode.getKey().equals(key))
+			{
+				return currentNode;
+			}
+			currentNode = currentNode.getNext();
+		}
+		return null;
+	}
+	
 	@SuppressWarnings("unused")
 	private Node getReferenceTo(String anEntry)
 	{
@@ -193,19 +212,5 @@ public class LinkedMap
 		{
 			this.next = next;
 		}
-	}
-
-	public Node get(String key) 
-	{
-		Node currentNode = firstNode;
-		while(currentNode != null)
-		{
-			if(currentNode.getKey().equals(key))
-			{
-				return currentNode;
-			}
-			currentNode = currentNode.getNext();
-		}
-		return null;
-	}
+	}	
 }

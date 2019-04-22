@@ -6,20 +6,22 @@ public class DemoClass
 	{
 		HashMap first = new HashMap();
 		
-		first.add("Password", "Username");
+		first.add("Username", "Password");
 		System.out.println(first.getSize());
-		System.out.println(first.get("Password"));
-		first.add("Passwor3", "Usernam3");
+		System.out.println(first.get("Username"));
 		
-		first.add("Passwor1", "Usernam1");
+		first.add("Pasgdbrb", "Usernam1");
 		
 		first.add("Passwor6", "Usernam7");
 		
 		System.out.println(first.get("ISUCK"));
 		
-		System.out.println(first.get("Passwor3"));
+		System.out.println(first.get("Pasgdbrb"));
 		
-		System.out.println(first.get("Passwor1"));
+		System.out.println(first.get("Passwor6"));
+		System.out.println(first.getSize());
+		
+		System.out.println(first.remove("Username"));
 		
 		System.out.println(first.getSize());
 		
