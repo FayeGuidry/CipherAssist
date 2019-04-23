@@ -48,6 +48,50 @@ public class Binary
 		binary.setBinaryString(workingString);
 	}
 	
+	public static void rightShift(Binary binary, int shiftAmount)
+	{
+		String workingString = binary.getBinaryString();
+		
+		if (shiftAmount > workingString.length())
+			throw new IndexOutOfBoundsException("shiftAmount cannot be greater than the input String length");
+		
+		String trimmedString = workingString.substring(0, workingString.length() - shiftAmount);
+		workingString = trimmedString;
+		
+		String leftPadding = "";
+		
+		for (int i = 0; i < shiftAmount; ++i)
+		{
+			leftPadding += '0';
+		}
+		
+		leftPadding += workingString;
+		
+		workingString = leftPadding;
+		
+		binary.setBinaryString(workingString);
+	}
+	
+	public static Binary complement(Binary firstBinary, Binary secondBinary)
+	{
+		
+	}
+	
+	public static Binary AND(Binary firstBinary, Binary secondBinary)
+	{
+		
+	}
+	
+	public static Binary OR(Binary firstBinary, Binary secondBinary)
+	{
+		
+	}
+	
+	public static Binary XOR(Binary firstBinary, Binary secondBinary)
+	{
+		
+	}
+	
 	public String getBinaryString()
 	{
 		return binaryString;

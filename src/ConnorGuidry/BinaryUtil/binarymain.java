@@ -24,6 +24,16 @@ public class binarymain {
 		System.out.println(Binary.binaryToInt(secondTest));
 		
 		System.out.println(Binary.intToBinary(56));
+		
+		System.out.println(Binary.binaryToInt(secondTest));
+		
+		Binary thirdTest = new Binary("11101001");
+		
+		System.out.println(thirdTest);
+		
+		Binary.rightShift(thirdTest, 6);
+		
+		System.out.println(thirdTest);
 	}
 
 }
