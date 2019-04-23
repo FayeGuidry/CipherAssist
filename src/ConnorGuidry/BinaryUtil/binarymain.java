@@ -34,6 +34,10 @@ public class binarymain {
 		Binary.rightShift(thirdTest, 6);
 		
 		System.out.println(thirdTest);
+		
+		Binary hex = Binary.intToBinary(0xc5f3466a);
+		
+		System.out.println(hex);
 	}
 
 }

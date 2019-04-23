@@ -118,4 +118,11 @@ public class Binary
 	{
 		return this.binaryString;
 	}
+	
+	public String toHexString()
+	{
+		int decimal = Integer.parseInt(this.binaryString, 2);
+		String hexString = Integer.toString(decimal, 16);
+		return hexString;
+	}
 }
