@@ -35,10 +35,34 @@ public class SHA256
 	//N = number of blocks in the padded message
 	private int N;
 	
+	//Message (M) length
+	private int l;
+	
+	//Number of zeros appended to a message during padding
+	private int k;
+	
+	//Message
+	private byte[] M;
 	
 	public SHA256()
 	{
+		//
+	}
+	
+	public String hashString(String str)
+	{
+		byte[] message;
+		byte[] messageDigest;
 		
+		message = stringToByteArray(str);
+		
+		setM(message);
+		
+		preProcess();
+		
+		messageDigest = computeHash();
+		
+		return byteArrayToString(messageDigest);
 	}
 	
 	private void preProcess()
@@ -46,7 +70,7 @@ public class SHA256
 		
 	}
 	
-	private void computeHash()
+	private byte[] computeHash()
 	{
 		
 	}
@@ -67,4 +91,21 @@ public class SHA256
 		byte[] bytes = str.getBytes();
 		return bytes;
 	}
+	
+	private void setM(byte[] M)
+	{
+		this.M = M;
+	}
+	
+	private byte[] appendBits(byte[] M)
+	{
+		
+	}
+	
+	private void generate_k()
+	{
+		k = (448 % 512) - l - 1;
+	}
+	
+	
 }
