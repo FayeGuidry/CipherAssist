@@ -19,7 +19,13 @@ public class Binary
 		if (shiftAmount > workingString.length())
 			throw new IndexOutOfBoundsException("shiftAmount cannot be greater than the input String length");
 		
+		String trimmedString = workingString.substring(0, shiftAmount);
+		workingString = trimmedString;
 		
+		for (int i = 0; i < shiftAmount; ++i)
+		{
+			workingString += '0';
+		}
 		
 		binary.setBinaryString(workingString);
 		return binary;
