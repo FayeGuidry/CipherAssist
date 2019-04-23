@@ -1,5 +1,7 @@
 package ConnorGuidry.BinaryUtil;
 
+import java.math.BigInteger;
+
 //Created by ConnorGuidry
 //Binary is a String-based binary-holding data type that allows the direct and simple manipulation of bits in Java. 
 public class Binary 
@@ -121,8 +123,9 @@ public class Binary
 	
 	public String toHexString()
 	{
-		int decimal = Integer.parseInt(this.binaryString, 2);
-		String hexString = Integer.toString(decimal, 16);
+		System.out.println(this.binaryString);
+		BigInteger decimal = new BigInteger(this.binaryString, 2);
+		String hexString = decimal.toString(16);
 		return hexString;
 	}
 }
