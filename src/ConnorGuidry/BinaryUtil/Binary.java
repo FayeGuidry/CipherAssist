@@ -24,18 +24,20 @@ public class Binary
 	public static Binary intToBinary(int num)
 	{
 		String intString = Integer.toBinaryString(num);
+		
 		Binary newBinary = new Binary(intString);
+		
 		return newBinary;
 	}
 	
-	public static Binary leftShift(Binary binary, int shiftAmount)
+	public static void leftShift(Binary binary, int shiftAmount)
 	{	
 		String workingString = binary.getBinaryString();
 		
 		if (shiftAmount > workingString.length())
 			throw new IndexOutOfBoundsException("shiftAmount cannot be greater than the input String length");
 		
-		String trimmedString = workingString.substring(0, shiftAmount);
+		String trimmedString = workingString.substring(shiftAmount - 1, workingString.length() - 1);
 		workingString = trimmedString;
 		
 		for (int i = 0; i < shiftAmount; ++i)
@@ -44,7 +46,6 @@ public class Binary
 		}
 		
 		binary.setBinaryString(workingString);
-		return binary;
 	}
 	
 	public String getBinaryString()
@@ -57,7 +58,9 @@ public class Binary
 		//Checks if param binaryString only consists of 1's or 0's
 				for (int count = 0; count < binaryString.length(); ++count)
 				{
-					if ((binaryString.charAt(count) != '1') || (binaryString.charAt(count) != '0'))
+					assert (binaryString != null);
+					
+					if ((binaryString.charAt(count) != '1') && (binaryString.charAt(count) != '0'))
 					{
 						count = binaryString.length() + 1;
 						throw new IllegalArgumentException("Binary data type can only accept Strings consisting of either 1 or 0.");
@@ -65,5 +68,10 @@ public class Binary
 				}
 				
 				this.binaryString = binaryString;
+	}
+	
+	public String toString()
+	{
+		return this.binaryString;
 	}
 }
