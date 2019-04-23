@@ -79,7 +79,6 @@ public class Binary
 		Binary resultBinary = new Binary(binary.toString());
 		char workingChar = '0';
 		
-		//String resultString = binary.toString();
 		String workingString = binary.toString();
 		
 		for (int i = 0; i < binary.length(); ++i)
@@ -90,14 +89,20 @@ public class Binary
 				workingChar = Binary.flipCharBit(workingChar);
 				workingString = workingChar + workingString.substring(1);
 			}
-			else
+			else if ((i > 0) && (i < binary.length() - 1))
 			{
 				workingChar = workingString.charAt(i);
 				workingChar = Binary.flipCharBit(workingChar);
-				workingString = workingString.substring(0, i - 1) + workingChar + workingString.substring(i + 1);
+				workingString = workingString.substring(0, i) + workingChar + workingString.substring(i + 1);
+			}
+			else
+			{
+				workingChar = workingString.charAt(binary.length() - 1);
+				workingChar = Binary.flipCharBit(workingChar);
+				workingString = workingString.substring(0, i) + workingChar;
 			}
 		}
-		System.out.println(workingString);
+		
 		resultBinary.setBinaryString(workingString);
 		return resultBinary;
 	}

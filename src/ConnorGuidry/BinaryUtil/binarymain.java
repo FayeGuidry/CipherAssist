@@ -48,14 +48,8 @@ public class binarymain {
 		
 		//System.out.println(digest.toHexString());
 		
-		//System.out.println(Binary.complement(digest));
+		System.out.println(Binary.complement(digest));
 		
-		int num = 0b11;
-		
-		//num = ~num;
-		
-		
-		System.out.println(Integer.toString(num, 2));
 	}
 
 }
