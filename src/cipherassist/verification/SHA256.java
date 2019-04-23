@@ -1,5 +1,7 @@
 package cipherassist.verification;
 
+import java.util.Arrays;
+
 public class SHA256 
 {
 	//Variables that hold the hash values
@@ -35,10 +37,10 @@ public class SHA256
 	//N = number of blocks in the padded message
 	private int N;
 	
-	//Message (M) length
+	//Message (M) length in bytes
 	private int l;
 	
-	//Number of zeros appended to a message during padding
+	//Number of 0x0 appended to a message during padding
 	private int k;
 	
 	//Message
@@ -67,6 +69,16 @@ public class SHA256
 	
 	private void preProcess()
 	{
+		generate_l();
+		generate_k();
+		
+		padMessage();
+		
+		
+	
+		
+		
+		
 		
 	}
 	
@@ -77,7 +89,8 @@ public class SHA256
 	
 	private void padMessage()
 	{
-		
+		appendBytes();
+		appendIntBlock();
 	}
 	
 	private String byteArrayToString(byte[] bytes)
@@ -97,15 +110,39 @@ public class SHA256
 		this.M = M;
 	}
 	
-	private byte[] appendBits(byte[] M)
+	private void appendBytes(byte[] M)
+	{
+		int lengthM = this.M.length;
+		int newArraySize = lengthM + k + 1;
+		byte[] newM = Arrays.copyOf(this.M, newArraySize);
+		this.M = newM;
+		
+		int one = 0x80;
+		int zeros = 0x0;
+		
+		//Appends message with 0x80
+		this.M[lengthM + 1] = (byte) one;
+		
+		//Appends message with k bytes of 0x0
+		for (int count = 0; 0 <= k; ++count)
+			this.M[count] = (byte) zeros;
+	}
+	
+	private void appendIntBlock()
 	{
 		
 	}
 	
 	private void generate_k()
 	{
-		k = (448 % 512) - l - 1;
+		int modResult = l % 64;
+		k = (64 - modResult - 1);
+		assert ((k + 1) % 64 == 0);
 	}
 	
+	private void generate_l()
+	{
+		l = this.M.length;
+	}
 	
 }
