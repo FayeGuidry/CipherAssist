@@ -233,6 +233,55 @@ public class Binary
 		return resultBinary;
 	}
 	
+	public static Binary XOR(Binary firstBinary, Binary secondBinary, Binary thirdBinary)
+	{
+		assert (firstBinary.length() == secondBinary.length());
+		assert (secondBinary.length() == thirdBinary.length());
+		
+		Binary resultBinary = new Binary(firstBinary.toString());
+		
+		String resultString = resultBinary.toString();
+		String firstWorkingString = firstBinary.toString();
+		String secondWorkingString = secondBinary.toString();
+		String thirdWorkingString = thirdBinary.toString();
+		
+		char firstChar = '0';
+		char secondChar = '0';
+		char thirdChar = '0';
+		char resultChar = '0';
+		
+		for (int i = 0; i < firstBinary.length(); ++i)
+		{
+			if (i == 0)
+			{
+				firstChar = firstWorkingString.charAt(0);
+				secondChar = secondWorkingString.charAt(0);
+				thirdChar = thirdWorkingString.charAt(0);
+				resultChar = Binary.XORCharBits(firstChar, secondChar, thirdChar);
+				resultString = resultChar + resultString.substring(1);
+			}
+			else if ((i > 0) && (i < firstBinary.length() - 1))
+			{
+				firstChar = firstWorkingString.charAt(i);
+				secondChar = secondWorkingString.charAt(i);
+				thirdChar = thirdWorkingString.charAt(i);
+				resultChar = Binary.XORCharBits(firstChar, secondChar, thirdChar);
+				resultString = resultString.substring(0, i) + resultChar + resultString.substring(i + 1);
+			}
+			else
+			{
+				firstChar = firstWorkingString.charAt(firstBinary.length() - 1);
+				secondChar = secondWorkingString.charAt(secondBinary.length() - 1);
+				thirdChar = thirdWorkingString.charAt(thirdBinary.length() - 1);
+				resultChar = Binary.XORCharBits(firstChar, secondChar, thirdChar);
+				resultString = resultString.substring(0, i) + resultChar;
+			}
+		}
+		
+		resultBinary.setBinaryString(resultString);
+		return resultBinary;
+	}
+	
 	public String getBinaryString()
 	{
 		return binaryString;
@@ -324,7 +373,7 @@ public class Binary
 	{
 		char resultBit;
 		
-		int num = Integer.valueOf(firstBit) + Integer.valueOf(secondBit) + Integer.valueOf(thirdBit);
+		int num = Character.getNumericValue(firstBit) + Character.getNumericValue(secondBit) + Character.getNumericValue(thirdBit);
 		
 		if (num == 1)
 			resultBit = '1';
