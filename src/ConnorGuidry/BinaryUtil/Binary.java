@@ -74,24 +74,58 @@ public class Binary
 		binary.setBinaryString(workingString);
 	}
 	
-	public static Binary complement(Binary firstBinary, Binary secondBinary)
-	{
+	public static Binary complement(Binary binary)
+	{	
+		Binary resultBinary = new Binary(binary.toString());
+		char workingChar = '0';
 		
+		//String resultString = binary.toString();
+		String workingString = binary.toString();
+		
+		for (int i = 0; i < binary.length(); ++i)
+		{
+			if (i == 0)
+			{
+				workingChar = workingString.charAt(0);
+				workingChar = Binary.flipCharBit(workingChar);
+				workingString = workingChar + workingString.substring(1);
+			}
+			else
+			{
+				workingChar = workingString.charAt(i);
+				workingChar = Binary.flipCharBit(workingChar);
+				workingString = workingString.substring(0, i - 1) + workingChar + workingString.substring(i + 1);
+			}
+		}
+		System.out.println(workingString);
+		resultBinary.setBinaryString(workingString);
+		return resultBinary;
 	}
 	
 	public static Binary AND(Binary firstBinary, Binary secondBinary)
 	{
+		assert (firstBinary.length() == secondBinary.length());
+		Binary resultBinary = new Binary(firstBinary.toString());
 		
+		String resultString = resultBinary.toString();
+		String firstWorkingString = firstBinary.toString();
+		String secondWorkingString = secondBinary.toString();
+		
+		for (int i = 0; i < firstBinary.length(); ++i)
+		{
+			resultString = 1;
+			//resultstring 
+		}
 	}
 	
 	public static Binary OR(Binary firstBinary, Binary secondBinary)
 	{
-		
+		assert (firstBinary.length() == secondBinary.length());
 	}
 	
 	public static Binary XOR(Binary firstBinary, Binary secondBinary)
 	{
-		
+		assert (firstBinary.length() == secondBinary.length());
 	}
 	
 	public String getBinaryString()
@@ -123,9 +157,23 @@ public class Binary
 	
 	public String toHexString()
 	{
-		System.out.println(this.binaryString);
 		BigInteger decimal = new BigInteger(this.binaryString, 2);
 		String hexString = decimal.toString(16);
 		return hexString;
+	}
+	
+	public int length()
+	{
+		return this.binaryString.length();
+	}
+	
+	public static char flipCharBit(char bit)
+	{
+		if (bit == '0')
+			bit = '1';
+		else
+			bit = '0';
+		
+		return bit;
 	}
 }
