@@ -51,11 +51,38 @@ public class binarymain {
 				+ "000100001111101010011001110000001100111110101011101100011101101000000111100111"
 				+ "0111100101111100100101110001110111111010100");
 		
+		Binary x = new Binary("1100");
+		Binary y = new Binary("1010");
+		Binary XORresult = new Binary("0110");
+		Binary ORresult = new Binary("1110");
+		Binary ANDresult = new Binary("1000");
+		Binary X = new Binary("11110000");
+		Binary Y = new Binary("11001100");
+		Binary Z = new Binary("10101010");
+		Binary threeXORresult = new Binary("00010110");
+		
 		//System.out.println(digest.toHexString());
 		
-		System.out.println(Binary.complement(digest));
+		//System.out.println(Binary.complement(digest));
 		
-		System.out.println(Binary.AND(digest, testDigest));
+		//System.out.println(Binary.AND(digest, testDigest));
+		
+		System.out.println(x);
+		System.out.println(y);
+		System.out.println(Binary.AND(x, y));
+		System.out.println(ANDresult);
+		
+		System.out.println();
+		System.out.println(x);
+		System.out.println(y);
+		System.out.println(Binary.OR(x, y));
+		System.out.println(ORresult);
+		
+		System.out.println();
+		System.out.println(x);
+		System.out.println(y);
+		System.out.println(Binary.XOR(x, y));
+		System.out.println(XORresult);
 		
 	}
 

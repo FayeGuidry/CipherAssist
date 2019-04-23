@@ -152,11 +152,85 @@ public class Binary
 	public static Binary OR(Binary firstBinary, Binary secondBinary)
 	{
 		assert (firstBinary.length() == secondBinary.length());
+		Binary resultBinary = new Binary(firstBinary.toString());
+		
+		String resultString = resultBinary.toString();
+		String firstWorkingString = firstBinary.toString();
+		String secondWorkingString = secondBinary.toString();
+		
+		char firstChar = '0';
+		char secondChar = '0';
+		char resultChar = '0';
+		
+		for (int i = 0; i < firstBinary.length(); ++i)
+		{
+			if (i == 0)
+			{
+				firstChar = firstWorkingString.charAt(0);
+				secondChar = secondWorkingString.charAt(0);
+				resultChar = Binary.addCharBits(firstChar, secondChar);
+				resultString = resultChar + resultString.substring(1);
+			}
+			else if ((i > 0) && (i < firstBinary.length() - 1))
+			{
+				firstChar = firstWorkingString.charAt(i);
+				secondChar = secondWorkingString.charAt(i);
+				resultChar = Binary.addCharBits(firstChar, secondChar);
+				resultString = resultString.substring(0, i) + resultChar + resultString.substring(i + 1);
+			}
+			else
+			{
+				firstChar = firstWorkingString.charAt(firstBinary.length() - 1);
+				secondChar = secondWorkingString.charAt(secondBinary.length() - 1);
+				resultChar = Binary.addCharBits(firstChar, secondChar);
+				resultString = resultString.substring(0, i) + resultChar;
+			}
+		}
+		
+		resultBinary.setBinaryString(resultString);
+		return resultBinary;
 	}
 	
 	public static Binary XOR(Binary firstBinary, Binary secondBinary)
 	{
 		assert (firstBinary.length() == secondBinary.length());
+		Binary resultBinary = new Binary(firstBinary.toString());
+		
+		String resultString = resultBinary.toString();
+		String firstWorkingString = firstBinary.toString();
+		String secondWorkingString = secondBinary.toString();
+		
+		char firstChar = '0';
+		char secondChar = '0';
+		char resultChar = '0';
+		
+		for (int i = 0; i < firstBinary.length(); ++i)
+		{
+			if (i == 0)
+			{
+				firstChar = firstWorkingString.charAt(0);
+				secondChar = secondWorkingString.charAt(0);
+				resultChar = Binary.XORCharBits(firstChar, secondChar);
+				resultString = resultChar + resultString.substring(1);
+			}
+			else if ((i > 0) && (i < firstBinary.length() - 1))
+			{
+				firstChar = firstWorkingString.charAt(i);
+				secondChar = secondWorkingString.charAt(i);
+				resultChar = Binary.XORCharBits(firstChar, secondChar);
+				resultString = resultString.substring(0, i) + resultChar + resultString.substring(i + 1);
+			}
+			else
+			{
+				firstChar = firstWorkingString.charAt(firstBinary.length() - 1);
+				secondChar = secondWorkingString.charAt(secondBinary.length() - 1);
+				resultChar = Binary.XORCharBits(firstChar, secondChar);
+				resultString = resultString.substring(0, i) + resultChar;
+			}
+		}
+		
+		resultBinary.setBinaryString(resultString);
+		return resultBinary;
 	}
 	
 	public String getBinaryString()
@@ -213,6 +287,46 @@ public class Binary
 		char resultBit;
 		
 		if ((firstBit == '1') & (secondBit == '1'))
+			resultBit = '1';
+		else
+			resultBit = '0';
+		
+		return resultBit;
+	}
+	
+	public static char addCharBits(char firstBit, char secondBit)
+	{
+		char resultBit;
+		
+		if ((firstBit == '0') & (secondBit == '0'))
+			resultBit = '0';
+		else
+			resultBit = '1';
+		
+		return resultBit;
+	}
+	
+	//2-input XOR method
+	public static char XORCharBits(char firstBit, char secondBit)
+	{
+		char resultBit;
+		
+		if (((firstBit == '1') & (secondBit == '1')) | ((firstBit == '0') & (secondBit == '0')))
+			resultBit = '0';
+		else
+			resultBit = '1';
+		
+		return resultBit;
+	}
+	
+	//3-input XOR method
+	public static char XORCharBits(char firstBit, char secondBit, char thirdBit)
+	{
+		char resultBit;
+		
+		int num = Integer.valueOf(firstBit) + Integer.valueOf(secondBit) + Integer.valueOf(thirdBit);
+		
+		if (num == 1)
 			resultBit = '1';
 		else
 			resultBit = '0';
