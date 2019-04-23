@@ -5,16 +5,24 @@ package ConnorGuidry.BinaryUtil;
 public class Binary 
 {
 	
-	String binaryString = null;
+	private String binaryString = null;
 	
 	public Binary(String binaryString)
 	{
 		setBinaryString(binaryString);
 	}
 	
-	public static Binary leftShift()
-	{
+	public static Binary leftShift(Binary binary, int shiftAmount)
+	{	
+		String workingString = binary.getBinaryString();
 		
+		if (shiftAmount > workingString.length())
+			throw new IndexOutOfBoundsException("shiftAmount cannot be greater than the input String length");
+		
+		
+		
+		binary.setBinaryString(workingString);
+		return binary;
 	}
 	
 	public String getBinaryString()

@@ -3,6 +3,7 @@ package cipherassist.verification;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+//This implementation of SHA256 is dependent on ConnorGuidry.BinaryUtil.Binary to function
 public class SHA256 
 {
 	//Variables that hold the hash values
