@@ -12,6 +12,22 @@ public class Binary
 		setBinaryString(binaryString);
 	}
 	
+	public static int binaryToInt(Binary binary)
+	{
+		String workingString = binary.getBinaryString();
+		
+		int num = Integer.parseInt(workingString, 2);
+		
+		return num;
+	}
+	
+	public static Binary intToBinary(int num)
+	{
+		String intString = Integer.toBinaryString(num);
+		Binary newBinary = new Binary(intString);
+		return newBinary;
+	}
+	
 	public static Binary leftShift(Binary binary, int shiftAmount)
 	{	
 		String workingString = binary.getBinaryString();
