@@ -113,19 +113,21 @@ public class SHA256
 		byte[] newM = Arrays.copyOf(this.M, newArraySize);
 		this.M = newM;
 		
-		int one = 0x80;
-		int zeros = 0x0;
+		byte one = (byte) 0x80;
+		byte zeros = (byte) 0x0;
 		
 		//Appends message with 0x80
 		this.M[lengthM + 1] = (byte) one;
 		
 		//Appends message with k bytes of 0x0
 		for (int count = lengthM + 2; count < lengthM + k; ++count)
-			this.M[count] = (byte) zeros;
+			this.M[count] = zeros;
 	}
 	
 	private void appendIntBlock()
 	{
+		//Commented out while testing long bit shifting as better implementation
+		/*
 		int startIndex = 0;
 		
 		//Converts message's size in bits to an integer stored as a byte[]
@@ -151,7 +153,22 @@ public class SHA256
 			intBlock[count] = (byte) 0x0;
 		}
 		
+		*/
+		
 		int intBlockStartIndex = 0;
+		
+		long bitLength = l * 8;
+		
+		byte[] intBlock = new byte[] {
+				(byte) bitLength,
+				(byte) (bitLength >> 8),
+				(byte) (bitLength >> 16),
+				(byte) (bitLength >> 24),
+				(byte) (bitLength >> 32),
+				(byte) (bitLength >> 40),
+				(byte) (bitLength >> 48),
+				(byte) (bitLength >> 56)};
+		
 		
 		//Appends 64 bit integer block to end of message
 		for (int count = this.M.length - 8; count < this.M.length; ++count)
