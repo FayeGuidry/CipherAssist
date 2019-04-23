@@ -192,4 +192,24 @@ public class SHA256
 		assert (l < 0xffffffff);
 	}
 	
+	private int addMod2Raised32(int firstNum, int secondNum)
+	{
+		BigInteger result;
+		BigInteger preMod = new BigInteger("2");
+		BigInteger mod = preMod.pow(32);
+		
+		BigInteger first = new BigInteger(Integer.toString(firstNum));
+		BigInteger second = new BigInteger(Integer.toString(secondNum));
+		
+		result = first.add(second);
+		
+		result = result.mod(mod);
+		
+		String resultString = result.toString();
+		
+		int finalResult = Integer.valueOf(resultString);
+		
+		return finalResult;
+	}
+	
 }

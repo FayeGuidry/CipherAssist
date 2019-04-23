@@ -382,4 +382,9 @@ public class Binary
 		
 		return resultBit;
 	}
+	
+	public void append(Binary appendedBinary)
+	{
+		setBinaryString(this.binaryString + appendedBinary);
+	}
 }
