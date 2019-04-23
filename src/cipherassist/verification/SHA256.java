@@ -1,5 +1,6 @@
 package cipherassist.verification;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 public class SHA256 
@@ -74,12 +75,6 @@ public class SHA256
 		
 		padMessage();
 		
-		
-	
-		
-		
-		
-		
 	}
 	
 	private byte[] computeHash()
@@ -110,10 +105,11 @@ public class SHA256
 		this.M = M;
 	}
 	
-	private void appendBytes(byte[] M)
+	private void appendBytes()
 	{
+		//Preparation for appending bytes to message
 		int lengthM = this.M.length;
-		int newArraySize = lengthM + k + 1;
+		int newArraySize = lengthM + k + 9;
 		byte[] newM = Arrays.copyOf(this.M, newArraySize);
 		this.M = newM;
 		
@@ -124,25 +120,58 @@ public class SHA256
 		this.M[lengthM + 1] = (byte) one;
 		
 		//Appends message with k bytes of 0x0
-		for (int count = 0; 0 <= k; ++count)
+		for (int count = lengthM + 2; count < lengthM + k; ++count)
 			this.M[count] = (byte) zeros;
 	}
 	
 	private void appendIntBlock()
 	{
+		int startIndex = 0;
 		
+		//Converts message's size in bits to an integer stored as a byte[]
+		BigInteger lInt = BigInteger.valueOf(l * 8);
+		byte[] intPortion = lInt.toByteArray();
+		
+		//Appending operation preparation
+		byte[] intBlock = new byte[8];
+		int intPortionLength = intPortion.length;
+		startIndex = 8 - intPortionLength;
+		int intPortionStartIndex = 0;
+		
+		//Places int byte(s) within new array
+		for (int count = startIndex; count < intPortionLength - 1; ++count)
+		{
+			intBlock[count] = intPortion[intPortionStartIndex];
+			++intPortionStartIndex;
+		}
+		
+		//Fills remainder of array with 0x0 bytes if applicable
+		for (int count = 0; count < startIndex; ++count)
+		{
+			intBlock[count] = (byte) 0x0;
+		}
+		
+		int intBlockStartIndex = 0;
+		
+		//Appends 64 bit integer block to end of message
+		for (int count = this.M.length - 8; count < this.M.length; ++count)
+		{
+			this.M[count] = intBlock[intBlockStartIndex];
+			++intBlockStartIndex;
+		}
 	}
 	
 	private void generate_k()
 	{
 		int modResult = l % 64;
-		k = (64 - modResult - 1);
-		assert ((k + 1) % 64 == 0);
+		k = (64 - modResult - 9);
+		assert ((k + 9) % 64 == 0);
 	}
 	
 	private void generate_l()
 	{
 		l = this.M.length;
+		assert (l < 0xffffffff);
 	}
 	
 }
