@@ -36,7 +36,7 @@ public class HashMap
 		int hash = 0;
 		for(int i = 0; i < key.length(); i++)
 		{
-			hash = key.charAt(i) + 20;
+			hash += key.charAt(i) + 20;
 		}
 		return hash; 
 	}
@@ -57,7 +57,7 @@ public class HashMap
 		 */
 		int index = getBucketIndex(key);
 		System.out.println(index);
-		numBuckets[index].add(value, key);
+		numBuckets[index].add(key, value);
 		size++;
 	}
 	

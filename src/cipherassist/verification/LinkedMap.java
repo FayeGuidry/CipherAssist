@@ -22,9 +22,9 @@ public class LinkedMap
 		return firstNode == null;
 	}
 	
-	public void add(String newData, String newKey)
+	public void add(String newKey, String newData)
 	{
-		Node newNode = new Node(newData, newKey);
+		Node newNode = new Node(newKey, newData);
 		if(isEmpty())
 		{
 			firstNode = newNode;
@@ -167,10 +167,10 @@ public class LinkedMap
 		
 		public Node()
 		{
-			this(null, null, null);
+			this(null, null);
 		}
 		
-		public Node(String dataPortion, String key)
+		public Node(String key, String dataPortion)
 		{
 			this.data = dataPortion;
 			this.key = key;
