@@ -14,6 +14,11 @@ public class Binary
 		setBinaryString(binaryString);
 	}
 	
+	public Binary(BigInteger hex)
+	{
+		setBinaryString(hexToBinaryString(hex));
+	}
+	
 	public static int binaryToInt(Binary binary)
 	{
 		String workingString = binary.getBinaryString();
@@ -314,6 +319,12 @@ public class Binary
 		BigInteger decimal = new BigInteger(this.binaryString, 2);
 		String hexString = decimal.toString(16);
 		return hexString;
+	}
+	
+	public String hexToBinaryString(BigInteger hex)
+	{
+		String result = hex.toString(2);
+		return result;
 	}
 	
 	public int length()
