@@ -66,6 +66,11 @@ public class SHA256
 		loadK();
 	}
 	
+	private void setM(String message)
+	{
+		this.M = new Binary(message);
+	}
+	
 	private void loadK()
 	{
 		for (int i = 0; i < 64; ++i)
@@ -76,10 +81,9 @@ public class SHA256
 	
 	public String hashString(String str)
 	{
-		byte[] message;
-		byte[] messageDigest;
+		setM(str);
+		Binary messageDigest;
 		
-		message = stringToByteArray(str);
 		
 		setM(message);
 		
@@ -87,7 +91,7 @@ public class SHA256
 		
 		messageDigest = computeHash();
 		
-		return byteArrayToString(messageDigest);
+		return messageDigest.toHexString();
 	}
 	
 	private void preProcess()
@@ -99,27 +103,15 @@ public class SHA256
 		
 	}
 	
-	private byte[] computeHash()
+	private Binary computeHash()
 	{
-		return null;
+		
 	}
 	
 	private void padMessage()
 	{
 		appendBytes();
 		appendIntBlock();
-	}
-	
-	private String byteArrayToString(byte[] bytes)
-	{
-		String str = new String(bytes);
-		return str;
-	}
-	
-	private byte[] stringToByteArray(String str)
-	{
-		byte[] bytes = str.getBytes();
-		return bytes;
 	}
 	
 	private void setM(byte[] M)
@@ -129,75 +121,12 @@ public class SHA256
 	
 	private void appendBytes()
 	{
-		//Preparation for appending bytes to message
-		int lengthM = this.M.length;
-		int newArraySize = lengthM + k + 9;
-		byte[] newM = Arrays.copyOf(this.M, newArraySize);
-		this.M = newM;
-		
-		byte one = (byte) 0x80;
-		byte zeros = (byte) 0x0;
-		
-		//Appends message with 0x80
-		this.M[lengthM + 1] = (byte) one;
-		
-		//Appends message with k bytes of 0x0
-		for (int count = lengthM + 2; count < lengthM + k; ++count)
-			this.M[count] = zeros;
+
 	}
 	
 	private void appendIntBlock()
 	{
-		//Commented out while testing long bit shifting as better implementation
-		/*
-		int startIndex = 0;
 		
-		//Converts message's size in bits to an integer stored as a byte[]
-		BigInteger lInt = BigInteger.valueOf(l * 8);
-		byte[] intPortion = lInt.toByteArray();
-		
-		//Appending operation preparation
-		byte[] intBlock = new byte[8];
-		int intPortionLength = intPortion.length;
-		startIndex = 8 - intPortionLength;
-		int intPortionStartIndex = 0;
-		
-		//Places int byte(s) within new array
-		for (int count = startIndex; count < intPortionLength - 1; ++count)
-		{
-			intBlock[count] = intPortion[intPortionStartIndex];
-			++intPortionStartIndex;
-		}
-		
-		//Fills remainder of array with 0x0 bytes if applicable
-		for (int count = 0; count < startIndex; ++count)
-		{
-			intBlock[count] = (byte) 0x0;
-		}
-		
-		*/
-		
-		int intBlockStartIndex = 0;
-		
-		long bitLength = l * 8;
-		
-		byte[] intBlock = new byte[] {
-				(byte) bitLength,
-				(byte) (bitLength >> 8),
-				(byte) (bitLength >> 16),
-				(byte) (bitLength >> 24),
-				(byte) (bitLength >> 32),
-				(byte) (bitLength >> 40),
-				(byte) (bitLength >> 48),
-				(byte) (bitLength >> 56)};
-		
-		
-		//Appends 64 bit integer block to end of message
-		for (int count = this.M.length - 8; count < this.M.length; ++count)
-		{
-			this.M[count] = intBlock[intBlockStartIndex];
-			++intBlockStartIndex;
-		}
 	}
 	
 	private void generate_k()
@@ -209,8 +138,7 @@ public class SHA256
 	
 	private void generate_l()
 	{
-		l = this.M.length;
-		assert (l < 0xffffffff);
+		l = this.M.length();
 	}
 	
 	public BigInteger addMod2Raised32(BigInteger firstNum, BigInteger secondNum)
