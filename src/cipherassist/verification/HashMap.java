@@ -1,6 +1,6 @@
 package cipherassist.verification;
 
-import cipherassist.verification.LinkedMap.Node;
+import cipherassist.verification.LinkedMap.HashNode;
 
 public class HashMap 
 {
@@ -30,7 +30,7 @@ public class HashMap
 	
 	public int makeHash(String key)
 	{
-		/*
+		/* @param the key, the username
 		 * A simple hash algorithm
 		 * Caesar Cipher
 		 */
@@ -40,11 +40,11 @@ public class HashMap
 			int x = key.charAt(i);
 			if(x >= 65 && x <= 90)
 			{
-				hash += (((x-65)+20)%26)+65;
+				hash += ( ( ( x - 65 ) + 20 ) % 26 ) + 65;
 			}
 			else if(x >= 97 && x <= 122)	
 			{
-				hash += (((x-65)+20)%26)+65;
+				hash += ( ( ( x - 65 ) + 20 ) % 26 ) + 65;
 			}
 			else
 				hash = 9;
@@ -65,10 +65,24 @@ public class HashMap
 	{
 		/*
 		 * adding a new node to an array
+		 * decline if the duplicate keys are found
 		 */
 		int index = getBucketIndex(key);
 		System.out.println(index);
-		numBuckets[index].add(key, value);
+		HashNode currentNode = numBuckets[index].getFirst();
+		while(currentNode != null)
+		{
+			if(currentNode.getKey().equals(key))
+			{
+				System.out.println("Username is taken\nPlease choose again");
+				break;
+			}
+			currentNode = currentNode.getNext();
+		}
+		if(currentNode == null)
+		{
+			numBuckets[index].add(key, value);
+		}
 		size++;
 	}
 	
@@ -78,7 +92,7 @@ public class HashMap
 		 * getting the value with a given key
 		 */
 		int index = getBucketIndex(key);
-		Node head = numBuckets[index].get(key);
+		HashNode head = numBuckets[index].getHashNode(key);
 		while(head != null)
 		{
 			if(head.getKey().equals(key))
@@ -96,7 +110,7 @@ public class HashMap
 		 * removing the value with a given key
 		 */
 		int index = getBucketIndex(key);
-		Node head = numBuckets[index].get(key);
+		HashNode head = numBuckets[index].getHashNode(key);
 		while(head != null)
 		{
 			if(head.getKey().equals(key))

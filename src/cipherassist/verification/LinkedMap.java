@@ -2,7 +2,7 @@ package cipherassist.verification;
 
 public class LinkedMap 
 {
-	private Node firstNode;
+	private HashNode firstNode;
 	private int numberOfEntries;
 	
 	public LinkedMap()
@@ -22,16 +22,24 @@ public class LinkedMap
 		return firstNode == null;
 	}
 	
+	public HashNode getFirst()
+	{
+		if(!isEmpty())
+			return firstNode;
+		else
+			return null;
+	}
+	
 	public void add(String newKey, String newData)
 	{
-		Node newNode = new Node(newKey, newData);
+		HashNode newNode = new HashNode(newKey, newData);
 		if(isEmpty())
 		{
 			firstNode = newNode;
 		}
 		else
 		{
-			Node currentNode = firstNode;
+			HashNode currentNode = firstNode;
 			while(currentNode.getNext() != null)
 			{
 				currentNode = currentNode.getNext();
@@ -47,26 +55,26 @@ public class LinkedMap
 		if(firstNode != null)
 		{
 			result = firstNode.getData();
-			firstNode = firstNode.next;
+			firstNode = firstNode.getNext();
 			numberOfEntries--;
 		}
 		return result;
 	}
 	
-	public boolean remove (String anEntry)
+	public boolean remove (String key)
 	{
 		boolean found = false;
-		Node currentNode = firstNode;
+		HashNode currentNode = firstNode;
 		
 		while(!found && currentNode != null)
 		{
-			if(anEntry.equals(currentNode.getData()))
+			if(key.equals(currentNode.getKey()))
 			{
 				found = true;
 				currentNode.setData(firstNode.getData());
 				remove();
 			}
-			currentNode = currentNode.next;
+			currentNode = currentNode.getNext();
 		}
 		return found;
 	}
@@ -77,15 +85,15 @@ public class LinkedMap
 			remove();
 	}
 	
-	public int getFrequencyOf(String anEntry)
+	public int getFrequencyOf(String key)
 	{
 		int frequency = 0;
 		
 		int counter = 0;
-		Node currentNode = firstNode;
+		HashNode currentNode = firstNode;
 		while ((counter < numberOfEntries) && (currentNode != null))
 		{
-			if (anEntry.equals(currentNode.data))
+			if (key.equals(currentNode.getKey()))
 				frequency++;
 			counter++;
 			currentNode = currentNode.next;
@@ -93,29 +101,29 @@ public class LinkedMap
 		return frequency;
 	}
 	
-	public boolean contains(String anEntry)
+	public boolean contains(String key)
 	{
 		boolean found = false;
-		Node currentNode = firstNode;
+		HashNode currentNode = firstNode;
 		
 		while (!found && (currentNode != null))
 		{
-			if (anEntry.equals(currentNode.data))
+			if (key.equals(currentNode.getKey()))
 				found = true;
 			else
-				currentNode = currentNode.next;
+				currentNode = currentNode.getNext();
 		}
 		return found;
 	}
 	
-	public Node get(String key) 
+	public HashNode getHashNode(String key) 
 	{
 		/*
 		 * getting the node by given key
 		 * When the key is same as the given key
 		 * it return the whole node
 		 */
-		Node currentNode = firstNode;
+		HashNode currentNode = firstNode;
 		while(currentNode != null)
 		{
 			if(currentNode.getKey().equals(key))
@@ -128,17 +136,17 @@ public class LinkedMap
 	}
 	
 	@SuppressWarnings("unused")
-	private Node getReferenceTo(String anEntry)
+	private HashNode getReferenceTo(String anEntry)
 	{
 		boolean found = false;
-		Node currentNode = firstNode;
+		HashNode currentNode = firstNode;
 		
 		while(!found && (currentNode != null))
 		{
-			if (anEntry.equals(currentNode.data))
+			if (anEntry.equals(currentNode.getData()))
 				found = true;
 			else
-				currentNode = currentNode.next;
+				currentNode = currentNode.getNext();
 		}
 		return currentNode;
 	}
@@ -148,67 +156,67 @@ public class LinkedMap
 		String[] result = (String[]) new Object[numberOfEntries];
 		
 		int index = 0;
-		Node currentNode = firstNode;
+		HashNode currentNode = firstNode;
 		
 		while ((index < numberOfEntries) && (currentNode != null))
 		{
-			result[index] = currentNode.data;
+			result[index] = currentNode.getData();
 			index++;
-			currentNode = currentNode.next;
+			currentNode = currentNode.getNext();
 		}
 		return result;
 	}
 	
-	public class Node
+	public class HashNode
 	{
 		private String data;
 		private String key;
-		private Node next;
+		private HashNode next;
 		
-		public Node()
+		public HashNode()
 		{
 			this(null, null);
 		}
 		
-		public Node(String key, String dataPortion)
+		public HashNode(String key, String dataPortion)
 		{
 			this.data = dataPortion;
 			this.key = key;
 		}
 		
-		public Node(String dataPortion, String key, Node next)
+		public HashNode(String dataPortion, String key, HashNode next)
 		{
 			this.data = dataPortion;
 			this.key = key;
 			this.next = next;
 		}
 		
-		void setData(String data)
+		public void setData(String data)
 		{
 			this.data = data;
 		}
 		
-		String getData()
+		public String getData()
 		{
 			return data;
 		}
 		
-		void setKey(String key)
+		public void setKey(String key)
 		{
 			this.key = key;
 		}
 		
-		String getKey()
+		public String getKey()
 		{
 			return key;
 		}
 		
-		Node getNext()
+		public HashNode getNext()
 		{
 			return next;
 		}
 		
-		void setNext(Node next)
+		public void setNext(HashNode next)
 		{
 			this.next = next;
 		}

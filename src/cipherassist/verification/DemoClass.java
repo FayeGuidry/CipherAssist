@@ -7,6 +7,7 @@ public class DemoClass
 		HashMap first = new HashMap();
 		
 		first.add("Username", "Password");
+		first.add("Username", "Notebook");
 		System.out.println(first.getSize());
 		System.out.println(first.get("Username"));
 		
@@ -26,7 +27,7 @@ public class DemoClass
 		System.out.println(first.getSize());
 		
 		System.out.println(first.remove("Username"));
-		
+		//System.out.println();
 		System.out.println(first.getSize());
 		
 	}
