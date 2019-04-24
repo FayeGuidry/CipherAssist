@@ -32,11 +32,22 @@ public class HashMap
 	{
 		/*
 		 * A simple hash algorithm
+		 * Caesar Cipher
 		 */
 		int hash = 0;
 		for(int i = 0; i < key.length(); i++)
 		{
-			hash += key.charAt(i) + 20;
+			int x = key.charAt(i);
+			if(x >= 65 && x <= 90)
+			{
+				hash += (((x-65)+20)%26)+65;
+			}
+			else if(x >= 97 && x <= 122)	
+			{
+				hash += (((x-65)+20)%26)+65;
+			}
+			else
+				hash = 9;
 		}
 		return hash; 
 	}

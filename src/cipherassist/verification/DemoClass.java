@@ -14,6 +14,10 @@ public class DemoClass
 		
 		first.add("Passwor6", "Usernam7");
 		
+		first.add("PZ", "Winston");
+		
+		first.add("Z", "Keith");
+		
 		System.out.println(first.get("ISUCK"));
 		
 		System.out.println(first.get("Pasgdbrb"));
