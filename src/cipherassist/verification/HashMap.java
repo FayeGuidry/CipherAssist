@@ -28,6 +28,11 @@ public class HashMap
 		return size == 0;
 	}
 	
+	public int getBucketSize(int index)
+	{
+		return numBuckets[index].getCurrentSize();
+	}
+	
 	private int makeHash(String key)
 	{
 		/* @param the key, the username

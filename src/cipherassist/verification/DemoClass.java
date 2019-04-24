@@ -19,10 +19,12 @@ public class DemoClass
 		System.out.println(first.get("Pasgdbrb")); //return the value = Usernam1
 		System.out.println(first.get("Passwor6")); //return the value = Usernam7
 		System.out.println(first.get("PZ")); //return the value = Winston
-		System.out.println(first.getSize()); // return number of account in whole hashmap
-		System.out.println(first.remove("Username")); // remove the node contain the username = Username
-		System.out.println(first.get("Username")); // since is removed, should return null
-		System.out.println(first.get("N")); // Was checking for bug
+		System.out.println(first.getSize()); // return number of account in whole hashmap, should be 6
+		System.out.println(first.getBucketSize(2));
+		System.out.println(first.remove("N")); // remove the node contain the username = N
+		System.out.println(first.get("N")); // since is removed, should return null
+		System.out.println(first.get("Username")); // Was checking for bug
 		System.out.println(first.getSize()); // return size
+		System.out.println(first.getBucketSize(2));
 	}
 }

@@ -74,10 +74,17 @@ public class LinkedMap
 		HashNode currentNode = firstNode;
 		while(currentNode != null)
 		{
-			if(key.equals(currentNode.getKey()))
+			if(key.equals(currentNode.getNext().getKey()))
 			{
-				currentNode.setData(firstNode.getData());
-				result = remove();
+				result = currentNode.getNext().getData();
+				if(currentNode.getNext().getNext() != null)
+				{
+					currentNode.setNext(currentNode.getNext().getNext());
+				}
+				else
+				{
+					currentNode.setNext(null);
+				}
 			}
 			currentNode = currentNode.getNext();
 		}
