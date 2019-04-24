@@ -27,7 +27,7 @@ public class DemoClass
 		System.out.println(first.getSize());
 		
 		System.out.println(first.remove("Username"));
-		//System.out.println();
+		System.out.println(first.get("Username"));
 		System.out.println(first.getSize());
 		
 	}

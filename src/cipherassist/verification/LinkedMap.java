@@ -61,22 +61,20 @@ public class LinkedMap
 		return result;
 	}
 	
-	public boolean remove (String key)
+	public String remove (String key)
 	{
-		boolean found = false;
+		String result = null;
 		HashNode currentNode = firstNode;
-		
-		while(!found && currentNode != null)
+		while(currentNode != null)
 		{
 			if(key.equals(currentNode.getKey()))
 			{
-				found = true;
 				currentNode.setData(firstNode.getData());
-				remove();
+				result = remove();
 			}
 			currentNode = currentNode.getNext();
 		}
-		return found;
+		return result;
 	}
 	
 	public void clear()

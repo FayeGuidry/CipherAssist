@@ -28,7 +28,7 @@ public class HashMap
 		return size == 0;
 	}
 	
-	public int makeHash(String key)
+	private int makeHash(String key)
 	{
 		/* @param the key, the username
 		 * A simple hash algorithm
@@ -52,7 +52,7 @@ public class HashMap
 		return hash; 
 	}
 	
-	public int getBucketIndex(String key)
+	private int getBucketIndex(String key)
 	{
 		/*
 		 * get the index number by modulo the array size
@@ -110,18 +110,8 @@ public class HashMap
 		 * removing the value with a given key
 		 */
 		int index = getBucketIndex(key);
-		HashNode head = numBuckets[index].getHashNode(key);
-		while(head != null)
-		{
-			if(head.getKey().equals(key))
-			{
-				String val = head.getData();
-				head.setNext(head.getNext());
-				size--;
-				return val;
-			}
-			head.getNext();
-		}
-		return null;
+		String result = numBuckets[index].remove(key);
+		size--;
+		return result;
 	}
 }
