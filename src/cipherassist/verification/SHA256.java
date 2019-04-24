@@ -117,6 +117,19 @@ public class SHA256
 	
 	private void appendBytes()
 	{
+		Binary onePadding = new Binary("1");
+
+		String zeros = null;
+		
+		for (int i = 0; i < k; ++i)
+		{
+			zeros += '0';
+		}
+		
+		Binary zeroPadding = new Binary(zeros);
+		
+		M.append(onePadding);
+		M.append(zeroPadding);
 		
 	}
 	

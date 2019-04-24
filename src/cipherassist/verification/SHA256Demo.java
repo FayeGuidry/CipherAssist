@@ -6,8 +6,10 @@ public class SHA256Demo {
 
 	public static void main(String[] args) 
 	{
-		SHA256 hash = new SHA256();
 		
+		//SHA256 hash = new SHA256();
+		
+		/*
 		BigInteger first = new BigInteger("ffffffff", 16);
 		BigInteger second = new BigInteger("ffffffff", 16);
 		
@@ -21,6 +23,14 @@ public class SHA256Demo {
 		BigInteger result2 = hash.addMod2Raised32(third, fourth);
 		
 		System.out.println(result2.toString(16));
+		*/
+		int l = 3;
+		int k;
+		
+		int modResult = l % 512;
+		k = (512 - modResult - 65);
+		
+		System.out.println(k);
 	}
 
 }
