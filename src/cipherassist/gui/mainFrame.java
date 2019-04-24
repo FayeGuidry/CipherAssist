@@ -45,6 +45,7 @@ public class mainFrame
 	//Initialize JFrame
 	private JFrame frmCipherAssist;
 	private JTextField key_textField;
+	public String background = "#404040";
 
 	
 	//Launch
@@ -85,14 +86,14 @@ public class mainFrame
 	//This creates all the elements of the frame
 	private void initialize() 
 	{
+		
 		//This could could probably be organized better...
 		frmCipherAssist = new JFrame();
 		frmCipherAssist.setIconImage(Toolkit.getDefaultToolkit().getImage(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
 		frmCipherAssist.setTitle("Cipher Assist");
 		frmCipherAssist.setResizable(false);
-		frmCipherAssist.setForeground(Color.DARK_GRAY);
-		frmCipherAssist.getContentPane().setBackground(Color.DARK_GRAY);
-		frmCipherAssist.setBackground(Color.DARK_GRAY);
+		frmCipherAssist.getContentPane().setBackground(Color.decode(background));
+		frmCipherAssist.setBackground(Color.decode(background));
 		frmCipherAssist.setBounds(100, 100, 720, 480);
 		frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCipherAssist.getContentPane().setLayout(new CardLayout(0, 0));
@@ -114,13 +115,13 @@ public class mainFrame
 		//Panels
 		JPanel panel_1_east = new JPanel();
 		login_frm.add(panel_1_east, BorderLayout.EAST);
-		panel_1_east.setBackground(Color.DARK_GRAY);
+		panel_1_east.setBackground(Color.decode(background));
 		FlowLayout fl_panel_1_east = (FlowLayout) panel_1_east.getLayout();
 		fl_panel_1_east.setHgap(110);
 		
 		JPanel panel_2_west = new JPanel();
 		login_frm.add(panel_2_west, BorderLayout.WEST);
-		panel_2_west.setBackground(Color.DARK_GRAY);
+		panel_2_west.setBackground(Color.decode(background));
 		FlowLayout fl_panel_2_west = (FlowLayout) panel_2_west.getLayout();
 		fl_panel_2_west.setHgap(110);
 		
@@ -131,7 +132,7 @@ public class mainFrame
 		JPanel panel_12_signin = new JPanel();
 		panel_5_center.add(panel_12_signin, BorderLayout.CENTER);
 		panel_12_signin.setBorder(UIManager.getBorder("TitledBorder.border"));
-		panel_12_signin.setBackground(Color.DARK_GRAY);
+		panel_12_signin.setBackground(Color.decode(background));
 		panel_12_signin.setLayout(new GridLayout(0, 2, 0, 10));
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setForeground(Color.WHITE);
@@ -161,13 +162,13 @@ public class mainFrame
 		password_Textfield.setColumns(10);
 		
 		JPanel panel_login_create = new JPanel();
-		panel_login_create.setBackground(Color.DARK_GRAY);
+		panel_login_create.setBackground(Color.decode(background));
 		panel_5_center.add(panel_login_create, BorderLayout.SOUTH);
 		panel_login_create.setLayout(new CardLayout(0, 0));
 		
 		JPanel panel_login_buttons = new JPanel();
 		panel_login_create.add(panel_login_buttons, "name_456638280110000");
-		panel_login_buttons.setBackground(Color.DARK_GRAY);
+		panel_login_buttons.setBackground(Color.decode(background));
 		panel_login_buttons.setLayout(new GridLayout(0, 1, 10, 5));
 		
 		
@@ -202,7 +203,7 @@ public class mainFrame
 		panel_login_buttons.add(btnCreateAccount);
 		
 		JPanel panel_create_buttons = new JPanel();
-		panel_create_buttons.setBackground(Color.DARK_GRAY);
+		panel_create_buttons.setBackground(Color.decode(background));
 		panel_login_create.add(panel_create_buttons, "name_456645496345286");
 		panel_create_buttons.setLayout(new GridLayout(2, 1, 0, 5));
 		
@@ -241,18 +242,18 @@ public class mainFrame
 		login_frm.add(panel_6_south, BorderLayout.SOUTH);
 		FlowLayout fl_panel_6_south = (FlowLayout) panel_6_south.getLayout();
 		fl_panel_6_south.setVgap(45);
-		panel_6_south.setBackground(Color.DARK_GRAY);
+		panel_6_south.setBackground(Color.decode(background));
 		
 		//Panels are being used to format the page and can otherwise be ignored.
 		JPanel panel_4_north = new JPanel();
 		login_frm.add(panel_4_north, BorderLayout.NORTH);
-		panel_4_north.setBackground(Color.DARK_GRAY);
+		panel_4_north.setBackground(Color.decode(background));
 		panel_4_north.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_7 = new JPanel();
 		FlowLayout flowLayout_2 = (FlowLayout) panel_7.getLayout();
 		flowLayout_2.setVgap(10);
-		panel_7.setBackground(Color.DARK_GRAY);
+		panel_7.setBackground(Color.decode(background));
 		panel_4_north.add(panel_7, BorderLayout.NORTH);
 		
 		//This is the logoImage 
@@ -262,16 +263,16 @@ public class mainFrame
 		logoImage.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logoandtext_150.png")));
 		
 		JPanel panel_8 = new JPanel();
-		panel_8.setBackground(Color.DARK_GRAY);
+		panel_8.setBackground(Color.decode(background));
 		panel_4_north.add(panel_8, BorderLayout.SOUTH);
 		
-		main_frm.setBackground(Color.DARK_GRAY);
+		main_frm.setBackground(Color.decode(background));
 		frmCipherAssist.getContentPane().add(main_frm, "name_455973417632460");
 		main_frm.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_11_center = new JPanel();
 		panel_11_center.setBorder(UIManager.getBorder("TitledBorder.border"));
-		panel_11_center.setBackground(Color.DARK_GRAY);
+		panel_11_center.setBackground(Color.decode(background));
 		main_frm.add(panel_11_center, BorderLayout.CENTER);
 		panel_11_center.setLayout(new GridLayout(10, 2, 0, 0));
 		
@@ -284,12 +285,15 @@ public class mainFrame
 		list.setVisibleRowCount(2);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBackground(Color.LIGHT_GRAY);
-		list.setModel(new AbstractListModel() {
+		list.setModel(new AbstractListModel() 
+		{
 			String[] values = new String[] {"Test 1", "Test 2", "Test 3", "Test 4", "Test 5"};
-			public int getSize() {
+			public int getSize() 
+			{
 				return values.length;
 			}
-			public Object getElementAt(int index) {
+			public Object getElementAt(int index) 
+			{
 				return values[index];
 			}
 		});
@@ -305,7 +309,7 @@ public class mainFrame
 		key_textField.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.DARK_GRAY);
+		panel.setBackground(Color.decode(background));
 		panel_11_center.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
@@ -324,7 +328,7 @@ public class mainFrame
 		
 		JLabel lblInput = new JLabel("Input:");
 		lblInput.setForeground(Color.WHITE);
-		lblInput.setBackground(Color.DARK_GRAY);
+		lblInput.setBackground(Color.decode(background));
 		panel_11_center.add(lblInput);
 		
 		JTextArea input_textArea = new JTextArea();
@@ -341,7 +345,7 @@ public class mainFrame
 		panel_11_center.add(Output_textArea);
 		
 		JPanel panel_10_west = new JPanel();
-		panel_10_west.setBackground(Color.DARK_GRAY);
+		panel_10_west.setBackground(Color.decode(background));
 		FlowLayout fl_panel_10_west = (FlowLayout) panel_10_west.getLayout();
 		fl_panel_10_west.setHgap(20);
 		fl_panel_10_west.setVgap(20);
@@ -349,32 +353,66 @@ public class mainFrame
 		
 		JPanel panel_9_east = new JPanel();
 		main_frm.add(panel_9_east, BorderLayout.EAST);
-		panel_9_east.setBackground(Color.DARK_GRAY);
+		panel_9_east.setBackground(Color.decode(background));
 		panel_9_east.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_1_west = new JPanel();
-		panel_1_west.setBackground(Color.DARK_GRAY);
+		panel_1_west.setBackground(Color.decode(background));
 		panel_9_east.add(panel_1_west, BorderLayout.WEST);
-		panel_1_west.setLayout(new BorderLayout(0, 0));
-		
-		JLabel imageLogo = new JLabel("");
-		imageLogo.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
-		panel_1_west.add(imageLogo, BorderLayout.NORTH);
+		panel_1_west.setLayout(new BorderLayout(0, 15));
 		
 		JButton btnAccessVault = new JButton("Open Vault");
 		btnAccessVault.setBackground(Color.GRAY);
 		panel_1_west.add(btnAccessVault);
 		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.decode(background));
+		panel_1_west.add(panel_1, BorderLayout.SOUTH);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JPanel settings_frm = new JPanel();
+		settings_frm.setBackground(Color.decode(background));
+		frmCipherAssist.getContentPane().add(settings_frm, "name_605979904012717");
+		settings_frm.setLayout(new BorderLayout(0, 0));
+		
 		JButton btnSettings = new JButton("Settings");
+		btnSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				settings_frm.setVisible(true);
+				main_frm.setVisible(false);
+			}
+		});
+		panel_1.add(btnSettings, BorderLayout.NORTH);
 		btnSettings.setBackground(Color.GRAY);
-		panel_1_west.add(btnSettings, BorderLayout.SOUTH);
+		
+		JPanel panel_2 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
+		flowLayout.setVgap(20);
+		panel_2.setBackground(Color.decode(background));
+		panel_1.add(panel_2, BorderLayout.SOUTH);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.decode(background));
+		panel_1_west.add(panel_3, BorderLayout.NORTH);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		JLabel imageLogo = new JLabel("");
+		panel_3.add(imageLogo, BorderLayout.SOUTH);
+		imageLogo.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		
+		JPanel panel_4 = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
+		flowLayout_1.setVgap(15);
+		panel_4.setBackground(Color.decode(background));
+		panel_3.add(panel_4);
 		
 		JPanel panel_2_east = new JPanel();
-		panel_2_east.setBackground(Color.DARK_GRAY);
+		panel_2_east.setBackground(Color.decode(background));
 		panel_9_east.add(panel_2_east, BorderLayout.EAST);
 		
 		JPanel panel_1_north = new JPanel();
-		panel_1_north.setBackground(Color.DARK_GRAY);
+		panel_1_north.setBackground(Color.decode(background));
 		FlowLayout fl_panel_1_north = (FlowLayout) panel_1_north.getLayout();
 		fl_panel_1_north.setVgap(10);
 		main_frm.add(panel_1_north, BorderLayout.NORTH);
@@ -382,7 +420,63 @@ public class mainFrame
 		JPanel panel_2_south = new JPanel();
 		FlowLayout fl_panel_2_south = (FlowLayout) panel_2_south.getLayout();
 		fl_panel_2_south.setVgap(10);
-		panel_2_south.setBackground(Color.DARK_GRAY);
+		panel_2_south.setBackground(Color.decode(background));
 		main_frm.add(panel_2_south, BorderLayout.SOUTH);
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(Color.decode(background));
+		settings_frm.add(panel_5);
+		panel_5.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_6 = new JPanel();
+		FlowLayout flowLayout_3 = (FlowLayout) panel_6.getLayout();
+		flowLayout_3.setVgap(35);
+		panel_6.setBackground(Color.decode(background));
+		panel_5.add(panel_6, BorderLayout.NORTH);
+		
+		JPanel panel_9 = new JPanel();
+		panel_9.setBackground(Color.decode(background));
+		panel_5.add(panel_9, BorderLayout.CENTER);
+		panel_9.setLayout(new GridLayout(2, 0, 0, 0));
+		
+		JButton btnDeleteAccount = new JButton("Delete Account");
+		panel_9.add(btnDeleteAccount);
+		btnDeleteAccount.setBackground(Color.GRAY);
+		
+		JButton btnLightMode = new JButton("Light Mode");
+		btnLightMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				background = "#ffffff";
+				colorInitialize();
+				main_frm.setVisible(true);
+				settings_frm.setVisible(false);
+			}
+		});
+		panel_9.add(btnLightMode);
+		btnLightMode.setBackground(Color.GRAY);
+		
+		JPanel panel_10 = new JPanel();
+		FlowLayout flowLayout_4 = (FlowLayout) panel_10.getLayout();
+		flowLayout_4.setVgap(35);
+		panel_10.setBackground(Color.decode(background));
+		panel_5.add(panel_10, BorderLayout.SOUTH);
+		
+		JPanel panel_11 = new JPanel();
+		FlowLayout flowLayout_5 = (FlowLayout) panel_11.getLayout();
+		flowLayout_5.setHgap(35);
+		panel_11.setBackground(Color.decode(background));
+		panel_5.add(panel_11, BorderLayout.WEST);
+		
+		JPanel panel_12 = new JPanel();
+		FlowLayout flowLayout_6 = (FlowLayout) panel_12.getLayout();
+		flowLayout_6.setHgap(35);
+		panel_5.add(panel_12, BorderLayout.EAST);
+		panel_12.setBackground(Color.decode(background));
+	}
+	
+	public void colorInitialize()
+	{
+		
 	}
 }
