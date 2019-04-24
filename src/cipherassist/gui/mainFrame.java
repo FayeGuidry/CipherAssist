@@ -281,24 +281,22 @@ public class mainFrame
 		lblEncrypMeth.setForeground(Color.WHITE);
 		panel_11_center.add(lblEncrypMeth);
 		
-		JList list = new JList();
-		list.setLayoutOrientation(JList.VERTICAL_WRAP);
-		list.setVisibleRowCount(2);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setBackground(Color.LIGHT_GRAY);
-		list.setModel(new AbstractListModel() 
-		{
-			String[] values = new String[] {"Test 1", "Test 2", "Test 3", "Test 4", "Test 5"};
-			public int getSize() 
-			{
+		JList listEncryption = new JList();
+		listEncryption.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		listEncryption.setLayoutOrientation(JList.VERTICAL_WRAP);
+		listEncryption.setVisibleRowCount(1);
+		listEncryption.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listEncryption.setBackground(Color.LIGHT_GRAY);
+		listEncryption.setModel(new AbstractListModel() {
+			String[] values = new String[] {"ROT13", "Test 2", "Test 3", "Test 4", "Test 5"};
+			public int getSize() {
 				return values.length;
 			}
-			public Object getElementAt(int index) 
-			{
+			public Object getElementAt(int index) {
 				return values[index];
 			}
 		});
-		panel_11_center.add(list);
+		panel_11_center.add(listEncryption);
 		
 		JLabel lblKey = new JLabel("Key:");
 		lblKey.setForeground(Color.WHITE);
@@ -329,7 +327,11 @@ public class mainFrame
 		btnGenerateKey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				//Get encryption method
+				int encryptType = listEncryption.getSelectedIndex();
 				//Generate Key from Data Structure
+				//1: ROT13
+				
 			}
 		});
 		btnGenerateKey.setBackground(Color.GRAY);
@@ -367,6 +369,12 @@ public class mainFrame
 				String out = "";
 				
 				//Encrypt in
+				
+				//Get encryption method
+				int encryptType = listEncryption.getSelectedIndex();
+				//Generate Key from Data Structure
+				//1: ROT13
+				
 				//This is temp
 				out = in;
 				
