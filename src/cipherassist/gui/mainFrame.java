@@ -452,6 +452,8 @@ public class mainFrame
 				//LOGOUT
 				if (ready == true)
 				{
+					username_Textfield.setText("");
+					password_Textfield.setText("");
 					login_frm.setVisible(true);
 					main_frm.setVisible(false);
 				}
