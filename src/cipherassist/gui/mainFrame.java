@@ -40,6 +40,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
 import java.awt.Button;
 import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class mainFrame 
 {
@@ -281,22 +283,10 @@ public class mainFrame
 		lblEncrypMeth.setForeground(Color.WHITE);
 		panel_11_center.add(lblEncrypMeth);
 		
-		JList listEncryption = new JList();
-		listEncryption.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		listEncryption.setLayoutOrientation(JList.VERTICAL_WRAP);
-		listEncryption.setVisibleRowCount(1);
-		listEncryption.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listEncryption.setBackground(Color.LIGHT_GRAY);
-		listEncryption.setModel(new AbstractListModel() {
-			String[] values = new String[] {"ROT13", "Test 2", "Test 3", "Test 4", "Test 5"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		panel_11_center.add(listEncryption);
+		JComboBox comboBox_Encryption = new JComboBox();
+		comboBox_Encryption.setModel(new DefaultComboBoxModel(new String[] {"ROT13", "Test 2", "Test 3", "Test 4", "Test 5"}));
+		comboBox_Encryption.setBackground(Color.DARK_GRAY);
+		panel_11_center.add(comboBox_Encryption);
 		
 		JLabel lblKey = new JLabel("Key:");
 		lblKey.setForeground(Color.WHITE);
@@ -328,7 +318,7 @@ public class mainFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				//Get encryption method
-				int encryptType = listEncryption.getSelectedIndex();
+				int encryptType = comboBox_Encryption.getSelectedIndex();
 				//Generate Key from Data Structure
 				//1: ROT13
 				
@@ -371,7 +361,7 @@ public class mainFrame
 				//Encrypt in
 				
 				//Get encryption method
-				int encryptType = listEncryption.getSelectedIndex();
+				int encryptType = comboBox_Encryption.getSelectedIndex();
 				//Generate Key from Data Structure
 				//1: ROT13
 				
@@ -578,6 +568,14 @@ public class mainFrame
 		JPanel panel_14 = new JPanel();
 		panel_14.setBackground(Color.DARK_GRAY);
 		vault_frm.add(panel_14, BorderLayout.CENTER);
+		panel_14.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("Vault");
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setBackground(Color.WHITE);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("SansSerif", Font.PLAIN, 24));
+		panel_14.add(lblNewLabel_1);
 		
 		JPanel panel_15 = new JPanel();
 		panel_15.setBackground(Color.DARK_GRAY);
