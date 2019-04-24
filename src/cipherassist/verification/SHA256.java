@@ -136,7 +136,7 @@ public class SHA256
 		l = this.M.length();
 	}
 	
-	public BigInteger addMod2Raised32(BigInteger firstNum, BigInteger secondNum)
+	private BigInteger addMod2Raised32(BigInteger firstNum, BigInteger secondNum)
 	{
 		BigInteger result;
 		BigInteger preMod = new BigInteger("2");
@@ -145,6 +145,16 @@ public class SHA256
 		result = firstNum.add(secondNum);
 		
 		result = result.mod(mod);
+		
+		return result;
+	}
+	
+	private Binary ch(Binary x, Binary y, Binary z)
+	{
+		Binary var1 = Binary.AND(x, y);
+		Binary var2 = Binary.AND(Binary.complement(x), z);
+		
+		Binary result = Binary.XOR(var1, var2);
 		
 		return result;
 	}
