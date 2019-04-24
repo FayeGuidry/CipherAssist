@@ -80,7 +80,7 @@ public class SHA256
 	
 	private byte[] computeHash()
 	{
-		
+		return null;
 	}
 	
 	private void padMessage()
@@ -192,24 +192,17 @@ public class SHA256
 		assert (l < 0xffffffff);
 	}
 	
-	private int addMod2Raised32(int firstNum, int secondNum)
+	public BigInteger addMod2Raised32(BigInteger firstNum, BigInteger secondNum)
 	{
 		BigInteger result;
 		BigInteger preMod = new BigInteger("2");
 		BigInteger mod = preMod.pow(32);
 		
-		BigInteger first = new BigInteger(Integer.toString(firstNum));
-		BigInteger second = new BigInteger(Integer.toString(secondNum));
-		
-		result = first.add(second);
+		result = firstNum.add(secondNum);
 		
 		result = result.mod(mod);
 		
-		String resultString = result.toString();
-		
-		int finalResult = Integer.valueOf(resultString);
-		
-		return finalResult;
+		return result;
 	}
 	
 }
