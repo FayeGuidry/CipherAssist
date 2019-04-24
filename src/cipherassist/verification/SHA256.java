@@ -39,16 +39,16 @@ public class SHA256
 	private Binary h;
 	
 	//Constants used for iterations of hash computation
-	private int[] preK = new int[] { 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-			   0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-			   0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-			   0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-			   0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-			   0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-			   0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-			   0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2 };
+	private String[] preK = new String[] { "428a2f98", "71374491", "b5c0fbcf", "e9b5dba5", "3956c25b", "59f111f1", "923f82a4", "ab1c5ed5",
+			   "d807aa98", "12835b01", "243185be", "550c7dc3", "72be5d74", "80deb1fe", "9bdc06a7", "c19bf174",
+			   "e49b69c1", "efbe4786", "0fc19dc6", "240ca1cc", "2de92c6f", "4a7484aa", "5cb0a9dc", "76f988da",
+			   "983e5152", "a831c66d", "b00327c8", "bf597fc7", "c6e00bf3", "d5a79147", "06ca6351", "14292967",
+			   "27b70a85", "2e1b2138", "4d2c6dfc", "53380d13", "650a7354", "766a0abb", "81c2c92e", "92722c85",
+			   "a2bfe8a1", "a81a664b", "c24b8b70", "c76c51a3", "d192e819", "d6990624", "f40e3585", "106aa070",
+			   "19a4c116", "1e376c08", "2748774c", "34b0bcb5", "391c0cb3", "4ed8aa4a", "5b9cca4f", "682e6ff3",
+			   "748f82ee", "78a5636f", "84c87814", "8cc70208", "90befffa", "a4506ceb", "bef9a3f7", "c67178f2" };
 	
-	private Binary[] K = new Binary[63];
+	private Binary[] K = new Binary[64];
 	
 	//N = number of blocks in the padded message
 	private int N;
@@ -74,9 +74,32 @@ public class SHA256
 	
 	private void loadK()
 	{
+		String appendedString = "";
+		String resultString = "";
+		
 		for (int i = 0; i < 64; ++i)
 		{
-			K[i] = new Binary(preK[i]);
+			BigInteger bigInt = new BigInteger(preK[i], 16);
+			
+			resultString = bigInt.toString(2);
+			
+			if (bigInt.toString(2).length() != 32)
+			{
+				int zeros = 32 - bigInt.toString(2).length();
+				appendedString = "";
+				
+				for (int j = 0; j < zeros; ++j)
+				{
+					appendedString += '0';
+				}
+				
+				appendedString += bigInt.toString(2);
+				resultString = appendedString;
+			}
+			
+			System.out.println(resultString);
+			K[i] = new Binary(resultString);
+			System.out.println(K[i].toHexString());
 		}
 	}
 	
@@ -111,15 +134,15 @@ public class SHA256
 	
 	private void padMessage()
 	{
-		appendBytes();
+		appendBits();
 		appendIntBlock();
 	}
 	
-	private void appendBytes()
+	private void appendBits()
 	{
 		Binary onePadding = new Binary("1");
 
-		String zeros = null;
+		String zeros = "";
 		
 		for (int i = 0; i < k; ++i)
 		{
@@ -128,14 +151,28 @@ public class SHA256
 		
 		Binary zeroPadding = new Binary(zeros);
 		
-		M.append(onePadding);
-		M.append(zeroPadding);
+		this.M.append(onePadding);
+		this.M.append(zeroPadding);
 		
 	}
 	
 	private void appendIntBlock()
 	{
+		String messageLength = Integer.toString(l, 2);
+		String padding = "";
 		
+		for (int i = 0; i < messageLength.length(); ++i)
+		{
+			padding += '0';
+		}
+		
+		messageLength = padding + messageLength;
+		
+		Binary lengthBlock = new Binary(messageLength);
+		
+		this.M.append(lengthBlock);
+		
+		assert (this.M.length() % 512 == 0);
 	}
 	
 	private void generate_k()
@@ -152,6 +189,8 @@ public class SHA256
 	
 	
 	//SHA256 Functions
+	
+	//CHECK THIS ONE FOR BITSTRING LENGTH SAFETY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	private BigInteger addMod2Raised32(BigInteger firstNum, BigInteger secondNum)
 	{
 		BigInteger result;

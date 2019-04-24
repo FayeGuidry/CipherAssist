@@ -7,7 +7,7 @@ public class SHA256Demo {
 	public static void main(String[] args) 
 	{
 		
-		//SHA256 hash = new SHA256();
+		SHA256 hash = new SHA256();
 		
 		/*
 		BigInteger first = new BigInteger("ffffffff", 16);
@@ -24,13 +24,25 @@ public class SHA256Demo {
 		
 		System.out.println(result2.toString(16));
 		*/
-		int l = 3;
-		int k;
+	
+		//int num = 0xb5c0fbcf;
+		//BigInteger big = new BigInteger("b5c0fbcf", 16);
+		//BigInteger alsoBig = new BigInteger(Integer.toString(num, 16), 16);
 		
-		int modResult = l % 512;
-		k = (512 - modResult - 65);
 		
-		System.out.println(k);
+		//System.out.println(big);
+		//System.out.println(alsoBig);
+		//System.out.println(num);
+		
+		
+		
+		//int l = 3;
+		//int k;
+		
+		//int modResult = l % 512;
+		//k = (512 - modResult - 65);
+		
+		//System.out.println(k);
 	}
 
 }
