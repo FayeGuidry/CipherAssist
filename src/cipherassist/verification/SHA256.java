@@ -159,4 +159,15 @@ public class SHA256
 		return result;
 	}
 	
+	private Binary maj(Binary x, Binary y, Binary z)
+	{
+		Binary var1 = Binary.AND(x, y);
+		Binary var2 = Binary.AND(x, z);
+		Binary var3 = Binary.AND(y, z);
+		
+		Binary result = Binary.XOR(var1, var2, var3);
+		
+		return result;
+	}
+	
 }
