@@ -170,9 +170,11 @@ public class SHA256
 		return result;
 	}
 	
-	private void SHR(Binary x, int n)
+	private Binary SHR(Binary x, int n)
 	{
 		Binary.rightShift(x, n);
+		
+		return x;
 	}
 	
 	private Binary ROTR(Binary firstVar, int n)
@@ -183,6 +185,42 @@ public class SHA256
 		Binary.leftShift(secondVar, (32 - n));
 		
 		Binary result = Binary.OR(firstVar, secondVar);
+		
+		return result;
+	}
+	
+	private Binary bigSigma0(Binary x)
+	{
+		Binary result;
+		
+		result = Binary.XOR(ROTR(x, 2), ROTR(x, 13), ROTR(x, 22));
+		
+		return result;
+	}
+	
+	private Binary bigSigma1(Binary x)
+	{
+		Binary result;
+		
+		result = Binary.XOR(ROTR(x, 6), ROTR(x, 11), ROTR(x, 25));
+		
+		return result;
+	}
+	
+	private Binary littleSigma0(Binary x)
+	{
+		Binary result;
+		
+		result = Binary.XOR(ROTR(x, 7), ROTR(x, 18), SHR(x, 3));
+		
+		return result;
+	}
+	
+	private Binary littleSigma1(Binary x)
+	{
+		Binary result;
+		
+		result = Binary.XOR(ROTR(x, 17), ROTR(x, 19), SHR(x, 10));
 		
 		return result;
 	}
