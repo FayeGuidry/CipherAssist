@@ -316,7 +316,9 @@ public class mainFrame
 		
 		JButton btnClearKey = new JButton("Clear");
 		btnClearKey.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				//Clear key
 				key_textField.setText("");
 			}
 		});
@@ -324,6 +326,12 @@ public class mainFrame
 		panel.add(btnClearKey, BorderLayout.EAST);
 		
 		JButton btnGenerateKey = new JButton("Generate");
+		btnGenerateKey.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				//Generate Key from Data Structure
+			}
+		});
 		btnGenerateKey.setBackground(Color.GRAY);
 		panel.add(btnGenerateKey, BorderLayout.CENTER);
 		
@@ -341,9 +349,42 @@ public class mainFrame
 		lblOutput.setForeground(Color.WHITE);
 		panel_11_center.add(lblOutput);
 		
-		JTextArea Output_textArea = new JTextArea();
-		Output_textArea.setBackground(Color.LIGHT_GRAY);
-		panel_11_center.add(Output_textArea);
+		JTextArea output_textArea = new JTextArea();
+		output_textArea.setBackground(Color.LIGHT_GRAY);
+		panel_11_center.add(output_textArea);
+		
+		JPanel panel_13 = new JPanel();
+		panel_13.setBackground(Color.DARK_GRAY);
+		panel_11_center.add(panel_13);
+		panel_13.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnEncrypt = new JButton("Encrypt");
+		btnEncrypt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				String in = input_textArea.getText();
+				String out = "";
+				
+				//Encrypt in
+				//This is temp
+				out = in;
+				
+				output_textArea.setText(out);
+			}
+		});
+		btnEncrypt.setBackground(Color.GRAY);
+		panel_13.add(btnEncrypt, BorderLayout.CENTER);
+		
+		JButton btnClearInOut = new JButton("Clear");
+		btnClearInOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				input_textArea.setText("");
+				output_textArea.setText("");
+			}
+		});
+		btnClearInOut.setBackground(Color.GRAY);
+		panel_13.add(btnClearInOut, BorderLayout.EAST);
 		
 		JPanel panel_10_west = new JPanel();
 		panel_10_west.setBackground(Color.decode(background));
