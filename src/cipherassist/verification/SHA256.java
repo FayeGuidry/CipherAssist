@@ -3,28 +3,39 @@ package cipherassist.verification;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import ConnorGuidry.BinaryUtil.Binary;
+
 //This implementation of SHA256 is dependent on ConnorGuidry.BinaryUtil.Binary to function
 public class SHA256 
 {
 	//Variables that hold the hash values
-	private int h0 = 0x6a09e667;
-	private int h1 = 0xbb67ae85;
-	private int h2 = 0x3c6ef372;
-	private int h3 = 0xa54ff53a;
-	private int h4 = 0x510e527f;
-	private int h5 = 0x9b05688c;
-	private int h6 = 0x1f83d9ab;
-	private int h7 = 0x5be0cd19;
+	private BigInteger b0 = new BigInteger("6a09e667", 16);
+	private BigInteger b1 = new BigInteger("bb67ae85", 16);
+	private BigInteger b2 = new BigInteger("3c6ef372", 16);
+	private BigInteger b3 = new BigInteger("a54ff53a", 16);
+	private BigInteger b4 = new BigInteger("510e527f", 16);
+	private BigInteger b5 = new BigInteger("9b05688c", 16);
+	private BigInteger b6 = new BigInteger("1f83d9ab", 16);
+	private BigInteger b7 = new BigInteger("5be0cd19", 16);
+	
+	private Binary h0 = new Binary(b0.toString(2));
+	private Binary h1 = new Binary(b1.toString(2));
+	private Binary h2 = new Binary(b2.toString(2));
+	private Binary h3 = new Binary(b3.toString(2));
+	private Binary h4 = new Binary(b4.toString(2));
+	private Binary h5 = new Binary(b5.toString(2));
+	private Binary h6 = new Binary(b6.toString(2));
+	private Binary h7 = new Binary(b7.toString(2));
 	
 	//Working variables, 32-bit words used to compute hash values
-	private int a;
-	private int b;
-	private int c;
-	private int d;
-	private int e;
-	private int f;
-	private int g;
-	private int h;
+	private Binary a;
+	private Binary b;
+	private Binary c;
+	private Binary d;
+	private Binary e;
+	private Binary f;
+	private Binary g;
+	private Binary h;
 	
 	//Constants used for iterations of hash computation
 	private static final long K[] = new long[] { 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -39,14 +50,14 @@ public class SHA256
 	//N = number of blocks in the padded message
 	private int N;
 	
-	//Message (M) length in bytes
+	//Message (M) length in bits
 	private int l;
 	
-	//Number of 0x0 appended to a message during padding
+	//Number of 0's appended to a message during padding
 	private int k;
 	
 	//Message
-	private byte[] M;
+	private Binary M;
 	
 	public SHA256()
 	{
