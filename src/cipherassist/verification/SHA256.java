@@ -170,4 +170,21 @@ public class SHA256
 		return result;
 	}
 	
+	private void SHR(Binary x, int n)
+	{
+		Binary.rightShift(x, n);
+	}
+	
+	private Binary ROTR(Binary firstVar, int n)
+	{
+		Binary secondVar = new Binary(firstVar.toString());
+		
+		Binary.rightShift(firstVar, n);
+		Binary.leftShift(secondVar, (32 - n));
+		
+		Binary result = Binary.OR(firstVar, secondVar);
+		
+		return result;
+	}
+	
 }
