@@ -82,8 +82,8 @@ public class HashMap
 		if(currentNode == null)
 		{
 			numBuckets[index].add(key, value);
+			size++;
 		}
-		size++;
 	}
 	
 	public String get(String key)
