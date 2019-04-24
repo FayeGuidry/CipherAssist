@@ -42,6 +42,8 @@ import java.awt.Button;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class mainFrame 
 {
@@ -49,6 +51,7 @@ public class mainFrame
 	private JFrame frmCipherAssist;
 	private JTextField key_textField;
 	public String background = "#404040";
+	private JTextField textField_Date;
 
 	
 	//Launch
@@ -284,7 +287,7 @@ public class mainFrame
 		panel_11_center.add(lblEncrypMeth);
 		
 		JComboBox comboBox_Encryption = new JComboBox();
-		comboBox_Encryption.setModel(new DefaultComboBoxModel(new String[] {"ROT13", "Test 2", "Test 3", "Test 4", "Test 5"}));
+		comboBox_Encryption.setModel(new DefaultComboBoxModel(new String[] {"ROT13"}));
 		comboBox_Encryption.setBackground(Color.DARK_GRAY);
 		panel_11_center.add(comboBox_Encryption);
 		
@@ -565,24 +568,128 @@ public class mainFrame
 		panel_5.add(panel_12, BorderLayout.EAST);
 		panel_12.setBackground(Color.decode(background));
 		
+		JPanel panel_21 = new JPanel();
+		FlowLayout flowLayout_10 = (FlowLayout) panel_21.getLayout();
+		flowLayout_10.setHgap(35);
+		panel_21.setBackground(Color.DARK_GRAY);
+		vault_frm.add(panel_21, BorderLayout.WEST);
+		
+		JPanel panel_23 = new JPanel();
+		FlowLayout flowLayout_11 = (FlowLayout) panel_23.getLayout();
+		flowLayout_11.setHgap(35);
+		panel_23.setBackground(Color.DARK_GRAY);
+		vault_frm.add(panel_23, BorderLayout.EAST);
+		
+		JPanel panel_20 = new JPanel();
+		FlowLayout flowLayout_9 = (FlowLayout) panel_20.getLayout();
+		flowLayout_9.setVgap(35);
+		panel_20.setBackground(Color.DARK_GRAY);
+		vault_frm.add(panel_20, BorderLayout.NORTH);
+		
 		JPanel panel_14 = new JPanel();
+		panel_14.setBorder(UIManager.getBorder("TitledBorder.border"));
 		panel_14.setBackground(Color.DARK_GRAY);
 		vault_frm.add(panel_14, BorderLayout.CENTER);
-		panel_14.setLayout(new GridLayout(1, 0, 0, 0));
+		panel_14.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel_1 = new JLabel("Vault");
+		lblNewLabel_1.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		panel_14.add(lblNewLabel_1, BorderLayout.NORTH);
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setBackground(Color.WHITE);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("SansSerif", Font.PLAIN, 24));
-		panel_14.add(lblNewLabel_1);
+		
+		JPanel panel_22 = new JPanel();
+		panel_22.setBackground(Color.DARK_GRAY);
+		panel_14.add(panel_22, BorderLayout.CENTER);
+		panel_22.setLayout(new GridLayout(5, 1, 0, 0));
+		
+		JLabel lblNewLabel_3 = new JLabel("Data in Vault:");
+		panel_22.add(lblNewLabel_3);
+		lblNewLabel_3.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setForeground(Color.WHITE);
+		
+		JComboBox comboBox_Data = new JComboBox();
+		comboBox_Data.setModel(new DefaultComboBoxModel(new String[] {"My Data", "My Data 2", "My Data 3"}));
+		comboBox_Data.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				int index = comboBox_Data.getSelectedIndex();
+				
+				//Get date from data at index
+				//textField_Date.setText(data.getDate(index));
+				textField_Date.setText("This will get the date for the data at the selected index...");
+			}
+		});
+		comboBox_Data.setBackground(Color.DARK_GRAY);
+		panel_22.add(comboBox_Data);
+		
+		JLabel lblNewLabel_2 = new JLabel("Date Created:");
+		panel_22.add(lblNewLabel_2);
+		lblNewLabel_2.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setForeground(Color.WHITE);
+		
+		textField_Date = new JTextField();
+		panel_22.add(textField_Date);
+		textField_Date.setEditable(false);
+		textField_Date.setBackground(Color.GRAY);
+		textField_Date.setColumns(10);
+		
+		JPanel panel_24 = new JPanel();
+		panel_24.setBackground(Color.DARK_GRAY);
+		panel_22.add(panel_24);
+		panel_24.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_25 = new JPanel();
+		panel_25.setBackground(Color.DARK_GRAY);
+		panel_24.add(panel_25, BorderLayout.EAST);
+		panel_25.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.setBackground(Color.GRAY);
+		panel_25.add(btnAdd);
+		
+		JButton btnEdit = new JButton("Edit/View");
+		
+		//Both Buttons Here Go To The View Window
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				
+			}
+		});
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+			}
+		});
+		//Both Buttons Here Go To The View Window
+		
+		btnEdit.setBackground(Color.GRAY);
+		panel_25.add(btnEdit);
 		
 		JPanel panel_15 = new JPanel();
 		panel_15.setBackground(Color.DARK_GRAY);
 		vault_frm.add(panel_15, BorderLayout.SOUTH);
-		panel_15.setLayout(new BorderLayout(0, 0));
+		panel_15.setLayout(new BorderLayout(0, 10));
+		
+		JPanel panel_16 = new JPanel();
+		panel_16.setBackground(Color.DARK_GRAY);
+		FlowLayout flowLayout_7 = (FlowLayout) panel_16.getLayout();
+		flowLayout_7.setVgap(10);
+		panel_15.add(panel_16, BorderLayout.NORTH);
+		
+		JPanel panel_17 = new JPanel();
+		panel_17.setBackground(Color.DARK_GRAY);
+		panel_15.add(panel_17, BorderLayout.EAST);
 		
 		JButton btnBack = new JButton("Back");
+		panel_17.add(btnBack);
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -591,7 +698,16 @@ public class mainFrame
 			}
 		});
 		btnBack.setBackground(Color.GRAY);
-		panel_15.add(btnBack, BorderLayout.EAST);
+		
+		JPanel panel_19 = new JPanel();
+		panel_17.add(panel_19);
+		FlowLayout flowLayout_8 = (FlowLayout) panel_19.getLayout();
+		flowLayout_8.setAlignment(FlowLayout.RIGHT);
+		panel_19.setBackground(Color.DARK_GRAY);
+		
+		JPanel panel_18 = new JPanel();
+		panel_18.setBackground(Color.DARK_GRAY);
+		panel_15.add(panel_18, BorderLayout.SOUTH);
 	}
 	
 	public void colorInitialize()
