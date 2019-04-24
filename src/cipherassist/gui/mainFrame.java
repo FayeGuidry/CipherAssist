@@ -52,7 +52,9 @@ public class mainFrame
 	private JTextField key_textField;
 	public String background = "#404040";
 	private JTextField textField_Date;
-
+	private JTextField textField_Name;
+	private JTextField textField_Input;
+	public int dataIndex = 0;
 	
 	//Launch
 	public static void main(String[] args) 
@@ -588,93 +590,6 @@ public class mainFrame
 		panel_20.setBackground(Color.DARK_GRAY);
 		vault_frm.add(panel_20, BorderLayout.NORTH);
 		
-		JPanel panel_14 = new JPanel();
-		panel_14.setBorder(UIManager.getBorder("TitledBorder.border"));
-		panel_14.setBackground(Color.DARK_GRAY);
-		vault_frm.add(panel_14, BorderLayout.CENTER);
-		panel_14.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblNewLabel_1 = new JLabel("Vault");
-		lblNewLabel_1.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
-		panel_14.add(lblNewLabel_1, BorderLayout.NORTH);
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBackground(Color.WHITE);
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("SansSerif", Font.PLAIN, 24));
-		
-		JPanel panel_22 = new JPanel();
-		panel_22.setBackground(Color.DARK_GRAY);
-		panel_14.add(panel_22, BorderLayout.CENTER);
-		panel_22.setLayout(new GridLayout(5, 1, 0, 0));
-		
-		JLabel lblNewLabel_3 = new JLabel("Data in Vault:");
-		panel_22.add(lblNewLabel_3);
-		lblNewLabel_3.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setForeground(Color.WHITE);
-		
-		JComboBox comboBox_Data = new JComboBox();
-		comboBox_Data.setModel(new DefaultComboBoxModel(new String[] {"My Data", "My Data 2", "My Data 3"}));
-		comboBox_Data.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				int index = comboBox_Data.getSelectedIndex();
-				
-				//Get date from data at index
-				//textField_Date.setText(data.getDate(index));
-				textField_Date.setText("This will get the date for the data at the selected index...");
-			}
-		});
-		comboBox_Data.setBackground(Color.DARK_GRAY);
-		panel_22.add(comboBox_Data);
-		
-		JLabel lblNewLabel_2 = new JLabel("Date Created:");
-		panel_22.add(lblNewLabel_2);
-		lblNewLabel_2.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setForeground(Color.WHITE);
-		
-		textField_Date = new JTextField();
-		panel_22.add(textField_Date);
-		textField_Date.setEditable(false);
-		textField_Date.setBackground(Color.GRAY);
-		textField_Date.setColumns(10);
-		
-		JPanel panel_24 = new JPanel();
-		panel_24.setBackground(Color.DARK_GRAY);
-		panel_22.add(panel_24);
-		panel_24.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panel_25 = new JPanel();
-		panel_25.setBackground(Color.DARK_GRAY);
-		panel_24.add(panel_25, BorderLayout.EAST);
-		panel_25.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JButton btnAdd = new JButton("Add");
-		btnAdd.setBackground(Color.GRAY);
-		panel_25.add(btnAdd);
-		
-		JButton btnEdit = new JButton("Edit/View");
-		
-		//Both Buttons Here Go To The View Window
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				
-			}
-		});
-		btnEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				
-			}
-		});
-		//Both Buttons Here Go To The View Window
-		
-		btnEdit.setBackground(Color.GRAY);
-		panel_25.add(btnEdit);
-		
 		JPanel panel_15 = new JPanel();
 		panel_15.setBackground(Color.DARK_GRAY);
 		vault_frm.add(panel_15, BorderLayout.SOUTH);
@@ -710,10 +625,183 @@ public class mainFrame
 		JPanel panel_18 = new JPanel();
 		panel_18.setBackground(Color.DARK_GRAY);
 		panel_15.add(panel_18, BorderLayout.SOUTH);
+		
+		JPanel panel_26 = new JPanel();
+		panel_26.setBackground(Color.DARK_GRAY);
+		vault_frm.add(panel_26, BorderLayout.CENTER);
+		panel_26.setLayout(new CardLayout(0, 0));
+		
+		JPanel panel_VaultMain = new JPanel();
+		panel_26.add(panel_VaultMain, "name_873603184342500");
+		panel_VaultMain.setBorder(UIManager.getBorder("TitledBorder.border"));
+		panel_VaultMain.setBackground(Color.DARK_GRAY);
+		panel_VaultMain.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("Vault");
+		lblNewLabel_1.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		panel_VaultMain.add(lblNewLabel_1, BorderLayout.NORTH);
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setBackground(Color.WHITE);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("SansSerif", Font.PLAIN, 24));
+		
+		JPanel panel_22 = new JPanel();
+		panel_22.setBackground(Color.DARK_GRAY);
+		panel_VaultMain.add(panel_22, BorderLayout.CENTER);
+		panel_22.setLayout(new GridLayout(5, 1, 0, 0));
+		
+		JLabel lblNewLabel_3 = new JLabel("Data in Vault:");
+		panel_22.add(lblNewLabel_3);
+		lblNewLabel_3.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setForeground(Color.WHITE);
+		
+		JComboBox comboBox_Data = new JComboBox();
+		comboBox_Data.setModel(new DefaultComboBoxModel(new String[] {"My Data", "My Data 2", "My Data 3"}));
+		comboBox_Data.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				dataIndex = comboBox_Data.getSelectedIndex();
+				
+				//Get date from data at index
+				//textField_Date.setText(data.getDate(index));
+				textField_Date.setText("This will get the date for the data at the selected index...");
+			}
+		});
+		comboBox_Data.setBackground(Color.DARK_GRAY);
+		panel_22.add(comboBox_Data);
+		
+		JLabel lblNewLabel_2 = new JLabel("Date Created:");
+		panel_22.add(lblNewLabel_2);
+		lblNewLabel_2.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setForeground(Color.WHITE);
+		
+		textField_Date = new JTextField();
+		panel_22.add(textField_Date);
+		textField_Date.setEditable(false);
+		textField_Date.setBackground(Color.GRAY);
+		textField_Date.setColumns(10);
+		
+		JPanel panel_24 = new JPanel();
+		panel_24.setBackground(Color.DARK_GRAY);
+		panel_22.add(panel_24);
+		panel_24.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_25 = new JPanel();
+		panel_25.setBackground(Color.DARK_GRAY);
+		panel_24.add(panel_25, BorderLayout.EAST);
+		panel_25.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.setBackground(Color.GRAY);
+		panel_25.add(btnAdd);
+		
+		textField_Name = new JTextField();
+		
+		JButton btnEdit = new JButton("Edit/View");
+		JPanel panel_VaultView = new JPanel();
+		
+		//Both Buttons Here Go To The View Window
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				panel_VaultView.setVisible(true);
+				panel_VaultMain.setVisible(false);
+				btnBack.setEnabled(false);
+			}
+		});
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				String name = (String) comboBox_Data.getItemAt(dataIndex);
+				textField_Name.setText(name);
+				
+				panel_VaultView.setVisible(true);
+				panel_VaultMain.setVisible(false);
+				btnBack.setEnabled(false);
+			}
+		});
+		//Both Buttons Here Go To The View Window
+		
+		btnEdit.setBackground(Color.GRAY);
+		panel_25.add(btnEdit);
+		
+		panel_VaultView.setBorder(UIManager.getBorder("TitledBorder.border"));
+		panel_VaultView.setBackground(Color.DARK_GRAY);
+		panel_26.add(panel_VaultView, "name_873614038905000");
+		panel_VaultView.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_14 = new JPanel();
+		panel_14.setBackground(Color.DARK_GRAY);
+		panel_VaultView.add(panel_14, BorderLayout.CENTER);
+		panel_14.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblNewLabel_4 = new JLabel("Name:");
+		lblNewLabel_4.setForeground(Color.WHITE);
+		panel_14.add(lblNewLabel_4);
+		
+		textField_Name.setBackground(Color.GRAY);
+		panel_14.add(textField_Name);
+		textField_Name.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Input:");
+		lblNewLabel_5.setForeground(Color.WHITE);
+		panel_14.add(lblNewLabel_5);
+		
+		textField_Input = new JTextField();
+		textField_Input.setBackground(Color.GRAY);
+		panel_14.add(textField_Input);
+		textField_Input.setColumns(10);
+		
+		JPanel panel_27 = new JPanel();
+		panel_27.setBackground(Color.DARK_GRAY);
+		panel_VaultView.add(panel_27, BorderLayout.SOUTH);
+		
+		JButton btn_Save = new JButton("Save");
+		btn_Save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				String name = textField_Name.getText();
+				String input = textField_Input.getText();
+				//dataIndex
+				//Send input and name to data structure
+				
+				//reload comboBox_Data
+				comboBox_Data.addItem(name);
+				
+				//Exit add
+				panel_VaultMain.setVisible(true);
+				panel_VaultView.setVisible(false);
+				btnBack.setEnabled(true);
+			}
+		});
+		btn_Save.setBackground(Color.GRAY);
+		panel_27.add(btn_Save);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				textField_Name.setText("");
+				textField_Input.setText("");
+				panel_VaultMain.setVisible(true);
+				panel_VaultView.setVisible(false);
+				btnBack.setEnabled(true);
+			}
+		});
+		btnCancel.setBackground(Color.GRAY);
+		panel_27.add(btnCancel);
+		
+		JLabel lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_6.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		panel_VaultView.add(lblNewLabel_6, BorderLayout.NORTH);
 	}
 	
 	public void colorInitialize()
 	{
-		
+		//This can change all the colors to light mode
 	}
 }
