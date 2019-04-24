@@ -114,11 +114,6 @@ public class SHA256
 		appendIntBlock();
 	}
 	
-	private void setM(byte[] M)
-	{
-		this.M = M;
-	}
-	
 	private void appendBytes()
 	{
 
