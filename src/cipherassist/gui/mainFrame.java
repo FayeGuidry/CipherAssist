@@ -359,7 +359,8 @@ public class mainFrame
 		panel_13.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnEncrypt = new JButton("Encrypt");
-		btnEncrypt.addActionListener(new ActionListener() {
+		btnEncrypt.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				String in = input_textArea.getText();
@@ -403,7 +404,19 @@ public class mainFrame
 		panel_9_east.add(panel_1_west, BorderLayout.WEST);
 		panel_1_west.setLayout(new BorderLayout(0, 15));
 		
+		JPanel vault_frm = new JPanel();
+		vault_frm.setBackground(Color.DARK_GRAY);
+		frmCipherAssist.getContentPane().add(vault_frm, "name_613580021390995");
+		vault_frm.setLayout(new BorderLayout(0, 0));
+		
 		JButton btnAccessVault = new JButton("Open Vault");
+		btnAccessVault.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				vault_frm.setVisible(true);
+				main_frm.setVisible(false);
+			}
+		});
 		btnAccessVault.setBackground(Color.GRAY);
 		panel_1_west.add(btnAccessVault);
 		
@@ -535,6 +548,26 @@ public class mainFrame
 		flowLayout_6.setHgap(35);
 		panel_5.add(panel_12, BorderLayout.EAST);
 		panel_12.setBackground(Color.decode(background));
+		
+		JPanel panel_14 = new JPanel();
+		panel_14.setBackground(Color.DARK_GRAY);
+		vault_frm.add(panel_14, BorderLayout.CENTER);
+		
+		JPanel panel_15 = new JPanel();
+		panel_15.setBackground(Color.DARK_GRAY);
+		vault_frm.add(panel_15, BorderLayout.SOUTH);
+		panel_15.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				main_frm.setVisible(true);
+				vault_frm.setVisible(false);
+			}
+		});
+		btnBack.setBackground(Color.GRAY);
+		panel_15.add(btnBack, BorderLayout.EAST);
 	}
 	
 	public void colorInitialize()
