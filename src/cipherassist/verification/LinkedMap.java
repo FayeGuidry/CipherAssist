@@ -51,6 +51,9 @@ public class LinkedMap
 	
 	public String remove()
 	{
+		/*
+		 * remove the first node of the linked list
+		 */
 		String result = null;
 		if(firstNode != null)
 		{
@@ -63,6 +66,10 @@ public class LinkedMap
 	
 	public String remove (String key)
 	{
+		/*
+		 * given a key
+		 * if the key is found, overwrite the value and key with the first value and key
+		 */
 		String result = null;
 		HashNode currentNode = firstNode;
 		while(currentNode != null)
