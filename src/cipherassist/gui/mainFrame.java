@@ -39,6 +39,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
 import java.awt.Button;
+import java.awt.Font;
 
 public class mainFrame 
 {
@@ -430,20 +431,29 @@ public class mainFrame
 		
 		JPanel panel_6 = new JPanel();
 		FlowLayout flowLayout_3 = (FlowLayout) panel_6.getLayout();
-		flowLayout_3.setVgap(35);
+		flowLayout_3.setVgap(25);
 		panel_6.setBackground(Color.decode(background));
 		panel_5.add(panel_6, BorderLayout.NORTH);
 		
 		JPanel panel_9 = new JPanel();
 		panel_9.setBackground(Color.decode(background));
 		panel_5.add(panel_9, BorderLayout.CENTER);
-		panel_9.setLayout(new GridLayout(2, 0, 0, 0));
+		panel_9.setLayout(new GridLayout(4, 0, 0, 0));
+		
+		JLabel lblNewLabel = new JLabel("WARNING! THIS CAN NOT BE UNDONE!");
+		lblNewLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setBackground(Color.DARK_GRAY);
+		panel_9.add(lblNewLabel);
 		
 		JButton btnDeleteAccount = new JButton("Delete Account");
 		panel_9.add(btnDeleteAccount);
 		btnDeleteAccount.setBackground(Color.GRAY);
 		
 		JButton btnLightMode = new JButton("Light Mode");
+		btnLightMode.setEnabled(false);
 		btnLightMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -455,6 +465,17 @@ public class mainFrame
 		});
 		panel_9.add(btnLightMode);
 		btnLightMode.setBackground(Color.GRAY);
+		
+		JButton btnReturn = new JButton("Back");
+		btnReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				main_frm.setVisible(true);
+				settings_frm.setVisible(false);
+			}
+		});
+		btnReturn.setBackground(Color.GRAY);
+		panel_9.add(btnReturn);
 		
 		JPanel panel_10 = new JPanel();
 		FlowLayout flowLayout_4 = (FlowLayout) panel_10.getLayout();
