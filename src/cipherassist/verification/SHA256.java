@@ -6,6 +6,7 @@ import java.util.Arrays;
 import ConnorGuidry.BinaryUtil.Binary;
 
 //This implementation of SHA256 is dependent on ConnorGuidry.BinaryUtil.Binary to function
+//Implemented by hand for learning purposes.
 public class SHA256 
 {
 	//Variables that hold the hash values
@@ -116,7 +117,7 @@ public class SHA256
 	
 	private void appendBytes()
 	{
-
+		
 	}
 	
 	private void appendIntBlock()
@@ -126,9 +127,9 @@ public class SHA256
 	
 	private void generate_k()
 	{
-		int modResult = l % 64;
-		k = (64 - modResult - 9);
-		assert ((k + 9) % 64 == 0);
+		int modResult = l % 512;
+		k = (512 - modResult - 65);
+		assert ((k + 65) % 512 == 0);
 	}
 	
 	private void generate_l()
@@ -136,6 +137,8 @@ public class SHA256
 		l = this.M.length();
 	}
 	
+	
+	//SHA256 Functions
 	private BigInteger addMod2Raised32(BigInteger firstNum, BigInteger secondNum)
 	{
 		BigInteger result;

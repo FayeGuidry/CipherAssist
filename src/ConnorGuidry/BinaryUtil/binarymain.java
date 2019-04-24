@@ -84,7 +84,7 @@ public class binarymain {
 		System.out.println(Binary.XOR(x, y));
 		System.out.println(XORresult);
 		
-		System.out.println(Binary.XORCharBits('0', '1', '1'));
+		//System.out.println(Binary.XORCharBits('0', '1', '1'));
 		
 		System.out.println();
 		System.out.println(X);
