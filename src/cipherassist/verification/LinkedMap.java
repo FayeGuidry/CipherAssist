@@ -87,6 +87,7 @@ public class LinkedMap
 				}
 			}
 			currentNode = currentNode.getNext();
+			numberOfEntries--;
 		}
 		return result;
 	}
