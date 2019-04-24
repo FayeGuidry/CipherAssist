@@ -402,7 +402,7 @@ public class mainFrame
 		JPanel panel_1_west = new JPanel();
 		panel_1_west.setBackground(Color.decode(background));
 		panel_9_east.add(panel_1_west, BorderLayout.WEST);
-		panel_1_west.setLayout(new BorderLayout(0, 15));
+		panel_1_west.setLayout(new BorderLayout(0, 8));
 		
 		JPanel vault_frm = new JPanel();
 		vault_frm.setBackground(Color.DARK_GRAY);
@@ -423,7 +423,7 @@ public class mainFrame
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.decode(background));
 		panel_1_west.add(panel_1, BorderLayout.SOUTH);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		panel_1.setLayout(new BorderLayout(0, 5));
 		
 		JPanel settings_frm = new JPanel();
 		settings_frm.setBackground(Color.decode(background));
@@ -441,9 +441,27 @@ public class mainFrame
 		panel_1.add(btnSettings, BorderLayout.NORTH);
 		btnSettings.setBackground(Color.GRAY);
 		
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				//FINISH BACKGROUND ENCRYPTION FIRST IF NEEDED
+				boolean ready = true;
+				
+				//LOGOUT
+				if (ready == true)
+				{
+					login_frm.setVisible(true);
+					main_frm.setVisible(false);
+				}
+			}
+		});
+		btnLogout.setBackground(Color.GRAY);
+		panel_1.add(btnLogout, BorderLayout.CENTER);
+		
 		JPanel panel_2 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
-		flowLayout.setVgap(20);
+		flowLayout.setVgap(10);
 		panel_2.setBackground(Color.decode(background));
 		panel_1.add(panel_2, BorderLayout.SOUTH);
 		
