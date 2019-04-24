@@ -19,6 +19,12 @@ public class Binary
 		setBinaryString(hexToBinaryString(hex));
 	}
 	
+	public Binary(int hexNum)
+	{
+		BigInteger bigInt = new BigInteger(Integer.toString(hexNum, 16));
+		setBinaryString(bigInt.toString(2));
+	}
+	
 	public static int binaryToInt(Binary binary)
 	{
 		String workingString = binary.getBinaryString();
