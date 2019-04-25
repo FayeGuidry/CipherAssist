@@ -2,6 +2,7 @@ package cipherassist.verification;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -61,8 +62,9 @@ public class SHA256
 	//Number of 0's appended to a message during padding
 	private int k;
 	
-	//Message
+	//Message and message list
 	private Binary M;
+	ArrayList<Binary[]> messageArray;
 	
 	public SHA256(String message) throws UnsupportedEncodingException
 	{
@@ -194,10 +196,17 @@ public class SHA256
 		
 		preProcess();
 		
+		get_N();
+		
 		messageDigest = computeHash();
 		
 		//System.out.println(this.M);
 		return messageDigest.toHexString();
+	}
+	
+	private void get_N()
+	{
+		N = this.M.length() / 512;
 	}
 	
 	private void preProcess()
@@ -211,6 +220,26 @@ public class SHA256
 	private Binary computeHash()
 	{
 		return new Binary("0");
+	}
+	
+	private Binary[] parseWords(String messageBlock)
+	{
+		
+	}
+	
+	private void parseMessage()
+	{
+		int blockIndex = 0;
+		
+		String workingMessageString = this.M.toString();
+		
+		for (int i = 0; i < N; ++i)
+		{
+			String messageBlockString = workingMessageString.substring(blockIndex, blockIndex + 512);
+		}
+		
+		
+		
 	}
 	
 	private void padMessage()
