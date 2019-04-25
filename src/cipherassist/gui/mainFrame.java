@@ -44,6 +44,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import java.util.ArrayList;
 
 public class mainFrame 
 {
@@ -55,6 +56,8 @@ public class mainFrame
 	private JTextField textField_Name;
 	private JTextField textField_Input;
 	public int dataIndex = 0;
+	public boolean newData;
+	//public ArrayList<String> dataList = new ArrayList<String>();
 	
 	//Launch
 	public static void main(String[] args) 
@@ -658,6 +661,7 @@ public class mainFrame
 		
 		JComboBox comboBox_Data = new JComboBox();
 		comboBox_Data.setModel(new DefaultComboBoxModel(new String[] {"My Data", "My Data 2", "My Data 3"}));
+		comboBox_Data.setSelectedIndex(0);
 		comboBox_Data.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -706,7 +710,8 @@ public class mainFrame
 		//Both Buttons Here Go To The View Window
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
-			{
+			{	
+				newData = true;
 				panel_VaultView.setVisible(true);
 				panel_VaultMain.setVisible(false);
 				btnBack.setEnabled(false);
@@ -715,8 +720,10 @@ public class mainFrame
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				newData = false;
 				String name = (String) comboBox_Data.getItemAt(dataIndex);
 				textField_Name.setText(name);
+				dataIndex = comboBox_Data.getSelectedIndex();
 				
 				panel_VaultView.setVisible(true);
 				panel_VaultMain.setVisible(false);
@@ -769,7 +776,20 @@ public class mainFrame
 				//Send input and name to data structure
 				
 				//reload comboBox_Data
-				comboBox_Data.addItem(name);
+				if(newData == true)
+				{
+					comboBox_Data.addItem(name);
+					dataIndex = (comboBox_Data.getItemCount() - 1);
+					comboBox_Data.setSelectedIndex(dataIndex);
+					//save name and input
+				}
+				if (newData == false) 
+				{
+					comboBox_Data.setSelectedIndex(dataIndex);
+					comboBox_Data.getModel().setSelectedItem(name);
+					comboBox_Data.setSelectedItem(name);
+					//save name and input
+				}
 				
 				//Exit add
 				panel_VaultMain.setVisible(true);
