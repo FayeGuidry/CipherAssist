@@ -8,7 +8,7 @@ public class SHA256Demo {
 	public static void main(String[] args) throws UnsupportedEncodingException 
 	{
 		
-		SHA256 hash = new SHA256("This is a test of the binary encoding.");
+		SHA256 hash = new SHA256("This is a test of the binary encoding. This sentence is significantly long enough to test more than 512 bit blocks of data.");
 		
 		hash.getHash();
 		

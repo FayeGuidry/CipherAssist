@@ -93,7 +93,7 @@ public class SHA256
 			convertedToBinary = append + convertedToBinary;
 		}
 		
-		System.out.println(convertedToBinary);
+		//System.out.println(convertedToBinary);
 		return convertedToBinary;
 	}
 	
@@ -198,6 +198,12 @@ public class SHA256
 		
 		get_N();
 		
+		System.out.println(this.M);
+		
+		parseMessage();
+		
+		
+		
 		messageDigest = computeHash();
 		
 		//System.out.println(this.M);
@@ -207,6 +213,7 @@ public class SHA256
 	private void get_N()
 	{
 		N = this.M.length() / 512;
+		messageArray = new ArrayList(N);
 	}
 	
 	private void preProcess()
@@ -229,12 +236,21 @@ public class SHA256
 		
 		for (int i = 0; i < 16; ++i)
 		{
-			String parsedWord = messageBlock.substring(bitIndex, bitIndex + 31);
+			String parsedWord;
+			
+			if (i == 15)
+				parsedWord = messageBlock.substring(479);
+			else
+				parsedWord = messageBlock.substring(bitIndex, bitIndex + 32);
+			
 			Binary parsedBinary = new Binary(parsedWord);
 			resultArray[i] = parsedBinary;
+			System.out.print(resultArray[i]);
+			System.out.println(" " + i);
 			bitIndex += 32;
 		}
 		
+		System.out.println(" 16 x 32bit array produced.");
 		return resultArray;
 	}
 	
@@ -251,6 +267,8 @@ public class SHA256
 			
 			Binary[] parsedWords = parseWords(messageBlockString);
 			messageArray.add(i, parsedWords);
+			
+			System.out.println("16x32bit array added to list!");
 		}
 	
 	}
@@ -274,6 +292,9 @@ public class SHA256
 		
 		Binary zeroPadding = new Binary(zeros);
 		
+		
+		System.out.println("One padding: " + onePadding);
+		System.out.println("Zero padding: " + zeroPadding);
 		this.M.append(onePadding);
 		this.M.append(zeroPadding);
 		
@@ -295,17 +316,27 @@ public class SHA256
 		
 		this.M.append(lengthBlock);
 		
+		System.out.println("Int block padding: " + lengthBlock);
+		
 		assert (this.M.length() % 512 == 0);
 	}
 	
 	private void generate_k()
 	{
-		int modResult = l % 512;
-		k = (512 - modResult - 65);
-		assert ((k + 65) % 512 == 0);
+		BigInteger modResult = new BigInteger(Integer.toString(l, 10), 10);
+		BigInteger modVal = new BigInteger("512", 10);
+		BigInteger padding = new BigInteger("65", 10);
 		
-		//System.out.println(l);
-		//System.out.println(k);
+		modResult = modResult.add(padding);
+		modResult = modResult.mod(modVal);
+		
+		BigInteger bigk;
+		bigk = modVal.subtract(modResult);
+		
+		k = bigk.intValue();
+		
+		System.out.println("Message Length: " + l);
+		System.out.println("Zeros to be added: " + k);
 	}
 	
 	private void generate_l()
