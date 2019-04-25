@@ -1,7 +1,9 @@
 package cipherassist.verification;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Base64;
 
 import ConnorGuidry.BinaryUtil.Binary;
 
@@ -62,12 +64,36 @@ public class SHA256
 	//Message
 	private Binary M;
 	
-	public SHA256(String message)
+	public SHA256(String message) throws UnsupportedEncodingException
 	{
 		loadK();
 		loadH();
 		
-		setM(message);
+		setM(messageToBinary(message));
+		
+	}
+	
+	private String messageToBinary(String message) throws UnsupportedEncodingException
+	{
+		byte[] bytes = message.getBytes("UTF8");
+		String convertedToBinary = new BigInteger(bytes).toString(2);
+		
+		if (convertedToBinary.length() % 8 != 0)
+		{
+			int mod = convertedToBinary.length() % 8;
+			int zeros = 8 - mod;
+			String append = "";
+			
+			for (int i = 0; i < zeros; ++i)
+			{
+				append += "0";
+			}
+			
+			convertedToBinary = append + convertedToBinary;
+		}
+		
+		System.out.println(convertedToBinary);
+		return convertedToBinary;
 	}
 	
 	private void setM(String message)

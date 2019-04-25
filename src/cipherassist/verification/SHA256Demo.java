@@ -1,13 +1,14 @@
 package cipherassist.verification;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 
 public class SHA256Demo {
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws UnsupportedEncodingException 
 	{
 		
-		SHA256 hash = new SHA256();
+		SHA256 hash = new SHA256("This is a test of the binary encoding.");
 		
 		/*
 		BigInteger first = new BigInteger("ffffffff", 16);
