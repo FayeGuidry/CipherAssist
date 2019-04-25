@@ -224,7 +224,18 @@ public class SHA256
 	
 	private Binary[] parseWords(String messageBlock)
 	{
+		Binary[] resultArray = new Binary[16];
+		int bitIndex = 0;
 		
+		for (int i = 0; i < 16; ++i)
+		{
+			String parsedWord = messageBlock.substring(bitIndex, bitIndex + 31);
+			Binary parsedBinary = new Binary(parsedWord);
+			resultArray[i] = parsedBinary;
+			bitIndex += 32;
+		}
+		
+		return resultArray;
 	}
 	
 	private void parseMessage()
@@ -235,11 +246,13 @@ public class SHA256
 		
 		for (int i = 0; i < N; ++i)
 		{
-			String messageBlockString = workingMessageString.substring(blockIndex, blockIndex + 512);
+			String messageBlockString = workingMessageString.substring(blockIndex, blockIndex + 511);
+			blockIndex += 512;
+			
+			Binary[] parsedWords = parseWords(messageBlockString);
+			messageArray.add(i, parsedWords);
 		}
-		
-		
-		
+	
 	}
 	
 	private void padMessage()
