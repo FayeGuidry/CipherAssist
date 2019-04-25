@@ -70,7 +70,6 @@ public class SHA256
 		loadH();
 		
 		setM(messageToBinary(message));
-		
 	}
 	
 	private String messageToBinary(String message) throws UnsupportedEncodingException
@@ -197,7 +196,7 @@ public class SHA256
 		
 		messageDigest = computeHash();
 		
-		System.out.println(this.M);
+		//System.out.println(this.M);
 		return messageDigest.toHexString();
 	}
 	
@@ -207,7 +206,6 @@ public class SHA256
 		generate_k();
 		
 		padMessage();
-		
 	}
 	
 	private Binary computeHash()
@@ -264,9 +262,8 @@ public class SHA256
 		k = (512 - modResult - 65);
 		assert ((k + 65) % 512 == 0);
 		
-		System.out.println(l);
-		System.out.println(k);
-		
+		//System.out.println(l);
+		//System.out.println(k);
 	}
 	
 	private void generate_l()
@@ -278,15 +275,25 @@ public class SHA256
 	//SHA256 Functions
 	
 	//CHECK THIS ONE FOR BITSTRING LENGTH SAFETY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	private BigInteger addMod2Raised32(BigInteger firstNum, BigInteger secondNum)
+	//Add zero padding after operation if necessary.
+	private Binary addMod2Raised32(Binary firstBinary, Binary secondBinary)
 	{
-		BigInteger result;
-		BigInteger preMod = new BigInteger("2");
+		Binary result = new Binary("");
+		
+		BigInteger firstNum = new BigInteger(firstBinary.toString(), 2);
+		BigInteger secondNum = new BigInteger(secondBinary.toString(), 2);
+		
+		BigInteger postAddNum = firstNum.add(secondNum);
+		
+		BigInteger preMod = new BigInteger("2", 10);
 		BigInteger mod = preMod.pow(32);
 		
-		result = firstNum.add(secondNum);
+		BigInteger resultNum = preMod;
 		
-		result = result.mod(mod);
+		if ((postAddNum.compareTo(mod) == 1) || (postAddNum.compareTo(mod) == 0))
+			resultNum = postAddNum.subtract(mod);
+		
+		result = padVar(resultNum);
 		
 		return result;
 	}
