@@ -10,6 +10,8 @@ public class SHA256Demo {
 		
 		SHA256 hash = new SHA256("This is a test of the binary encoding.");
 		
+		hash.getHash();
+		
 		/*
 		BigInteger first = new BigInteger("ffffffff", 16);
 		BigInteger second = new BigInteger("ffffffff", 16);

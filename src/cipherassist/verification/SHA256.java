@@ -197,6 +197,7 @@ public class SHA256
 		
 		messageDigest = computeHash();
 		
+		System.out.println(this.M);
 		return messageDigest.toHexString();
 	}
 	
@@ -211,7 +212,7 @@ public class SHA256
 	
 	private Binary computeHash()
 	{
-		
+		return new Binary("0");
 	}
 	
 	private void padMessage()
@@ -243,7 +244,7 @@ public class SHA256
 		String messageLength = Integer.toString(l, 2);
 		String padding = "";
 		
-		for (int i = 0; i < messageLength.length(); ++i)
+		for (int i = 0; i < 64 - messageLength.length(); ++i)
 		{
 			padding += '0';
 		}
@@ -262,6 +263,10 @@ public class SHA256
 		int modResult = l % 512;
 		k = (512 - modResult - 65);
 		assert ((k + 65) % 512 == 0);
+		
+		System.out.println(l);
+		System.out.println(k);
+		
 	}
 	
 	private void generate_l()
