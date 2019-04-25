@@ -68,11 +68,12 @@ public class LinkedMap
 	{
 		/*
 		 * given a key
-		 * if the key is found, overwrite the value and key with the first value and key
+		 * if the key is found, remove the node where key is found
+		 * redirect the currentNode to the next existence node or set next to null
 		 */
 		String result = null;
 		HashNode currentNode = firstNode;
-		while(currentNode != null)
+		while(currentNode.getNext() != null)
 		{
 			if(key.equals(currentNode.getNext().getKey()))
 			{
@@ -90,6 +91,26 @@ public class LinkedMap
 			numberOfEntries--;
 		}
 		return result;
+	}
+	
+	public void changeNodeValue(String key, String newValue)
+	{
+		HashNode currentNode = firstNode;
+		boolean keyFound = false;
+		while(currentNode.getNext() != null)
+		{
+			if(key.equals(currentNode.getKey()))
+			{
+				keyFound = true;
+				currentNode.setData(newValue);
+				
+			}
+			currentNode = currentNode.getNext();
+		}
+		if(keyFound == true)
+			System.out.println("Password change successful");
+		else
+			System.out.println("Not Found");
 	}
 	
 	public void clear()

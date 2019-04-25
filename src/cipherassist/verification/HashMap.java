@@ -119,4 +119,10 @@ public class HashMap
 		size--;
 		return result;
 	}
+	
+	public void changeValue(String key, String newValue)
+	{
+		int index = getBucketIndex(key);
+		numBuckets[index].changeNodeValue(key, newValue);
+	}
 }

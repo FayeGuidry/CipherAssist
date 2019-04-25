@@ -15,12 +15,14 @@ public class DemoClass
 		first.add("PZ", "Winston"); // first item on bucket 9, index 8
 		first.add("Z", "Keith"); // first item on bucket 5, index 4
 		first.add("N", "A bug"); // second item on bucket 3, index 2
+		first.add("r", "validate"); // third item on bucket 3, index 2
 		System.out.println(first.get("NoSuchUsername")); // non exist username
 		System.out.println(first.get("Pasgdbrb")); //return the value = Usernam1
 		System.out.println(first.get("Passwor6")); //return the value = Usernam7
 		System.out.println(first.get("PZ")); //return the value = Winston
 		System.out.println(first.getSize()); // return number of account in whole hashmap, should be 6
 		System.out.println(first.getBucketSize(2)); // should return 2
+		first.changeValue("N", "testing");
 		System.out.println(first.remove("N")); // remove the node contain the username = N
 		System.out.println(first.get("N")); // since is removed, should return null
 		System.out.println(first.get("Username")); // Was checking for bug
