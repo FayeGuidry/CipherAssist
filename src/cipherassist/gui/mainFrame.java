@@ -48,6 +48,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class mainFrame 
 {
@@ -104,6 +107,17 @@ public class mainFrame
 	//This creates all the elements of the frame
 	private void initialize() 
 	{
+		FileReader inFile = null;
+        FileWriter outFile = null;
+        try {
+        	inFile = new FileReader("lightmode.txt");
+			outFile = new FileWriter("lightmode.txt");
+			
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (lightMode == false)
 		{
 			mainColor = new Color(0.2f, 0.2f, 0.2f, 1f);
@@ -565,8 +579,6 @@ public class mainFrame
 				{
 					lightMode = false;
 				}
-				
-				initialize();
 				
 				main_frm.setVisible(true);
 				settings_frm.setVisible(false);
