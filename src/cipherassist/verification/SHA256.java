@@ -19,14 +19,14 @@ public class SHA256
 	private BigInteger b6 = new BigInteger("1f83d9ab", 16);
 	private BigInteger b7 = new BigInteger("5be0cd19", 16);
 	
-	private Binary h0 = new Binary(b0.toString(2));
-	private Binary h1 = new Binary(b1.toString(2));
-	private Binary h2 = new Binary(b2.toString(2));
-	private Binary h3 = new Binary(b3.toString(2));
-	private Binary h4 = new Binary(b4.toString(2));
-	private Binary h5 = new Binary(b5.toString(2));
-	private Binary h6 = new Binary(b6.toString(2));
-	private Binary h7 = new Binary(b7.toString(2));
+	private Binary h0;
+	private Binary h1;
+	private Binary h2;
+	private Binary h3;
+	private Binary h4;
+	private Binary h5;
+	private Binary h6;
+	private Binary h7;
 	
 	//Working variables, 32-bit words used to compute hash values
 	private Binary a;
@@ -62,14 +62,74 @@ public class SHA256
 	//Message
 	private Binary M;
 	
-	public SHA256()
+	public SHA256(String message)
 	{
 		loadK();
+		loadH();
+		
+		setM(message);
 	}
 	
 	private void setM(String message)
 	{
 		this.M = new Binary(message);
+	}
+	
+	private void loadH()
+	{
+		h0 = padVar(b0);
+		h1 = padVar(b1);
+		h2 = padVar(b2);
+		h3 = padVar(b3);
+		h4 = padVar(b4);
+		h5 = padVar(b5);
+		h6 = padVar(b6);
+		h7 = padVar(b7);
+		
+		/*
+		System.out.println(h0.toHexString());
+		System.out.println(h0);
+		System.out.println(h1.toHexString());
+		System.out.println(h1);
+		System.out.println(h2.toHexString());
+		System.out.println(h2);
+		System.out.println(h3.toHexString());
+		System.out.println(h3);
+		System.out.println(h4.toHexString());
+		System.out.println(h4);
+		System.out.println(h5.toHexString());
+		System.out.println(h5);
+		System.out.println(h6.toHexString());
+		System.out.println(h6);
+		System.out.println(h7.toHexString());
+		System.out.println(h7);
+		*/
+		
+	}
+	
+	private Binary padVar(BigInteger b)
+	{
+		Binary resultBinary;
+		String appendedString = "";
+		String resultString = "";
+			
+		resultString = b.toString(2);
+			
+		if (b.toString(2).length() != 32)
+		{
+			int zeros = 32 - b.toString(2).length();
+			appendedString = "";
+			
+			for (int j = 0; j < zeros; ++j)
+			{
+				appendedString += '0';
+			}	
+			appendedString += b.toString(2);
+			resultString = appendedString;
+		}
+		
+		resultBinary = new Binary(resultString);
+		return resultBinary;
 	}
 	
 	private void loadK()
@@ -97,19 +157,15 @@ public class SHA256
 				resultString = appendedString;
 			}
 			
-			System.out.println(resultString);
+			//System.out.println(resultString);
 			K[i] = new Binary(resultString);
-			System.out.println(K[i].toHexString());
+			//System.out.println(K[i].toHexString());
 		}
 	}
 	
-	public String hashString(String str)
+	public String getHash()
 	{
-		setM(str);
 		Binary messageDigest;
-		
-		
-		setM(message);
 		
 		preProcess();
 		
