@@ -7,11 +7,16 @@ import java.math.BigInteger;
 public class Binary 
 {
 	
-	private String binaryString = null;
+	private String binaryString = "";
 	
 	public Binary(String binaryString)
 	{
 		setBinaryString(binaryString);
+	}
+	
+	public Binary()
+	{
+		
 	}
 	
 	public Binary(BigInteger hex)

@@ -2,28 +2,58 @@ package cipherassist.verification;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+
+//import ConnorGuidry.BinaryUtil.Binary;
 
 public class SHA256Demo {
 
 	public static void main(String[] args) throws UnsupportedEncodingException 
 	{
 		
-		SHA256 hash = new SHA256("dog");
-		System.out.println(hash.getHash());
+		//String test = "0111000001100001011100110111001101110111011011110111001001100100";
+		//String test2 = "111000001100001011100110111001101110111011011110111001001100100";
+		//System.out.println(test);
 		
-		/*
-		SHA256 hash1 = new SHA256("This is a test of the binary encoding. This sentence is significantly long enough to test more than 512 bit blocks of data."
-				+ "This is a test of the binary encoding. This sentence is significantly long enough to test more than 512 bit blocks of data."
-				+ "This is a test of the binary encoding. This sentence is significantly long enough to test more than 512 bit blocks of data."
-				+ "This is a test of the binary encoding. This sentence is significantly long enough to test more than 512 bit blocks of data."
-				+ "This is a test of the binary encoding. This sentence is significantly long enough to test more than 512 bit blocks of data."
-				+ "This is a test of the binary encoding. This sentence is significantly long enough to test more than 512 bit blocks of data.");
-		System.out.println(hash1.getHash());
+		//System.out.println(messageToBinary("password"));
 		
-		SHA256 hash2 = new SHA256("1");
+		//SHA256 hash = new SHA256(test);
+		//System.out.println(hash.getHash());
+		
+		//SHA256 hash1 = new SHA256(test2);
+		//System.out.println(hash1.getHash());
+		
+		//SHA256 hash3 = new SHA256("password");
+		//System.out.println(hash3.getHash());
+		
+		SHA256 hash2 = new SHA256();
 		System.out.println(hash2.getHash());
-		*/
 		
+		
+	}
+	
+	private static String messageToBinary(String message) throws UnsupportedEncodingException
+	{
+		byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
+		String convertedToBinary = new BigInteger(bytes).toString(2);
+		
+		if (convertedToBinary.length() % 8 != 0)
+		{
+			int mod = convertedToBinary.length() % 8;
+			int zeros = 8 - mod;
+			String append = "";
+			
+			for (int i = 0; i < zeros; ++i)
+			{
+				append += "0";
+			}
+			
+			convertedToBinary = append + convertedToBinary;
+		}
+		
+		
+		//System.out.println(convertedToBinary);
+		return convertedToBinary;
 	}
 
 }
