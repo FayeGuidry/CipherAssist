@@ -24,7 +24,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
-import javafx.fxml.Initializable;
+//import javafx.fxml.Initializable;
 
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JPanel;
