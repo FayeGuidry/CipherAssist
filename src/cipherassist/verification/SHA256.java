@@ -171,7 +171,7 @@ public class SHA256
 		Binary messageDigest;
 		
 		preProcess();
-		System.out.println(this.M.toString());
+		//System.out.println(this.M.toString());
 		get_N();
 		
 		parseMessage();
