@@ -31,16 +31,6 @@ public class SHA256
 	private Binary h6;
 	private Binary h7;
 	
-	//Working variables, 32-bit words used to compute hash values
-	private Binary a;
-	private Binary b;
-	private Binary c;
-	private Binary d;
-	private Binary e;
-	private Binary f;
-	private Binary g;
-	private Binary h;
-	
 	//Constants used for iterations of hash computation
 	private String[] preK = new String[] { "428a2f98", "71374491", "b5c0fbcf", "e9b5dba5", "3956c25b", "59f111f1", "923f82a4", "ab1c5ed5",
 			   "d807aa98", "12835b01", "243185be", "550c7dc3", "72be5d74", "80deb1fe", "9bdc06a7", "c19bf174",
@@ -226,6 +216,41 @@ public class SHA256
 	
 	private Binary computeHash()
 	{
+		for (int i = 0; i < N; ++i)
+		{
+			ArrayList<Binary> messageSchedule = new ArrayList(64);
+			
+			//Both loops below process the message schedule for each block iteration
+			for (int j = 0; j < 16; ++j)
+			{
+				Binary[] messageBlock = messageArray.get(i);
+				messageSchedule.add(j, messageBlock[j]);
+			}
+			
+			for (int j = 16; j < 64; ++j)
+			{
+				Binary scheduleItem;
+				Binary sigmaOne = littleSigma1(messageSchedule.get(j-2));
+				Binary sigmaZero = littleSigma0(messageSchedule.get(j-15));
+				
+				scheduleItem = addMod2Raised32(sigmaOne, messageSchedule.get(j-7));
+				scheduleItem = addMod2Raised32(scheduleItem, sigmaZero);
+				scheduleItem = addMod2Raised32(scheduleItem, messageSchedule.get(j-16));
+			}
+			
+			//Working variables, 32-bit words used to compute hash values
+			Binary a = h0;
+			Binary b = h1;
+			Binary c = h2;
+			Binary d = h3;
+			Binary e = h4;
+			Binary f = h5;
+			Binary g = h6;
+			Binary h = h7;
+		}
+		
+		
+		
 		return new Binary("0");
 	}
 	
