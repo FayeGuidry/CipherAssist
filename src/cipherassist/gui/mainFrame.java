@@ -20,13 +20,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+//import com.jgoodies.forms.layout.FormLayout;
+//import com.jgoodies.forms.layout.ColumnSpec;
+//import com.jgoodies.forms.layout.RowSpec;
 
 import javafx.fxml.Initializable;
 
-import com.jgoodies.forms.layout.FormSpecs;
+//import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
@@ -66,6 +66,7 @@ public class mainFrame
 	Color mainColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 	Color textColor = new Color(1f, 1f, 1f, 1f);
 	boolean lightMode = false;
+	boolean CreateAccountTrue = true;
 	
 	//public ArrayList<String> dataList = new ArrayList<String>();
 	
@@ -259,6 +260,7 @@ public class mainFrame
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				CreateAccountTrue = false;
 				panel_login_buttons.setVisible(true);
 				panel_create_buttons.setVisible(false);
 			}
@@ -271,6 +273,7 @@ public class mainFrame
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				CreateAccountTrue = true;
 				panel_create_buttons.setVisible(true);
 				panel_login_buttons.setVisible(false);
 			}
