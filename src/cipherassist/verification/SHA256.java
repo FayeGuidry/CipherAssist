@@ -101,26 +101,6 @@ public class SHA256
 		h5 = padVar(b5);
 		h6 = padVar(b6);
 		h7 = padVar(b7);
-		
-		/*
-		System.out.println(h0.toHexString());
-		System.out.println(h0);
-		System.out.println(h1.toHexString());
-		System.out.println(h1);
-		System.out.println(h2.toHexString());
-		System.out.println(h2);
-		System.out.println(h3.toHexString());
-		System.out.println(h3);
-		System.out.println(h4.toHexString());
-		System.out.println(h4);
-		System.out.println(h5.toHexString());
-		System.out.println(h5);
-		System.out.println(h6.toHexString());
-		System.out.println(h6);
-		System.out.println(h7.toHexString());
-		System.out.println(h7);
-		*/
-		
 	}
 	
 	private Binary padVar(BigInteger b)
@@ -187,15 +167,12 @@ public class SHA256
 		
 		get_N();
 		
-		System.out.println(this.M);
-		
 		parseMessage();
-		
-		
 		
 		messageDigest = computeHash();
 		
-		//System.out.println(this.M);
+		//System.out.println(messageDigest);
+		
 		return messageDigest.toHexString();
 	}
 	
@@ -224,56 +201,127 @@ public class SHA256
 			{
 				Binary[] messageBlock = messageArray.get(i);
 				messageSchedule.add(j, messageBlock[j]);
+				
+				//System.out.println("MS16: " + messageBlock[j]);
 			}
 			
 			for (int j = 16; j < 64; ++j)
 			{
 				Binary scheduleItem;
-				Binary sigmaOne = littleSigma1(messageSchedule.get(j-2));
-				Binary sigmaZero = littleSigma0(messageSchedule.get(j-15));
+				Binary sigmaOne = new Binary((littleSigma1(messageSchedule.get(j-2))).toString());
+				//System.out.println("init ls1: " + sigmaOne);
+				Binary sigmaZero = new Binary((littleSigma0(messageSchedule.get(j-15))).toString());
+				//System.out.println("init ls0: " + sigmaZero);
 				
-				scheduleItem = addMod2Raised32(sigmaOne, messageSchedule.get(j-7));
-				scheduleItem = addMod2Raised32(scheduleItem, sigmaZero);
-				scheduleItem = addMod2Raised32(scheduleItem, messageSchedule.get(j-16));
+				scheduleItem = new Binary((addMod2Raised32(sigmaOne, messageSchedule.get(j-7))).toString());
+				//System.out.println("SI1: " + scheduleItem);
+				scheduleItem = new Binary((addMod2Raised32(scheduleItem, sigmaZero)).toString());
+				//System.out.println("SI2: " + scheduleItem);
+				scheduleItem = new Binary((addMod2Raised32(scheduleItem, messageSchedule.get(j-16))).toString());
+				//System.out.println("SI3: " + scheduleItem);
+				
+				//System.out.println("MS64: " + scheduleItem);
+				
+				messageSchedule.add(scheduleItem);
 			}
 			
 			//Working variables, 32-bit words used to compute hash values
-			Binary a = h0;
-			Binary b = h1;
-			Binary c = h2;
-			Binary d = h3;
-			Binary e = h4;
-			Binary f = h5;
-			Binary g = h6;
-			Binary h = h7;
+			Binary a = new Binary (h0.toString());
+			Binary b = new Binary (h1.toString());
+			Binary c = new Binary (h2.toString());
+			Binary d = new Binary (h3.toString());
+			Binary e = new Binary (h4.toString());
+			Binary f = new Binary (h5.toString());
+			Binary g = new Binary (h6.toString());
+			Binary h = new Binary (h7.toString());
+			
+			/*
+			System.out.println("PREPRE");
+			System.out.println("pa: " + a.toString());
+			System.out.println("pb: " + b.toString());
+			System.out.println("pc: " + c.toString());
+			System.out.println("pd: " + d.toString());
+			System.out.println("pe: " + e.toString());
+			System.out.println("pf: " + f.toString());
+			System.out.println("pg: " + g.toString());
+			System.out.println("ph: " + h.toString());
+			*/
+			
+			/*
+			System.out.println(a);
+			System.out.println(b);
+			System.out.println(c);
+			System.out.println(d);
+			System.out.println(e);
+			System.out.println(f);
+			System.out.println(g);
+			System.out.println(h);
+			*/
+			String test = a.toString();
+			System.out.println(test);
 			
 			for (int t = 0; t < 64; ++t)
 			{
-				Binary T1 =  addMod2Raised32(h, bigSigma1(e));
-				T1 = addMod2Raised32(T1, ch(e, f, g));
-				T1 = addMod2Raised32(T1, K[t]);
-				T1 = addMod2Raised32(T1, messageSchedule.get(t));
+				Binary T1 =  new Binary((addMod2Raised32(h, bigSigma1(e)).toString()));
 				
-				Binary T2 = addMod2Raised32(bigSigma0(a), maj(a, b, c));
+				T1 = new Binary((addMod2Raised32(T1, ch(e, f, g))).toString());
+				T1 = new Binary((addMod2Raised32(T1, K[t])).toString());
+				T1 = new Binary((addMod2Raised32(T1, messageSchedule.get(t))).toString());
 				
-				h = g;
-				g = f;
-				f = e;
-				e = addMod2Raised32(d, T1);
-				d = c;
-				c = b;
-				b = a;
-				a = addMod2Raised32(T1, T2);
+				Binary T2 = new Binary((addMod2Raised32(bigSigma0(a), maj(a, b, c))).toString());
+				
+				h = new Binary(g.toString());
+				g = new Binary(f.toString());
+				f = new Binary(e.toString());
+				e = new Binary((addMod2Raised32(d, T1)).toString());
+				d = new Binary(c.toString());
+				c = new Binary(b.toString());
+				b = new Binary(a.toString());
+				a = new Binary((addMod2Raised32(T1, T2)).toString());
+				/*
+				System.out.println("POSTASSIGN");
+				System.out.println("a: " + a.toString());
+				System.out.println("b: " + b.toString());
+				System.out.println("c: " + c.toString());
+				System.out.println("d: " + d.toString());
+				System.out.println("e: " + e.toString());
+				System.out.println("f: " + f.toString());
+				System.out.println("g: " + g.toString());
+				System.out.println("h: " + h.toString());
+				*/
+				
 			}
 			
-			h0 = addMod2Raised32(a, h0);
-			h1 = addMod2Raised32(b, h1);
-			h2 = addMod2Raised32(c, h2);
-			h3 = addMod2Raised32(d, h3);
-			h4 = addMod2Raised32(e, h4);
-			h5 = addMod2Raised32(f, h5);
-			h6 = addMod2Raised32(g, h6);
-			h7 = addMod2Raised32(h, h7);
+			System.out.println(h0.toHexString());
+			//System.out.println(h0);
+			System.out.println(h1.toHexString());
+			//System.out.println(h1);
+			System.out.println(h2.toHexString());
+			//System.out.println(h2);
+			System.out.println(h3.toHexString());
+			//System.out.println(h3);
+			System.out.println(h4.toHexString());
+			//System.out.println(h4);
+			System.out.println(h5.toHexString());
+			//System.out.println(h5);
+			System.out.println(h6.toHexString());
+			//System.out.println(h6);
+			System.out.println(h7.toHexString());
+			//System.out.println(h7);
+			
+			
+			
+			
+			h0 = new Binary((addMod2Raised32(a, h0)).toString());
+			h1 = new Binary((addMod2Raised32(b, h1)).toString());
+			h2 = new Binary((addMod2Raised32(c, h2)).toString());
+			h3 = new Binary((addMod2Raised32(d, h3)).toString());
+			h4 = new Binary((addMod2Raised32(e, h4)).toString());
+			h5 = new Binary((addMod2Raised32(f, h5)).toString());
+			h6 = new Binary((addMod2Raised32(g, h6)).toString());
+			h7 = new Binary((addMod2Raised32(h, h7)).toString());
+			
+			//System.out.println("h1: " + h1.toString());
 		}
 		
 		String messageString = h0.toString() + h1.toString() + h2.toString() 
@@ -299,12 +347,12 @@ public class SHA256
 			
 			Binary parsedBinary = new Binary(parsedWord);
 			resultArray[i] = parsedBinary;
-			System.out.print(resultArray[i]);
-			System.out.println(" " + i);
+			//System.out.print(resultArray[i]);
+			//System.out.println(" " + i);
 			bitIndex += 32;
 		}
 		
-		System.out.println(" 16 x 32bit array produced.");
+		//System.out.println(" 16 x 32bit array produced.");
 		return resultArray;
 	}
 	
@@ -322,7 +370,7 @@ public class SHA256
 			Binary[] parsedWords = parseWords(messageBlockString);
 			messageArray.add(i, parsedWords);
 			
-			System.out.println("16x32bit array added to list!");
+			//System.out.println("16x32bit array added to list!");
 		}
 	
 	}
@@ -347,8 +395,8 @@ public class SHA256
 		Binary zeroPadding = new Binary(zeros);
 		
 		
-		System.out.println("One padding: " + onePadding);
-		System.out.println("Zero padding: " + zeroPadding);
+		//System.out.println("One padding: " + onePadding);
+		//System.out.println("Zero padding: " + zeroPadding);
 		this.M.append(onePadding);
 		this.M.append(zeroPadding);
 		
@@ -370,7 +418,7 @@ public class SHA256
 		
 		this.M.append(lengthBlock);
 		
-		System.out.println("Int block padding: " + lengthBlock);
+		//System.out.println("Int block padding: " + lengthBlock);
 		
 		assert (this.M.length() % 512 == 0);
 	}
@@ -389,8 +437,8 @@ public class SHA256
 		
 		k = bigk.intValue();
 		
-		System.out.println("Message Length: " + l);
-		System.out.println("Zeros to be added: " + k);
+		//System.out.println("Message Length: " + l);
+		//System.out.println("Zeros to be added: " + k);
 	}
 	
 	private void generate_l()
@@ -400,27 +448,11 @@ public class SHA256
 	
 	
 	//SHA256 Functions
-	
-	//CHECK THIS ONE FOR BITSTRING LENGTH SAFETY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//Add zero padding after operation if necessary.
 	private Binary addMod2Raised32(Binary firstBinary, Binary secondBinary)
 	{
 		Binary result = new Binary("");
 		
-		BigInteger firstNum = new BigInteger(firstBinary.toString(), 2);
-		BigInteger secondNum = new BigInteger(secondBinary.toString(), 2);
-		
-		BigInteger postAddNum = firstNum.add(secondNum);
-		
-		BigInteger preMod = new BigInteger("2", 10);
-		BigInteger mod = preMod.pow(32);
-		
-		BigInteger resultNum = preMod;
-		
-		if ((postAddNum.compareTo(mod) == 1) || (postAddNum.compareTo(mod) == 0))
-			resultNum = postAddNum.subtract(mod);
-		
-		result = padVar(resultNum);
+		result = Binary.XOR(firstBinary, secondBinary);
 		
 		return result;
 	}
@@ -460,43 +492,61 @@ public class SHA256
 		Binary.rightShift(firstVar, n);
 		Binary.leftShift(secondVar, (32 - n));
 		
-		Binary result = Binary.OR(firstVar, secondVar);
+		Binary first = new Binary(firstVar.toString());
+		
+		Binary result = Binary.OR(first, secondVar);
 		
 		return result;
 	}
 	
 	private Binary bigSigma0(Binary x)
 	{
-		Binary result;
+		Binary result = new Binary("");
 		
-		result = Binary.XOR(ROTR(x, 2), ROTR(x, 13), ROTR(x, 22));
+		Binary x1 = new Binary(x.toString());
+		Binary x2 = new Binary(x.toString());
+		Binary x3 = new Binary(x.toString());
+		
+		result = Binary.XOR(ROTR(x1, 2), ROTR(x2, 13), ROTR(x3, 22));
 		
 		return result;
 	}
 	
 	private Binary bigSigma1(Binary x)
 	{
-		Binary result;
+		Binary result = new Binary("");
 		
-		result = Binary.XOR(ROTR(x, 6), ROTR(x, 11), ROTR(x, 25));
+		Binary x1 = new Binary(x.toString());
+		Binary x2 = new Binary(x.toString());
+		Binary x3 = new Binary(x.toString());
+		
+		result = Binary.XOR(ROTR(x1, 6), ROTR(x2, 11), ROTR(x3, 25));
 		
 		return result;
 	}
 	
 	private Binary littleSigma0(Binary x)
 	{
-		Binary result;
+		Binary result = new Binary("");
 		
-		result = Binary.XOR(ROTR(x, 7), ROTR(x, 18), SHR(x, 3));
+		Binary x1 = new Binary(x.toString());
+		Binary x2 = new Binary(x.toString());
+		Binary x3 = new Binary(x.toString());
+		
+		result = Binary.XOR(ROTR(x1, 7), ROTR(x2, 18), SHR(x3, 3));
 		
 		return result;
 	}
 	
 	private Binary littleSigma1(Binary x)
 	{
-		Binary result;
+		Binary result = new Binary("");
 		
-		result = Binary.XOR(ROTR(x, 17), ROTR(x, 19), SHR(x, 10));
+		Binary x1 = new Binary(x.toString());
+		Binary x2 = new Binary(x.toString());
+		Binary x3 = new Binary(x.toString());
+		
+		result = Binary.XOR(ROTR(x1, 17), ROTR(x2, 19), SHR(x3, 10));
 		
 		return result;
 	}
