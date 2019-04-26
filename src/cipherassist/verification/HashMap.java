@@ -4,6 +4,7 @@ import cipherassist.verification.LinkedMap.HashNode;
 
 public class HashMap 
 {
+	// simple HashMap implementation
 	private int capacity = 10; // number of buckets
 	private LinkedMap[] numBuckets; // An array of linked list
 	private int size; //Keep track on entries
