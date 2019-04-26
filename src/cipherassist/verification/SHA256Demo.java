@@ -26,8 +26,8 @@ public class SHA256Demo {
 		SHA256 hash3 = new SHA256("passworddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 		System.out.println(hash3.getHash());
 		
-		SHA256 hash2 = new SHA256();
-		System.out.println(hash2.getHash());
+		//SHA256 hash2 = new SHA256();
+		//System.out.println(hash2.getHash());
 		
 		
 	}
