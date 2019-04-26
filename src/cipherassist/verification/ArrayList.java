@@ -23,6 +23,16 @@ public class ArrayList<T>
 		return numberOfItems == 0;
 	}
 	
+	public boolean isFull()
+	{
+		return true;
+	}
+	
+	public void itemListResize()
+	{
+		
+	}
+	
 	public void add(T newItem)
 	{
 		if(isFull())
@@ -34,9 +44,19 @@ public class ArrayList<T>
 		numberOfItems++;
 	}
 	
+	public T remove()
+	{
+		return null;
+	}
 	
-	
-	
-	
-
+	@SuppressWarnings("unchecked")
+	public T[] toArray()
+	{
+		T[] result = (T[]) new Object[numberOfItems];
+		for(int i = 0; i < numberOfItems; i++)
+		{
+			result[i] =  itemlist[i];
+		}
+		return result;
+	}
 }
