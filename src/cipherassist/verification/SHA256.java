@@ -3,8 +3,7 @@ package cipherassist.verification;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
+
 
 import ConnorGuidry.BinaryUtil.Binary;
 
@@ -203,7 +202,7 @@ public class SHA256
 	private void get_N()
 	{
 		N = this.M.length() / 512;
-		messageArray = new ArrayList(N);
+		messageArray = new ArrayList<Binary[]>(N);
 	}
 	
 	private void preProcess()
@@ -218,7 +217,7 @@ public class SHA256
 	{
 		for (int i = 0; i < N; ++i)
 		{
-			ArrayList<Binary> messageSchedule = new ArrayList(64);
+			ArrayList<Binary> messageSchedule = new ArrayList<Binary>(64);
 			
 			//Both loops below process the message schedule for each block iteration
 			for (int j = 0; j < 16; ++j)
@@ -247,11 +246,41 @@ public class SHA256
 			Binary f = h5;
 			Binary g = h6;
 			Binary h = h7;
+			
+			for (int t = 0; t < 64; ++t)
+			{
+				Binary T1 =  addMod2Raised32(h, bigSigma1(e));
+				T1 = addMod2Raised32(T1, ch(e, f, g));
+				T1 = addMod2Raised32(T1, K[t]);
+				T1 = addMod2Raised32(T1, messageSchedule.get(t));
+				
+				Binary T2 = addMod2Raised32(bigSigma0(a), maj(a, b, c));
+				
+				h = g;
+				g = f;
+				f = e;
+				e = addMod2Raised32(d, T1);
+				d = c;
+				c = b;
+				b = a;
+				a = addMod2Raised32(T1, T2);
+			}
+			
+			h0 = addMod2Raised32(a, h0);
+			h1 = addMod2Raised32(b, h1);
+			h2 = addMod2Raised32(c, h2);
+			h3 = addMod2Raised32(d, h3);
+			h4 = addMod2Raised32(e, h4);
+			h5 = addMod2Raised32(f, h5);
+			h6 = addMod2Raised32(g, h6);
+			h7 = addMod2Raised32(h, h7);
 		}
 		
+		String messageString = h0.toString() + h1.toString() + h2.toString() 
+							+ h3.toString() + h4.toString() + h5.toString()
+								+ h6.toString() + h7.toString();
 		
-		
-		return new Binary("0");
+		return new Binary(messageString);
 	}
 	
 	private Binary[] parseWords(String messageBlock)
