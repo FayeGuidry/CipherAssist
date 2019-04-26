@@ -1,0 +1,7 @@
+.classpath
+.settings/org.eclipse.jdt.core.prefs
+bin/cipherassist/encryption/Encrypt.class
+bin/cipherassist/fileio/CipherIO.class
+bin/cipherassist/gui/GUI.class
+bin/cipherassist/user/User.class
+bin/cipherassist/verification/Hashmap.class
