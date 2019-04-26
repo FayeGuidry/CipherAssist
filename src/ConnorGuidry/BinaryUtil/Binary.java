@@ -55,10 +55,10 @@ public class Binary
 		if (shiftAmount > workingString.length())
 			throw new IndexOutOfBoundsException("shiftAmount cannot be greater than the input String length");
 		
-		String trimmedString = workingString.substring(shiftAmount - 1, workingString.length() - 1);
+		String trimmedString = workingString.substring(shiftAmount, workingString.length() - 1);
 		workingString = trimmedString;
 		
-		for (int i = 0; i < shiftAmount; ++i)
+		for (int i = 0; i < shiftAmount + 1; ++i)
 		{
 			workingString += '0';
 		}

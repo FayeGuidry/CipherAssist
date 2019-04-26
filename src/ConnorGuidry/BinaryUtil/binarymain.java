@@ -3,8 +3,17 @@ package ConnorGuidry.BinaryUtil;
 public class binarymain {
 
 	public static void main(String[] args) {
+		
+		
+		Binary binary = new Binary("01100100011001000110010001100100");
+		Binary.leftShift(binary, 15);
+		System.out.println(binary);
+		
+		Binary binary1 = new Binary("110111010");
+		Binary.leftShift(binary1, 5);
+		System.out.println(binary1);
 		// TODO Auto-generated method stub
-
+		/*
 		Binary binary = new Binary("111111");
 		
 		//System.out.println(binary);
@@ -92,6 +101,7 @@ public class binarymain {
 		System.out.println(Z);
 		System.out.println(Binary.XOR(X, Y, Z));
 		System.out.println(threeXORresult);
+		*/
 		
 	}
 
