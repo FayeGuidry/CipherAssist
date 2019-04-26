@@ -20,13 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-//import com.jgoodies.forms.layout.FormLayout;
-//import com.jgoodies.forms.layout.ColumnSpec;
-//import com.jgoodies.forms.layout.RowSpec;
-
 import javafx.fxml.Initializable;
-
-//import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
@@ -51,6 +45,12 @@ import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+//Import other packages
+//import cipherassist.encryption.*;
+//import cipherassist.user.*;
+//import cipherassist.verification.*;
+//import cipherassist.fileio.*;
 
 public class mainFrame 
 {
