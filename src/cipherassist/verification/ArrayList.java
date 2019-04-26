@@ -18,6 +18,23 @@ public class ArrayList<T>
 		this.numberOfItems = 0;
 	}
 	
+	public boolean isEmpty()
+	{
+		return numberOfItems == 0;
+	}
+	
+	public void add(T newItem)
+	{
+		if(isFull())
+		{
+			itemListResize();
+		}
+		
+		itemlist[numberOfItems] = newItem;
+		numberOfItems++;
+	}
+	
+	
 	
 	
 	
