@@ -1,6 +1,7 @@
 package ConnorGuidry.crypto.BSA512;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 public class BinaryStackTree 
@@ -61,18 +62,45 @@ public class BinaryStackTree
 	
 	private class LevelOrderIterator implements Iterator<Stack<Character>>
 	{
+		private Stack<BinaryNode> nodeStack;
+		private BinaryNode currentNode;
 
+		public LevelOrderIterator()
+		{
+			nodeStack = new Stack<BinaryNode>();
+			currentNode = root;
+		}
+		
 		@Override
 		public boolean hasNext() 
 		{
-			return false;
+			return !nodeStack.isEmpty() || (currentNode != null);
 		}
 
 
 		@Override
 		public Stack<Character> next() 
 		{
-			return null;
+			BinaryNode nextNode = null;
+			
+			//Find leftmost node with no left child
+			while (currentNode != null)
+			{
+				nodeStack.push(currentNode);
+				currentNode = currentNode.getLeftChild();
+			}
+			
+			//Get leftmost node, then move to its right subtree
+			if (!nodeStack.isEmpty())
+			{
+				nextNode = nodeStack.pop();
+				
+				currentNode = nextNode.getRightChild();
+			}
+			else
+				throw new NoSuchElementException();
+			
+			return nextNode.getBitStack();
 		}
 		
 	}

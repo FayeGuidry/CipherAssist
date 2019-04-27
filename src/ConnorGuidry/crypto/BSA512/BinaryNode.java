@@ -35,6 +35,11 @@ public class BinaryNode
 		
 	}
 	
+	public Stack<Character> getBitStack()
+	{
+		return bitStack;
+	}
+	
 	public char popBit()
 	{
 		return bitStack.pop();
