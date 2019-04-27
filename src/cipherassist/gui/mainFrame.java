@@ -44,9 +44,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -74,7 +78,9 @@ public class mainFrame
 	public boolean newData;
 	Color mainColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 	Color textColor = new Color(1f, 1f, 1f, 1f);
+	Color textBoxColor = new Color(1f, 1f, 1f, 1f);
 	boolean lightMode = false;
+	Settings settings;
 	boolean CreateAccountTrue = true;
 	String username;
 	String password;
@@ -114,7 +120,7 @@ public class mainFrame
 	}
 
 	//This creates the frame
-	public mainFrame() 
+	public mainFrame() throws ClassNotFoundException, IOException 
 	{
 		
 		try {
@@ -131,30 +137,25 @@ public class mainFrame
 	}
 
 	//This creates all the elements of the frame
-	private void initialize() 
+	private void initialize() throws ClassNotFoundException, IOException 
 	{
-		/*FileReader inFile = null;
-        FileWriter outFile = null;
-        try {
-        	inFile = new FileReader("lightmode.txt");
-			outFile = new FileWriter("lightmode.txt");
-			
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		*/
+		String path = new File(".").getCanonicalPath();
+		path += "\\" + "settings" + ".dat";
+		settings = CipherIO.access(path);
+		lightMode = settings.isLightmodeEnabled();
+		
 		
 		if (lightMode == false)
 		{
 			mainColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 			textColor = new Color(1f, 1f, 1f, 1f);
+			textBoxColor = new Color(1f, 1f, 1f, 1f);
 		}
 		else
 		{
-			mainColor = new Color(1f, 1f, 1f, 1f);
+			mainColor = new Color(0.9f, 0.9f, 0.9f, 1f);
 			textColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+			textBoxColor = new Color(1f, 1f, 1f, 1f);
 		}
 		
 		//This could could probably be organized better...
@@ -311,7 +312,12 @@ public class mainFrame
 		btnQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				
+				try {
+					CipherIO.store(settings);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				System.exit(0);
 			}
 		});
@@ -345,6 +351,12 @@ public class mainFrame
 		btnQuit2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				try {
+					CipherIO.store(settings);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				System.exit(0);
 			}
 		});
@@ -432,7 +444,7 @@ public class mainFrame
 				{
 					hashmap.add(username, hashedPassword);
 					try {
-						CipherIO.seal(user, password);
+						CipherIO.seal(user, username);
 					} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
 							| IllegalBlockSizeException | NoSuchPaddingException | InvalidAlgorithmParameterException
 							| IOException e) {
@@ -732,28 +744,57 @@ public class mainFrame
 		panel_9.add(lblNewLabel);
 		
 		JButton btnDeleteAccount = new JButton("Delete Account");
+		btnDeleteAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				//Remove user
+				hashmap.remove(username);
+				//Remove file
+				String path;
+				try {
+					path = new File(".").getCanonicalPath();
+					path += "\\" + username;
+					File file = new File(path);
+					file.delete();
+					user = null;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//Logout
+				username_Textfield.setText("");
+				password_Textfield.setText("");
+				login_frm.setVisible(true);
+				settings_frm.setVisible(false);
+			}
+		});
 		panel_9.add(btnDeleteAccount);
 		btnDeleteAccount.setBackground(Color.GRAY);
-		
+			
 		JButton btnLightMode = new JButton("Light Mode");
 		btnLightMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				FileOutputStream outStream;
+				
+				
 				//LEGACY CODE LIKELY NOT NEEDED
 				background = "#ffffff";
 				//LEGACY CODE LIKELY NOT NEEDED
 				
-				if (lightMode = false)
+				if (lightMode == false)
 				{
+					btnLightMode.setText("Dark Mode");
 					lightMode = true;
 				}
 				else
 				{
+					btnLightMode.setText("Light Mode");
 					lightMode = false;
 				}
 				
-				main_frm.setVisible(true);
-				settings_frm.setVisible(false);
+				settings.setLightmodeEnabled(lightMode);
 			}
 		});
 		panel_9.add(btnLightMode);
@@ -1033,7 +1074,7 @@ public class mainFrame
 		panel_VaultView.add(lblNewLabel_6, BorderLayout.NORTH);
 	}
 	
-	public void colorInitialize()
+	public void colorInitialize() throws ClassNotFoundException, IOException
 	{
 		//This can change all the colors to light mode
 		initialize();
