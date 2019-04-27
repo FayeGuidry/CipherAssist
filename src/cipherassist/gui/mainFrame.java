@@ -20,16 +20,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import javafx.fxml.Initializable;
+//import javafx.fxml.Initializable;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
+
+import cipherassist.verification.Verify;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.DropMode;
 import javax.swing.JDesktopPane;
 import javax.swing.JList;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.AbstractListModel;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
@@ -45,11 +50,17 @@ import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
+import cipherassist.fileio.CipherIO;
+import cipherassist.user.Accounts;
+import cipherassist.user.User;
 //Import other packages
 //import cipherassist.encryption.*;
-//import cipherassist.user.*;
-//import cipherassist.verification.*;
+import cipherassist.verification.*;
 //import cipherassist.fileio.*;
 
 public class mainFrame 
@@ -67,6 +78,10 @@ public class mainFrame
 	Color textColor = new Color(1f, 1f, 1f, 1f);
 	boolean lightMode = false;
 	boolean CreateAccountTrue = true;
+	String username;
+	String password;
+	public User user;
+	public Hashmap hashmap;
 	
 	//public ArrayList<String> dataList = new ArrayList<String>();
 	
@@ -138,7 +153,7 @@ public class mainFrame
 		frmCipherAssist.getContentPane().setBackground(mainColor);
 		frmCipherAssist.setBackground(mainColor);
 		frmCipherAssist.setBounds(100, 100, 720, 480);
-		frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCipherAssist.setDefaultCloseOperation(0);
 		frmCipherAssist.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		//===============================================================
@@ -226,8 +241,12 @@ public class mainFrame
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				username = username_Textfield.getText();
+				password = password_Textfield.getText();
 				//Check Login info here
 				boolean loginTrue = true;
+				
+				//loginTrue = Verify.checkLogin(username, password);
 				
 				//Continue to menu
 				if (loginTrue == true)
@@ -245,10 +264,21 @@ public class mainFrame
 		btnCreateAccount.setBackground(Color.GRAY);
 		panel_login_buttons.add(btnCreateAccount);
 		
+		JButton btnQuit = new JButton("Quit");
+		btnQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+				System.exit(0);
+			}
+		});
+		btnQuit.setBackground(Color.GRAY);
+		panel_login_buttons.add(btnQuit);
+		
 		JPanel panel_create_buttons = new JPanel();
 		panel_create_buttons.setBackground(mainColor);
 		panel_login_create.add(panel_create_buttons, "name_456645496345286");
-		panel_create_buttons.setLayout(new GridLayout(2, 1, 0, 5));
+		panel_create_buttons.setLayout(new GridLayout(3, 1, 0, 5));
 		
 		JButton btnCreate = new JButton("Create");
 		btnCreate.setBackground(Color.GRAY);
@@ -267,6 +297,16 @@ public class mainFrame
 		});
 		btnCancel_Create.setBackground(Color.GRAY);
 		panel_create_buttons.add(btnCancel_Create);
+		
+		JButton btnQuit2 = new JButton("Quit");
+		btnQuit2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				System.exit(0);
+			}
+		});
+		btnQuit2.setBackground(Color.GRAY);
+		panel_create_buttons.add(btnQuit2);
 		
 		//This is what happens when you click a button
 		btnCreateAccount.addActionListener(new ActionListener() 
@@ -319,7 +359,31 @@ public class mainFrame
 		panel_11_center.setBorder(UIManager.getBorder("TitledBorder.border"));
 		panel_11_center.setBackground(mainColor);
 		main_frm.add(panel_11_center, BorderLayout.CENTER);
-		panel_11_center.setLayout(new GridLayout(10, 2, 0, 0));
+		panel_11_center.setLayout(new GridLayout(11, 2, 0, 0));
+		
+		JLabel lblWelcome = new JLabel("Welcome");
+		lblWelcome.setForeground(Color.WHITE);
+		panel_11_center.add(lblWelcome);
+		
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				username = username_Textfield.getText();
+				password = password_Textfield.getText();
+				//Check Login info here
+				boolean createTrue = true;
+				
+				user = Accounts.createUser(username, password);
+				
+				//Continue to menu
+				if (createTrue == true)
+				{
+					lblWelcome.setText("Welcome " + user.getUsername());
+					main_frm.setVisible(true);
+					login_frm.setVisible(false);
+				}
+			}
+		});
 		
 		JLabel lblEncrypMeth = new JLabel("Encryption Method:");
 		lblEncrypMeth.setForeground(textColor);
@@ -486,7 +550,38 @@ public class mainFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				//FINISH BACKGROUND ENCRYPTION FIRST IF NEEDED
-				boolean ready = true;
+				boolean ready = true; 
+				/*try {
+					CipherIO.seal(user, username);
+				} catch (InvalidKeyException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidKeySpecException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalBlockSizeException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchPaddingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidAlgorithmParameterException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+				
+				try {
+					CipherIO.store(hashmap);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				//LOGOUT
 				if (ready == true)
