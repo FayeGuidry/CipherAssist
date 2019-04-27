@@ -47,21 +47,29 @@ public class ArrayStack<T> implements StackInterface<T>
 	
 	public T pop() 
 	{
+		T top = null;
 		
-		return null;
+		if(!isEmpty())
+		{
+			top = aStack[topIndex];
+			aStack[topIndex] = null;
+			topIndex--;
+		}
+		return top;
 	}
 	
 	public T peek() 
 	{
 		T top = null;
-		if(!isEmpty)
-		return null;
+		if(!isEmpty())
+			top = aStack[topIndex];
+		
+		return top;
 	}
 	
 	public boolean isEmpty() 
 	{
-		
-		return false;
+		return numOfEntries == 0;
 	}
 	
 	private boolean isFull()
