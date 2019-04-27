@@ -13,7 +13,6 @@ public class LinkedStack<T> implements StackInterface<T>
 	{
 		Node newNode = new Node(newEntry, topNode);
 		topNode = newNode;
-		
 	}
 
 	public T pop() 
@@ -81,5 +80,4 @@ public class LinkedStack<T> implements StackInterface<T>
 			this.next = next;
 		}
 	}
-
 }
