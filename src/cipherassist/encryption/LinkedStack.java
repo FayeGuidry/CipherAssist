@@ -9,34 +9,37 @@ public class LinkedStack<T> implements StackInterface<T>
 		topNode = null;
 	}
 
-	@Override
-	public void push(T newEntry) {
-		// TODO Auto-generated method stub
+	public void push(T newEntry) 
+	{
+		Node newNode = new Node(newEntry, topNode);
+		topNode = newNode;
 		
 	}
 
-	@Override
-	public T pop() {
-		// TODO Auto-generated method stub
-		return null;
+	public T pop() 
+	{
+		T top = peek();
+		if(topNode != null)
+			topNode = topNode.getNext();
+		return top;
 	}
 
-	@Override
-	public T peek() {
-		// TODO Auto-generated method stub
-		return null;
+	public T peek() 
+	{
+		T top = null;
+		if(topNode != null)
+			top = topNode.getData();
+		return top;
 	}
 
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isEmpty() 
+	{
+		return topNode == null;
 	}
 
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
+	public void clear() 
+	{
+		topNode = null;
 	}
 	
 	private class Node
@@ -44,6 +47,7 @@ public class LinkedStack<T> implements StackInterface<T>
 		private T data;
 		private Node next;
 		
+		@SuppressWarnings("unused")
 		public Node()
 		{
 			this(null, null);
@@ -55,22 +59,24 @@ public class LinkedStack<T> implements StackInterface<T>
 			this.next = next;
 		}
 		
-		public getData()
+		public T getData()
 		{
 			return this.data;
 		}
 		
-		public setData(T newData)
+		@SuppressWarnings("unused")
+		public void setData(T newData)
 		{
 			this.data = newData;
 		}
 		
-		public getNext()
+		public Node getNext()
 		{
 			return this.next;
 		}
 		
-		public setNext(Node next)
+		@SuppressWarnings("unused")
+		public void setNext(Node next)
 		{
 			this.next = next;
 		}
