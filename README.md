@@ -23,7 +23,7 @@ Push feature branches (formatted feature-\*), merge into development branch. Rel
 ## Credits
 Project Lead, Encryption and Hashing algorithms, Design, Documentation - Connor Guidry (ConnorGuidry)
 
-Design, GUI Design, and Integration - Geoffery Powell (Geoffery10)
+Design, GUI Design/Implementation, and Integration - Geoffery Powell (Geoffery10)
 
 Design, Data Structures, and Integration - Khe Kit Shum (KheKit)
 
