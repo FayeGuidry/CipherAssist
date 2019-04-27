@@ -59,7 +59,7 @@ import cipherassist.user.User;
 //Import other packages
 //import cipherassist.encryption.*;
 import cipherassist.verification.*;
-//import cipherassist.fileio.*;
+import cipherassist.fileio.*;
 
 public class mainFrame 
 {
@@ -79,7 +79,7 @@ public class mainFrame
 	String username;
 	String password;
 	public User user;
-	public Hashmap hashmap = new Hashmap();
+	public Hashmap hashmap;
 	JLabel lblWelcome = new JLabel("Welcome");
 	
 	//public ArrayList<String> dataList = new ArrayList<String>();
@@ -116,6 +116,17 @@ public class mainFrame
 	//This creates the frame
 	public mainFrame() 
 	{
+		
+		try {
+			hashmap = CipherIO.access();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		initialize();
 	}
 
@@ -420,6 +431,21 @@ public class mainFrame
 				if(!hashmap.hasThisUsername(username))
 				{
 					hashmap.add(username, hashedPassword);
+					try {
+						CipherIO.seal(user, password);
+					} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
+							| IllegalBlockSizeException | NoSuchPaddingException | InvalidAlgorithmParameterException
+							| IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						user = CipherIO.unseal(username, password);
+					} catch (InvalidKeyException | ClassNotFoundException | InvalidKeySpecException
+							| NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					createTrue = true;
 				}
 				

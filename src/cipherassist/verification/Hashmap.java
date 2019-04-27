@@ -1,9 +1,15 @@
 package cipherassist.verification;
 
+import java.io.Serializable;
+
 import cipherassist.verification.LinkedMap.HashNode;
 
-public class Hashmap 
+public class Hashmap implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5485340010277239481L;
 	// simple HashMap implementation
 	private int capacity = 10; // number of buckets
 	private LinkedMap[] numBuckets; // An array of linked list

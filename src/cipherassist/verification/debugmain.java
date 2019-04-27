@@ -1,15 +1,21 @@
 package cipherassist.verification;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import cipherassist.fileio.CipherIO;
+
 public class debugmain {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
 		Hashmap map = new Hashmap();
-		//map.add("username", "password");
+		SHA256 hash = new SHA256("password");
+		String password = hash.getHash();
 		
-		System.out.println(map.hasThisUsername("username"));
-		System.out.println(map.get("username"));
+		map.add("username", password);
+		CipherIO.store(map);
 		
 	}
 

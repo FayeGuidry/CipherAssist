@@ -1,7 +1,13 @@
 package cipherassist.verification;
 
-public class LinkedMap 
+import java.io.Serializable;
+
+public class LinkedMap  implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9033964336606642010L;
 	private HashNode firstNode;
 	private int numberOfEntries;
 	
@@ -201,7 +207,7 @@ public class LinkedMap
 		return result;
 	}
 	
-	public class HashNode
+	public class HashNode implements Serializable
 	{
 		private String data;
 		private String key;
