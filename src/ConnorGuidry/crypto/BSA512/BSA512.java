@@ -13,6 +13,12 @@ public class BSA512
 	
 	public Binary message;
 	
+	public String plainText;
+	
+	public String cipherText;
+	
+	public Binary key;
+	
 	public int zerosToAdd;
 	
 	public BSA512(String plaintext, String key) throws UnsupportedEncodingException
@@ -22,11 +28,27 @@ public class BSA512
 	
 	public String encrypt()
 	{
+		prepMessage();
 		
+		shuffleBits();
+		
+		applyKey();
+		
+		return cipherText;
 	}
 	
 	public String decrypt()
 	{
+		//applykey
+		//tree
+		//depadding
+		//format and return
+	}
+	
+	public void applyKey()
+	{
+		Binary result = new Binary("");
+		
 		
 	}
 	
