@@ -1,17 +1,14 @@
 package cipherassist.encryption;
 
-public interface StackInterface 
+public interface StackInterface<T>
 {
-	public interface StackADT <T>
-	{
-		public void push(T newEntry);
+	public void push(T newEntry);
 		
-		public T pop();
+	public T pop();
 		
-		public T peek();
+	public T peek();
 		
-		public boolean isEmpty();
-	
-		public void clear();
-	}
+	public boolean isEmpty();
+
+	public void clear();
 }
