@@ -24,9 +24,6 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
-
-import cipherassist.verification.Verify;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
@@ -50,6 +47,7 @@ import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -371,9 +369,25 @@ public class mainFrame
 				username = username_Textfield.getText();
 				password = password_Textfield.getText();
 				//Check Login info here
-				boolean createTrue = true;
+				boolean createTrue = false;
 				
 				user = Accounts.createUser(username, password);
+				String hashedPassword = "";
+				
+				try {
+					SHA256 hash = new SHA256(password);
+					hashedPassword = hash.getHash();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//Check if account already exists
+				if(!hashmap.hasThisUsername(username))
+				{
+					hashmap.add(username, hashedPassword);
+					createTrue = true;
+				}
 				
 				//Continue to menu
 				if (createTrue == true)
@@ -551,7 +565,7 @@ public class mainFrame
 			{
 				//FINISH BACKGROUND ENCRYPTION FIRST IF NEEDED
 				boolean ready = true; 
-				/*try {
+				try {
 					CipherIO.seal(user, username);
 				} catch (InvalidKeyException e1) {
 					// TODO Auto-generated catch block
@@ -574,7 +588,7 @@ public class mainFrame
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}*/
+				}
 				
 				try {
 					CipherIO.store(hashmap);
