@@ -4,11 +4,8 @@ import java.io.Serializable;
 
 import cipherassist.verification.LinkedMap.HashNode;
 
-<<<<<<< HEAD
+
 public class Hashmap implements Serializable
-=======
-public class Hashmap 
->>>>>>> origin/feature-datastructures
 {
 	/**
 	 * 
@@ -143,9 +140,15 @@ public class Hashmap
 		/*
 		 * removing the value with a given key
 		 */
-		int index = getBucketIndex(key);
-		String result = numBuckets[index].remove(key);
-		size--;
+		String result = "";
+		
+		if (hasThisUsername(key))
+		{
+			int index = getBucketIndex(key);
+			result = numBuckets[index].remove(key);
+			size--;
+		}
+		
 		return result;
 	}
 	

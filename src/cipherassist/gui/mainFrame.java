@@ -269,14 +269,20 @@ public class mainFrame
 					e.printStackTrace();
 				}
 				
+				//ISSUE!!!!!!!!!!!!!!!!!!!!!!!!!
+				//After user deleted, code tries to access same username resulting in null pointer
+				//Fix logic for this here (or elsewhere UwU)
+				// :"(
+				
 				//Get hash 
 				hashFromMap = hashmap.get(username);
 				
 				//Check Login info here
-				if(hashFromMap.equals(hashedPassword))
+				if (hashFromMap.equals(hashedPassword))
 				{
 					loginTrue = true;
 					try {
+						//System cannot find file from username because it has been deleted, but its still checking anyway
 						user = CipherIO.unseal(username, password);
 					} catch (InvalidKeyException | ClassNotFoundException | InvalidKeySpecException
 							| NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException e) {
@@ -772,7 +778,16 @@ public class mainFrame
 		panel_9.add(btnDeleteAccount);
 		btnDeleteAccount.setBackground(Color.GRAY);
 			
-		JButton btnLightMode = new JButton("Light Mode");
+		String btnLightModeName;
+		if (lightMode == false)
+		{
+			btnLightModeName = "Light Mode";
+		}
+		else
+		{
+			btnLightModeName = "Dark Mode";
+		}
+		JButton btnLightMode = new JButton(btnLightModeName);
 		btnLightMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
