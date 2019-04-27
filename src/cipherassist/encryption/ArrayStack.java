@@ -42,9 +42,7 @@ public class ArrayStack<T> implements StackInterface<T>
 				aNewStack[i] = aStack[i];
 			}
 			aStack = aNewStack;
-		}
-			
-			
+		}		
 	}
 	
 	public T pop() 
