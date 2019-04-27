@@ -75,6 +75,15 @@ public class LinkedQueue<T> implements QueueInterface<T>
 			this.next = next;
 		}
 		
+		public T getData()
+		{
+			return data;
+		}
+		
+		public void setData()
+		{
+			
+		}
 		
 	}
 }
