@@ -74,7 +74,7 @@ public class Hashmap
 		 * decline if the duplicate keys are found
 		 */
 		int index = getBucketIndex(key);
-		System.out.println(index);
+		//System.out.println(index);
 		HashNode currentNode = numBuckets[index].getFirst();
 		while(currentNode != null)
 		{
@@ -116,7 +116,7 @@ public class Hashmap
 		int index = getBucketIndex(username);
 		HashNode head = numBuckets[index].getHashNode(username);
 		
-		while (head.getNext() != null && found == false)
+		while (head != null && found == false)
 		{
 			if(head.getKey().equals(username))
 			{

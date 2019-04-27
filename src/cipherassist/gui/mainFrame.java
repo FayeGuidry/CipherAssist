@@ -79,7 +79,8 @@ public class mainFrame
 	String username;
 	String password;
 	public User user;
-	public Hashmap hashmap;
+	public Hashmap hashmap = new Hashmap();
+	JLabel lblWelcome = new JLabel("Welcome");
 	
 	//public ArrayList<String> dataList = new ArrayList<String>();
 	
@@ -121,7 +122,7 @@ public class mainFrame
 	//This creates all the elements of the frame
 	private void initialize() 
 	{
-		FileReader inFile = null;
+		/*FileReader inFile = null;
         FileWriter outFile = null;
         try {
         	inFile = new FileReader("lightmode.txt");
@@ -132,6 +133,8 @@ public class mainFrame
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		*/
+		
 		if (lightMode == false)
 		{
 			mainColor = new Color(0.2f, 0.2f, 0.2f, 1f);
@@ -239,10 +242,40 @@ public class mainFrame
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				boolean loginTrue = false;
 				username = username_Textfield.getText();
 				password = password_Textfield.getText();
+				
+				//Get hashed password
+				String hashedPassword = "";
+				String hashFromMap = "";
+				try {
+					SHA256 hash = new SHA256(password);
+					hashedPassword = hash.getHash();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//Get hash 
+				hashFromMap = hashmap.get(username);
+				
 				//Check Login info here
-				boolean loginTrue = true;
+				if(hashFromMap.equals(hashedPassword))
+				{
+					loginTrue = true;
+					try {
+						user = CipherIO.unseal(username, password);
+					} catch (InvalidKeyException | ClassNotFoundException | InvalidKeySpecException
+							| NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					loginTrue = false;
+				}
 				
 				//loginTrue = Verify.checkLogin(username, password);
 				
@@ -251,6 +284,7 @@ public class mainFrame
 				{
 					main_frm.setVisible(true);
 					login_frm.setVisible(false);
+					lblWelcome.setText("Welcome " + username);
 				}
 			}
 		});
@@ -359,7 +393,7 @@ public class mainFrame
 		main_frm.add(panel_11_center, BorderLayout.CENTER);
 		panel_11_center.setLayout(new GridLayout(11, 2, 0, 0));
 		
-		JLabel lblWelcome = new JLabel("Welcome");
+		
 		lblWelcome.setForeground(Color.WHITE);
 		panel_11_center.add(lblWelcome);
 		
