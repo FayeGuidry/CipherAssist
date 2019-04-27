@@ -5,56 +5,55 @@ public class LinkedQueue<T> implements QueueInterface<T>
 	private Node firstNode;
 	private Node lastNode;
 	
-	public boolean add(T newEntry) {
-		// TODO Auto-generated method stub
+	public boolean add(T newEntry) 
+	{
+		
 		return false;
 	}
 
-	@Override
-	public boolean offer(T newEntry) {
-		// TODO Auto-generated method stub
+	public boolean offer(T newEntry) 
+	{
+		
 		return false;
 	}
 
-	@Override
-	public T remove() {
-		// TODO Auto-generated method stub
+	public T remove() 
+	{
+		
 		return null;
 	}
 
-	@Override
-	public T poll() {
-		// TODO Auto-generated method stub
+	public T poll() 
+	{
+		
 		return null;
 	}
 
-	@Override
-	public T element() {
-		// TODO Auto-generated method stub
+	public T element() 
+	{
+		
 		return null;
 	}
 
-	@Override
-	public T peek() {
-		// TODO Auto-generated method stub
+	public T peek() 
+	{
+		
 		return null;
 	}
 
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+	public boolean isEmpty() 
+	{
+		
 		return false;
 	}
 
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
+	public void clear() 
+	{	
 		
 	}
 
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
+	public int size() 
+	{
 		return 0;
 	}
 
@@ -83,7 +82,6 @@ public class LinkedQueue<T> implements QueueInterface<T>
 		public void setData()
 		{
 			
-		}
-		
+		}	
 	}
 }
