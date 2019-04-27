@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 import cipherassist.verification.LinkedMap.HashNode;
 
+<<<<<<< HEAD
 public class Hashmap implements Serializable
+=======
+public class Hashmap 
+>>>>>>> origin/feature-datastructures
 {
 	/**
 	 * 

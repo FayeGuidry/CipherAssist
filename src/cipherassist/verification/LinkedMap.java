@@ -61,7 +61,7 @@ public class LinkedMap  implements Serializable
 		 * remove the first node of the linked list
 		 */
 		String result = null;
-		if(firstNode != null)
+		if(!isEmpty())
 		{
 			result = firstNode.getData();
 			firstNode = firstNode.getNext();
@@ -79,22 +79,23 @@ public class LinkedMap  implements Serializable
 		 */
 		String result = null;
 		HashNode currentNode = firstNode;
-		while(currentNode.getNext() != null)
+		while(currentNode != null)
 		{
-			if(key.equals(currentNode.getNext().getKey()))
+			if(key.equals(currentNode.getKey()))
 			{
-				result = currentNode.getNext().getData();
-				if(currentNode.getNext().getNext() != null)
+				if(currentNode == firstNode)
 				{
-					currentNode.setNext(currentNode.getNext().getNext());
+					remove();
 				}
-				else
+				else 
 				{
-					currentNode.setNext(null);
+					currentNode.setData(firstNode.getData());
+					currentNode.setKey(firstNode.getKey());
+					System.out.println(currentNode.getData());
+					remove();
 				}
 			}
 			currentNode = currentNode.getNext();
-			numberOfEntries--;
 		}
 		return result;
 	}
