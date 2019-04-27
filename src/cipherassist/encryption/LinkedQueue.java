@@ -63,18 +63,18 @@ public class LinkedQueue<T> implements QueueInterface<T>
 	{
 		private T data;
 		private Node next;
-		private Node prev;
 		
 		public Node()
 		{
-			this(null, null, null);
+			this(null, null);
 		}
 		
-		public Node(T data, Node next, Node prev)
+		public Node(T data, Node next)
 		{
 			this.data = data;
 			this.next = next;
-			this.prev = prev;
 		}
+		
+		
 	}
 }
