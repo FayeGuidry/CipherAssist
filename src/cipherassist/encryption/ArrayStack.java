@@ -27,12 +27,12 @@ public class ArrayStack<T> implements StackInterface<T>
 		resizeArray();
 		topIndex++;
 		aStack[topIndex] = newEntry;
-		
+		numOfEntries++;
 	}
 	
 	private void resizeArray()
 	{
-		if (topIndex == aStack.length - 1) //if array is full,
+		if (isFull()) //if array is full,
 		{
 			//double size of array
 			@SuppressWarnings("unchecked")
@@ -53,7 +53,8 @@ public class ArrayStack<T> implements StackInterface<T>
 	
 	public T peek() 
 	{
-		
+		T top = null;
+		if(!isEmpty)
 		return null;
 	}
 	
@@ -61,6 +62,11 @@ public class ArrayStack<T> implements StackInterface<T>
 	{
 		
 		return false;
+	}
+	
+	private boolean isFull()
+	{
+		return topIndex == aStack.length - 1;
 	}
 	
 	public void clear() 
