@@ -79,7 +79,8 @@ public class ArrayStack<T> implements StackInterface<T>
 	
 	public void clear() 
 	{
-		
-		
+		for(int i = 0; i < topIndex; i++)
+			aStack[i] = null;
+		topIndex = -1;
 	}
 }
