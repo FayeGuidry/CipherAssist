@@ -7,19 +7,15 @@ import ConnorGuidry.BinaryUtil.Binary;
 
 public class BSA512 
 {
-	public char[] charArray;
-	
-	public int paddedMessageLength = 0;
-	
 	public String messageString;
-	
-	public String plainText;
-	
-	public String cipherText;
 	
 	public String keyString;
 	
 	public int zerosToAdd;
+	
+	public int nodes;
+	
+	public BinaryStackTree tree;
 	
 	public BSA512(String plaintext, String key) throws UnsupportedEncodingException
 	{
@@ -42,6 +38,16 @@ public class BSA512
 	{
 		initZeros();
 		initPaddedMessage();
+		initTree();
+	}
+	
+	public void initTree()
+	{
+		int num1 = messageString.length();
+		nodes = num1 / 512;
+		
+		tree = new BinaryStackTree();
+		BinaryStackTree.generateNodes(tree, nodes);
 	}
 	
 	public void initZeros()
@@ -79,7 +85,7 @@ public class BSA512
 	
 	public void initPaddedMessage()
 	{
-		String onePadding = "1";
+		String result = "1";
 
 		String zeros = "";
 		
@@ -88,12 +94,9 @@ public class BSA512
 			zeros += '0';
 		}
 		
-		Binary zeroPadding = new Binary(zeros);
+		result += zeros;
 		
-		this.M.append(onePadding);
-		this.M.append(zeroPadding);
-		
-		return
+		messageString = new String(result);
 	}
 	
 	private String messageToBinary(String message) throws UnsupportedEncodingException
