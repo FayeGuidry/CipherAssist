@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+
 import ConnorGuidry.BinaryUtil.Binary;
 
 public class BSA512 
@@ -11,6 +14,8 @@ public class BSA512
 	public String messageString;
 	
 	public String keyString;
+	
+	public String plainText;
 	
 	public String cipherText;
 	
@@ -66,6 +71,32 @@ public class BSA512
 		messageString = new String(workingBin.toString());
 	}
 	
+	public void initDecryption()
+	{
+		BigInteger hex = new BigInteger(messageString, 16);
+		String str = hex.toString(2);
+		workingBin = new Binary(str);
+		
+		if (str.length() % 512 != 0)
+			System.out.println("at initDecryption binary string is not a multiple of 512!");
+		
+		cipherText = str;
+		/*
+		int padding = 512 - str.length();
+		String z = "";
+		
+		for (int i = 0; i < padding; ++i)
+		{
+			z += '0';
+		}
+		
+		z += stringKey;
+		
+		//System.out.println(z);
+		keyBin = new Binary(z);
+		*/
+	}
+	
 	public void shuffleBits() throws InterruptedException
 	{
 		tree.levelOrderLoad(messageArray);
@@ -92,7 +123,7 @@ public class BSA512
 		
 		z += stringKey;
 		
-		System.out.println(z);
+		//System.out.println(z);
 		keyBin = new Binary(z);
 	}
 	
@@ -114,14 +145,44 @@ public class BSA512
 		
 		
 		
+		postXOR = new Binary();
+		
 		for (int j = 0; j < nodes; ++j)
 		{
 			Binary result = Binary.XOR(parsedForXOR[j], keyBin);
-			postXOR = new Binary();
 			postXOR.append(result);
 		}
 		
 		cipherText = postXOR.toHexString();
+	}
+	
+	public void applyDecKey()
+	{
+		int blockIndex = 0;
+		parsedForXOR = new Binary[nodes];
+		
+		String workingMessageString = new String(cipherText);
+		
+		for (int i = 0; i < nodes; ++i)
+		{
+			String messageBlockString = workingMessageString.substring(blockIndex, blockIndex + 512);
+			blockIndex += 512;
+			
+			
+			parsedForXOR[i] = new Binary(messageBlockString);
+		}
+		
+		
+		
+		postXOR = new Binary();
+		
+		for (int j = 0; j < nodes; ++j)
+		{
+			Binary result = Binary.XOR(parsedForXOR[j], keyBin);
+			postXOR.append(result);
+		}
+		
+		cipherText = postXOR.toString();
 	}
 	
 	public static String generateKey()
@@ -155,13 +216,42 @@ public class BSA512
 		zerosToAdd = amountZeros;
 	}
 	
-	public String decrypt()
+	public String decrypt() throws UnsupportedEncodingException, InterruptedException, DecoderException
 	{
-		//applykey
-		//tree
-		//depadding
-		//format and return
-		return null;
+		initBinaryMessage();
+		
+		initTree();
+		
+		applyDecKey();
+		
+		deshuffle();
+		
+		depadMessage();
+		
+		
+		Binary preHex = new Binary(plainText);
+		String hex = preHex.toHexString();
+		byte[] bytes = Hex.decodeHex(hex.toCharArray());
+		plainText = new String(bytes, "UTF-8");
+		
+		return plainText;
+	}
+	
+	public void deshuffle() throws InterruptedException
+	{
+		messageArray = cipherText.toCharArray();
+		tree.postOrderLoad(messageArray);
+		char [] result = tree.levelOrderUnload();
+		messageArray = result;
+		String str = new String(result);
+		cipherText = new String(str);
+	}
+	
+	public void depadMessage()
+	{
+		int endIndex = cipherText.lastIndexOf('1');
+		String trimmed = cipherText.substring(0, endIndex - 1);
+		plainText = new String(trimmed);
 	}
 	
 	

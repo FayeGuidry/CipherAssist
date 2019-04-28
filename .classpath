@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-10">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/home/moongazed/Downloads/commons-codec-1.12-bin/commons-codec-1.12/commons-codec-1.12.jar"/>
+	<classpathentry kind="lib" path="/home/moongazed/Downloads/commons-codec-1.12-bin/commons-codec-1.12/commons-codec-1.12-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/moongazed/Downloads/commons-codec-1.12-bin/commons-codec-1.12/commons-codec-1.12-sources.jar"/>
+	<classpathentry kind="lib" path="/home/moongazed/Downloads/commons-codec-1.12-bin/commons-codec-1.12/commons-codec-1.12-tests.jar"/>
+	<classpathentry kind="lib" path="/home/moongazed/Downloads/commons-codec-1.12-bin/commons-codec-1.12/commons-codec-1.12-test-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
