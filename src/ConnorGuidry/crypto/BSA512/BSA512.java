@@ -11,30 +11,53 @@ public class BSA512
 	
 	public int paddedMessageLength = 0;
 	
-	public Binary message;
+	public String messageString;
 	
 	public String plainText;
 	
 	public String cipherText;
 	
-	public Binary key;
+	public String keyString;
 	
 	public int zerosToAdd;
 	
 	public BSA512(String plaintext, String key) throws UnsupportedEncodingException
 	{
-		message = new Binary(messageToBinary(plaintext));
+		messageString = new String(plaintext);
+		keyString = new String(key);
 	}
 	
 	public String encrypt()
 	{
 		prepMessage();
 		
-		shuffleBits();
+		//shuffleBits();
 		
 		applyKey();
 		
 		return cipherText;
+	}
+	
+	public void prepMessage()
+	{
+		initZeros();
+		initPaddedMessage();
+	}
+	
+	public void initZeros()
+	{
+		int len = messageString.length();
+		String leng = Integer.toString(len);
+		
+		BigInteger fiveTwelve = new BigInteger("512", 10);
+		BigInteger modResult;
+		BigInteger stringLength = new BigInteger(leng, 10);
+		
+		modResult = stringLength.mod(fiveTwelve);
+		
+		int amountZeros = 512 - modResult.intValue() - 1;
+		
+		zerosToAdd = amountZeros;
 	}
 	
 	public String decrypt()
@@ -43,6 +66,7 @@ public class BSA512
 		//tree
 		//depadding
 		//format and return
+		return plainText;
 	}
 	
 	public void applyKey()
@@ -53,9 +77,9 @@ public class BSA512
 	}
 	
 	
-	public String getPaddedMessage(String unpaddedMessage)
+	public void initPaddedMessage()
 	{
-		Binary onePadding = new Binary("1");
+		String onePadding = "1";
 
 		String zeros = "";
 		
@@ -66,11 +90,10 @@ public class BSA512
 		
 		Binary zeroPadding = new Binary(zeros);
 		
-		
-		//System.out.println("One padding: " + onePadding);
-		//System.out.println("Zero padding: " + zeroPadding);
 		this.M.append(onePadding);
 		this.M.append(zeroPadding);
+		
+		return
 	}
 	
 	private String messageToBinary(String message) throws UnsupportedEncodingException
