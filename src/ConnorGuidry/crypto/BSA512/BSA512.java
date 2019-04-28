@@ -26,6 +26,8 @@ public class BSA512
 	
 	public Binary postXOR;
 	
+	public Binary keyBin;
+	
 	public Binary[] parsedForXOR;
 	
 	public BinaryStackTree tree;
@@ -41,6 +43,8 @@ public class BSA512
 		prepMessage();
 		
 		shuffleBits();
+		
+		prepKey();
 		
 		applyKey();
 		
@@ -71,6 +75,27 @@ public class BSA512
 		
 	}
 	
+	public void prepKey()
+	{
+		BigInteger preKey = new BigInteger(keyString, 16);
+		String stringKey = preKey.toString(2);
+		keyBin = new Binary(preKey.toString(2));
+		
+
+		int padding = 512 - stringKey.length();
+		String z = "";
+		
+		for (int i = 0; i < padding; ++i)
+		{
+			z += '0';
+		}
+		
+		z += stringKey;
+		
+		System.out.println(z);
+		keyBin = new Binary(z);
+	}
+	
 	public void applyKey()
 	{
 		int blockIndex = 0;
@@ -80,19 +105,20 @@ public class BSA512
 		
 		for (int i = 0; i < nodes; ++i)
 		{
-			String messageBlockString = workingMessageString.substring(blockIndex, blockIndex + 511);
+			String messageBlockString = workingMessageString.substring(blockIndex, blockIndex + 512);
 			blockIndex += 512;
 			
 			
 			parsedForXOR[i] = new Binary(messageBlockString);
 		}
 		
-		BigInteger preKey = new BigInteger(keyString, 16);
-		Binary keyBin = new Binary(preKey.toString(2));
+		
 		
 		for (int j = 0; j < nodes; ++j)
 		{
-			postXOR.append(Binary.XOR(parsedForXOR[j], keyBin));
+			Binary result = Binary.XOR(parsedForXOR[j], keyBin);
+			postXOR = new Binary();
+			postXOR.append(result);
 		}
 		
 		cipherText = postXOR.toHexString();
@@ -153,7 +179,7 @@ public class BSA512
 		result += zeros;
 		
 		messageString += result;
-		System.out.println(messageString);
+		//System.out.println(messageString);
 		messageArray = messageString.toCharArray();
 	}
 	
