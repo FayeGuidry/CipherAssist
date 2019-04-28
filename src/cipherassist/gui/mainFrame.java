@@ -70,6 +70,8 @@ import cipherassist.user.VaultItemList;
 //Import other packages
 //import cipherassist.encryption.*;
 import cipherassist.verification.*;
+import cipherassist.encryption.Encrypt;
+import cipherassist.encryption.EncryptionMethod;
 import cipherassist.fileio.*;
 
 public class mainFrame 
@@ -375,9 +377,26 @@ public class mainFrame
 		btnEncrypt.setBackground(Color.GRAY);
 		panel_13.add(btnEncrypt, BorderLayout.CENTER);
 		
+		JPanel panel_28 = new JPanel();
+		panel_28.setBackground(mainColor);
+		panel_13.add(panel_28, BorderLayout.EAST);
+		panel_28.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JButton btnDecrypt = new JButton("Decrypt");
+		btnDecrypt.setBackground(Color.GRAY);
+		panel_28.add(btnDecrypt);
+		
 		JButton btnClearInOut = new JButton("Clear");
+		panel_28.add(btnClearInOut);
 		btnClearInOut.setBackground(Color.GRAY);
-		panel_13.add(btnClearInOut, BorderLayout.EAST);
+		
+		btnClearInOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				input_textArea.setText("");
+				output_textArea.setText("");
+			}
+		});
 		
 		JPanel panel_10_west = new JPanel();
 		panel_10_west.setBackground(mainColor);
@@ -972,36 +991,37 @@ public class mainFrame
 				settings_frm.setVisible(false);
 			}
 		});
-		
-		btnClearInOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				input_textArea.setText("");
-				output_textArea.setText("");
-			}
-		});
 
 		btnEncrypt.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				String in = input_textArea.getText();
-				String out = "";
 				int encryptIndex = comboBox_Encryption.getSelectedIndex();
 				
-				
+				EncryptionMethod encryptionType = Encrypt.getMethod(encryptIndex);
 				
 				//Encrypt in
+				encryptionType.setKey(key_textField.getText());
+				String result = encryptionType.getEncryptedString(in);
 				
-				//Get encryption method
-				int encryptType = comboBox_Encryption.getSelectedIndex();
-				//Generate Key from Data Structure
-				//1: ROT13
+				output_textArea.setText(result);
+			}
+		}); 
+		
+		btnDecrypt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				String in = input_textArea.getText();
+				int encryptIndex = comboBox_Encryption.getSelectedIndex();
 				
-				//This is temp
-				out = in;
+				EncryptionMethod encryptionType = Encrypt.getMethod(encryptIndex);
 				
-				output_textArea.setText(out);
+				//Decrypt in
+				encryptionType.setKey(key_textField.getText());
+				String result = encryptionType.getDecryptedString(in);
+				
+				output_textArea.setText(result);
 			}
 		});
 
