@@ -3,7 +3,7 @@ package ConnorGuidry.crypto.BSA512;
 public class DemoBSA512 
 {
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws InterruptedException 
 	{
 		BinaryStackTree tree = new BinaryStackTree();
 		
@@ -13,16 +13,30 @@ public class DemoBSA512
 				+ "abcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnop"
 				+ "abcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmnop";
 		
-		char [] mychars;
+		char[] mychars;
 		
 		mychars = str.toCharArray();
 		
 		tree.postOrderLoad(mychars);
 		
-		char[]  newchars = tree.postOrderUnload();
+		char[]  newchars = tree.levelOrderUnload();
 		String resultString = new String(newchars);
 		
-		System.out.println(("char[] newchars: " + resultString));
+		System.out.println(("char[] encrypted chars: " + resultString));
+		
+		String cipherString = "pnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecabpnomkljhigefdbcaopnlmkijhfgecdbpaomnljkighfdecab";
+		
+		char[] cipherChars = cipherString.toCharArray();
+		
+		tree.levelOrderLoad(cipherChars);
+		
+		char[] plainChars = tree.postOrderUnload();
+		String plaintext = new String(plainChars);
+		
+		System.out.println(("char[] decrypted chars: " + plaintext));
+		
+		
+		
 	}
 
 }

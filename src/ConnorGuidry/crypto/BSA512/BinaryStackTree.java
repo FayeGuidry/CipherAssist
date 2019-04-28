@@ -1,8 +1,11 @@
 package ConnorGuidry.crypto.BSA512;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class BinaryStackTree 
 {
@@ -67,14 +70,48 @@ public class BinaryStackTree
 		return resultString.toCharArray();
 	}
 	
-	public void levelOrderLoad(char[] chars)
+	public void levelOrderLoad(char[] chars) throws InterruptedException
 	{
+		int i = 0;
+		int j = 0;
 		
+		while (i < 512)
+		{
+			LevelOrderIterator iter = new LevelOrderIterator(root);
+			
+			while (iter.hasNext())
+			{
+				Stack<Character> tempStack = iter.next();
+				tempStack.push(chars[j]);
+				//System.out.println(chars[j]);
+				++j;
+			}
+			
+			++i;
+		}
 	}
 	
-	public char[] levelOrderUnload()
+	public char[] levelOrderUnload() throws InterruptedException
 	{
-		return null;
+		int i = 0;
+		//int j = 0;
+		String resultString = "";
+		
+		while (i < 512)
+		{
+			LevelOrderIterator iter = new LevelOrderIterator(root);
+			while (iter.hasNext())
+			{
+				Stack<Character> tempStack = iter.next();
+				resultString += tempStack.pop();
+				//System.out.println(resultString);
+				//++j;
+			}
+			
+			++i;
+		}
+		
+		return resultString.toCharArray();
 	}
 	
 	
@@ -196,17 +233,54 @@ public class BinaryStackTree
 	
 	private class LevelOrderIterator implements Iterator<Stack<Character>>
 	{
-
+		LinkedBlockingQueue<BinaryNode> nodeQueue;
+		BinaryNode levelRoot;
+		
+		public LevelOrderIterator(BinaryNode root) throws InterruptedException
+		{
+			nodeQueue = new LinkedBlockingQueue<BinaryNode>();
+			this.levelRoot = root;
+			reset();
+		}
+		
+		public void reset() throws InterruptedException
+		{
+			nodeQueue.clear();
+			
+			if (levelRoot != null)
+				nodeQueue.put(levelRoot);
+		}
+		
 		@Override
 		public boolean hasNext() 
 		{
-			return false;
+			return !nodeQueue.isEmpty();
 		}
+		
 
 		@Override
 		public Stack<Character> next() 
 		{
-			return null;
+			BinaryNode current = (BinaryNode) nodeQueue.poll();
+			Stack<Character> bitStack = current.getBitStack();
+			
+			if (current.getLeftChild() != null)
+				try {
+					nodeQueue.put(current.getLeftChild());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			if (current.getRightChild() != null)
+				try {
+					nodeQueue.put(current.getRightChild());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			return bitStack;
 		}
 		
 	}
