@@ -21,6 +21,62 @@ public class BinaryStackTree
 		root = newRoot;
 	}
 	
+	public void postOrderLoad(char[] chars)
+	{
+		
+		int i = 0;
+		int j = 0;
+		
+		while (i < 512)
+		{
+			PostOrderIterator iter = new PostOrderIterator(root);
+			
+			while (iter.hasNext())
+			{
+				Stack<Character> tempStack = iter.next();
+				tempStack.push(chars[j]);
+				//System.out.println(chars[j]);
+				++j;
+			}
+			
+			++i;
+		}
+	}
+	
+	public char[] postOrderUnload()
+	{
+		
+		int i = 0;
+		int j = 0;
+		String resultString = "";
+		
+		while (i < 512)
+		{
+			PostOrderIterator iter = new PostOrderIterator(root);
+			while (iter.hasNext())
+			{
+				Stack<Character> tempStack = iter.next();
+				resultString += tempStack.pop();
+				//System.out.println(resultString);
+				++j;
+			}
+			
+			++i;
+		}
+		
+		return resultString.toCharArray();
+	}
+	
+	public void levelOrderLoad(char[] chars)
+	{
+		
+	}
+	
+	public char[] levelOrderUnload()
+	{
+		return null;
+	}
+	
 	
 	public static void generateNodes(BinaryStackTree tree, int nodeCount)
 	{
@@ -44,11 +100,19 @@ public class BinaryStackTree
 			{
 				BinaryStackTree leftTree = new BinaryStackTree();
 				leftTree.setTree(tree.getRoot().getLeftChild());
+				--nodeCount;
 				BinaryStackTree.generateNodes(leftTree, nodeCount);
 				
-				BinaryStackTree rightTree = new BinaryStackTree();
-				rightTree.setTree(tree.getRoot().getRightChild());
-				BinaryStackTree.generateNodes(rightTree, nodeCount);
+				
+				if (nodeCount > 0)
+				{
+					BinaryStackTree rightTree = new BinaryStackTree();
+					rightTree.setTree(tree.getRoot().getRightChild());
+					--nodeCount;
+					BinaryStackTree.generateNodes(rightTree, nodeCount);
+					
+				}
+				
 			}
 			
 		}
@@ -60,52 +124,77 @@ public class BinaryStackTree
 		return this.root;
 	}
 	
-	private class LevelOrderIterator implements Iterator<Stack<Character>>
+	private class PostOrderIterator implements Iterator<Stack<Character>>
 	{
-		private Stack<BinaryNode> nodeStack;
-		private BinaryNode currentNode;
-
-		public LevelOrderIterator()
+		private Stack<BinaryNode> nodeStack = new Stack<BinaryNode>();
+		
+		/*
+		public PostOrderIterator()
+		{
+			//nodeStack = new Stack<BinaryNode>();
+			
+			//BinaryNode test = new BinaryNode();
+			//nodeStack.push(test);
+			
+			//currentNode = root;
+		}
+		*/
+		
+		public PostOrderIterator(BinaryNode root)
 		{
 			nodeStack = new Stack<BinaryNode>();
-			currentNode = root;
+			findNextLeaf(root);
 		}
 		
 		@Override
 		public boolean hasNext() 
 		{
-			return !nodeStack.isEmpty() || (currentNode != null);
+			return !nodeStack.isEmpty();
 		}
 
-
-		@Override
-		public Stack<Character> next() 
+		private void findNextLeaf(BinaryNode currentNode)
 		{
-			BinaryNode nextNode = null;
-			
-			//Find leftmost node with no left child
 			while (currentNode != null)
 			{
 				nodeStack.push(currentNode);
-				currentNode = currentNode.getLeftChild();
+				
+				if (currentNode.getLeftChild() != null)
+				{
+					currentNode = currentNode.getLeftChild();
+				}
+				else
+				{
+					currentNode = currentNode.getRightChild();
+				}
+			}
+		}
+		
+		@Override
+		public Stack<Character> next() 
+		{
+			if (!hasNext()) 
+			{
+				throw new NoSuchElementException("All nodes have been visited.");
 			}
 			
-			//Get leftmost node, then move to its right subtree
+			BinaryNode nextNode = nodeStack.pop();
+			
 			if (!nodeStack.isEmpty())
 			{
-				nextNode = nodeStack.pop();
+				BinaryNode currentNode = nodeStack.peek();
 				
-				currentNode = nextNode.getRightChild();
+				if (nextNode == currentNode.getLeftChild())
+				{
+					findNextLeaf(currentNode.getRightChild());
+				}
 			}
-			else
-				throw new NoSuchElementException();
 			
 			return nextNode.getBitStack();
 		}
 		
 	}
 	
-	private class PostOrderIterator implements Iterator<Stack<Character>>
+	private class LevelOrderIterator implements Iterator<Stack<Character>>
 	{
 
 		@Override

@@ -2,14 +2,14 @@ package cipherassist.verification;
 
 import cipherassist.verification.LinkedMap.HashNode;
 
-public class HashMap 
+public class Hashmap 
 {
 	// simple HashMap implementation
 	private int capacity = 10; // number of buckets
 	private LinkedMap[] numBuckets; // An array of linked list
 	private int size; //Keep track on entries
 	
-	public HashMap() //initialize constructor
+	public Hashmap() //initialize constructor
 	{
 		this.numBuckets = new LinkedMap[capacity]; //initialize the size of the array
 		
