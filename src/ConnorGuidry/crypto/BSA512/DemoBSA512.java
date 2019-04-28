@@ -12,7 +12,7 @@ import ConnorGuidry.BinaryUtil.Binary;
 public class DemoBSA512 
 {
 
-	public static void main(String[] args) throws InterruptedException, UnsupportedEncodingException, DecoderException 
+	public static void main(String[] args) throws Exception 
 	{
 		
 		
@@ -71,7 +71,8 @@ public class DemoBSA512
 		System.out.println(result1);
 		
 		
-		
+		BigInteger hexKey = new BigInteger("5D44B5D354C71F91F58C45D21D3575D44B5D354C71F91F58C45D21D3575D44B5D354C71F91F58C45D21D3575D44B5D354C71F91F58C45D21D3575D44B5D354C7", 16);
+		System.out.println(hexKey.toString(2));
 		
 		
 		
@@ -142,8 +143,8 @@ public class DemoBSA512
 			workingBits = z + workingBits;
 			
 			
-			System.out.println(bytes[i]);
-			System.out.println(workingBits);
+			//System.out.println(bytes[i]);
+			//System.out.println(workingBits);
 			
 			
 			result += workingBits;
@@ -178,4 +179,5 @@ public class DemoBSA512
 		return byteArray;
 	}
 
+	
 }

@@ -2,6 +2,7 @@ package ConnorGuidry.crypto.BSA512;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.codec.DecoderException;
@@ -20,6 +21,8 @@ public class BSA512
 	public String cipherText;
 	
 	public char[] messageArray;
+	
+	public byte[] messageBytes;
 	
 	public int zerosToAdd;
 	
@@ -67,8 +70,40 @@ public class BSA512
 	
 	public void initBinaryMessage() throws UnsupportedEncodingException
 	{
-		workingBin = new Binary(messageToBinary(messageString));
-		messageString = new String(workingBin.toString());
+		messageBytes = messageString.getBytes(StandardCharsets.UTF_8);
+		
+		int unsignedInt = 0;
+		String resultString = "";
+		
+		for (int i = 0; i < messageBytes.length; ++i)
+		{
+			unsignedInt = Byte.toUnsignedInt(messageBytes[i]);
+			String workingBits = Integer.toBinaryString(unsignedInt);
+			
+			String z = "";
+			int bitCount = 8 - workingBits.length();
+			
+			while (bitCount > 0)
+			{
+				z += "0";
+				--bitCount;
+			}
+			
+			workingBits = z + workingBits;
+			
+			
+			//System.out.println(bytes[i]);
+			//System.out.println(workingBits);
+			
+			
+			resultString  += new String(workingBits);
+		}
+		
+		messageString = new String(resultString);
+		workingBin = new Binary(messageString);
+		
+		//workingBin = new Binary(messageToBinary(messageString));
+		//messageString = new String(workingBin.toString());
 	}
 	
 	public void initDecryption()
@@ -100,10 +135,8 @@ public class BSA512
 	public void shuffleBits() throws InterruptedException
 	{
 		tree.levelOrderLoad(messageArray);
-		char [] result = tree.postOrderUnload();
-		String str = new String(result);
-		cipherText = new String(str);
-		
+		char[] result = tree.postOrderUnload();
+		cipherText = new String(result);
 	}
 	
 	public void prepKey()
@@ -271,6 +304,7 @@ public class BSA512
 		result += zeros;
 		
 		messageString += result;
+		workingBin = new Binary(messageString);
 		//System.out.println(messageString);
 		messageArray = messageString.toCharArray();
 	}
