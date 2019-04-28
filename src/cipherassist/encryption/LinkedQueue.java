@@ -5,22 +5,47 @@ public class LinkedQueue<T> implements QueueInterface<T>
 	private Node firstNode;
 	private Node lastNode;
 	
-	public boolean add(T newEntry) 
+	public LinkedQueue()
 	{
+		this.firstNode = null;
+		this.lastNode = null;
+	}
+	public boolean enqueue(T newEntry) 
+	{
+		boolean added = false;
+		Node newNode = new Node(newEntry);
 		
-		return false;
+		if(isEmpty())
+		{
+			firstNode = newNode;
+			lastNode = newNode;
+			added = true;
+		}
+		else
+		{
+			lastNode.setNext(newNode);
+			lastNode = newNode;
+			added = true;
+		}
+		
+		return added;
 	}
 
-	public boolean offer(T newEntry) 
+	public T dequeue() 
 	{
+		T front = null;
 		
-		return false;
-	}
-
-	public T remove() 
-	{
-		
-		return null;
+		if(!isEmpty())
+		{
+			front = firstNode.getData();
+			firstNode = firstNode.getNext();
+			
+			if(firstNode == null)
+			{
+				lastNode = null;
+			}
+		}
+		return front;
 	}
 
 	public T poll() 
@@ -43,8 +68,7 @@ public class LinkedQueue<T> implements QueueInterface<T>
 
 	public boolean isEmpty() 
 	{
-		
-		return false;
+		return firstNode == null && lastNode == null;
 	}
 
 	public void clear() 
@@ -66,6 +90,12 @@ public class LinkedQueue<T> implements QueueInterface<T>
 		public Node()
 		{
 			this(null, null);
+		}
+		
+		public Node(T data)
+		{
+			this.data = data;
+			this.next = null;
 		}
 		
 		public Node(T data, Node next)

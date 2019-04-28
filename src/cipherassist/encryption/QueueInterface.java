@@ -2,11 +2,9 @@ package cipherassist.encryption;
 
 public interface QueueInterface<T>
 {
-	public boolean add(T newEntry);
+	public boolean enqueue(T newEntry);
 	
-	public boolean offer(T newEntry);
-	
-	public T remove();
+	public T dequeue();
 	
 	public T poll();
 	
