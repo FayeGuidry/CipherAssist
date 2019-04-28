@@ -218,7 +218,9 @@ public class BSA512
 	
 	public String decrypt() throws UnsupportedEncodingException, InterruptedException, DecoderException
 	{
-		initBinaryMessage();
+		prepKey();
+		
+		initDecryption();
 		
 		initTree();
 		
