@@ -83,7 +83,7 @@ public class BinaryStackTree
 			{
 				Stack<Character> tempStack = iter.next();
 				tempStack.push(chars[j]);
-				//System.out.println(chars[j]);
+				System.out.println(j);
 				++j;
 			}
 			
@@ -114,9 +114,63 @@ public class BinaryStackTree
 		return resultString.toCharArray();
 	}
 	
-	
-	public static void generateNodes(BinaryStackTree tree, int nodeCount)
+	//Just wanna say I'm very proud of this particular method.
+	public void addNodes(LinkedBlockingQueue<BinaryNode> levelQ, int nodeCount) throws InterruptedException
 	{
+		
+		if (levelQ.isEmpty())
+		{
+			--nodeCount;
+			
+			while (nodeCount != 0)
+			if (!root.hasLeftChild())
+			{
+				BinaryNode leftChild = new BinaryNode();
+				root.setLeftChild(leftChild);
+				levelQ.put(leftChild);
+				--nodeCount;
+			}
+				
+			if (!root.hasRightChild())
+			{
+				BinaryNode rightChild = new BinaryNode();
+				root.setRightChild(rightChild);
+				levelQ.put(rightChild);
+				--nodeCount;
+			}
+			
+			addNodes(levelQ, nodeCount);
+		}
+		
+		else
+		{
+			while (nodeCount != 0)
+			{
+				BinaryNode newRoot = levelQ.poll();
+				
+				if (!newRoot.hasLeftChild())
+				{
+					BinaryNode leftChild = new BinaryNode();
+					newRoot.setLeftChild(leftChild);
+					levelQ.put(leftChild);
+					--nodeCount;
+				}
+					
+				if (!newRoot.hasRightChild())
+				{
+					BinaryNode rightChild = new BinaryNode();
+					newRoot.setRightChild(rightChild);
+					levelQ.put(rightChild);
+					--nodeCount;
+				}
+			}
+		}
+		
+	}
+	
+	public static void generateNodes(BinaryStackTree tree, int innodeCount)
+	{
+		int nodeCount = innodeCount - 1;
 		while (nodeCount > 0)
 		{
 			if (!tree.getRoot().hasLeftChild())
@@ -141,14 +195,14 @@ public class BinaryStackTree
 				BinaryStackTree.generateNodes(leftTree, nodeCount);
 				
 				
-				if (nodeCount > 0)
-				{
+				//if (nodeCount > 0)
+				//{
 					BinaryStackTree rightTree = new BinaryStackTree();
 					rightTree.setTree(tree.getRoot().getRightChild());
 					--nodeCount;
 					BinaryStackTree.generateNodes(rightTree, nodeCount);
 					
-				}
+				//}
 				
 			}
 			
