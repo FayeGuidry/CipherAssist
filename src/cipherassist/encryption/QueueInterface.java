@@ -6,15 +6,11 @@ public interface QueueInterface<T>
 	
 	public T dequeue();
 	
-	public T poll();
-	
-	public T element();
-	
-	public T peek();
+	public T getFront();
 	
 	public boolean isEmpty();
 	
 	public void clear();
 	
-	public int size();
+	public int getSize();
 }
