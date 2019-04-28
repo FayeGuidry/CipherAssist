@@ -158,7 +158,6 @@ public class mainFrame
 			textBoxColor = new Color(1f, 1f, 1f, 1f);
 		}
 		
-		//This could could probably be organized better...
 		frmCipherAssist = new JFrame();
 		frmCipherAssist.setIconImage(Toolkit.getDefaultToolkit().getImage(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
 		frmCipherAssist.setTitle("Cipher Assist");
@@ -466,7 +465,7 @@ public class mainFrame
 		JPanel panel_9 = new JPanel();
 		panel_9.setBackground(mainColor);
 		panel_5.add(panel_9, BorderLayout.CENTER);
-		panel_9.setLayout(new GridLayout(4, 0, 0, 0));
+		panel_9.setLayout(new GridLayout(5, 0, 0, 0));
 		
 		JLabel lblNewLabel = new JLabel("WARNING! THIS CAN NOT BE UNDONE!");
 		lblNewLabel.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -477,6 +476,8 @@ public class mainFrame
 		panel_9.add(lblNewLabel);
 		
 		JButton btnDeleteAccount = new JButton("Delete Account");
+		btnDeleteAccount.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		btnDeleteAccount.setForeground(Color.RED);
 		panel_9.add(btnDeleteAccount);
 		btnDeleteAccount.setBackground(Color.GRAY);
 			
@@ -489,11 +490,20 @@ public class mainFrame
 		{
 			btnLightModeName = "Dark Mode";
 		}
+		
+		JLabel lblNewLabel_7 = new JLabel("Theme Changes Take Effect After Restart");
+		lblNewLabel_7.setForeground(Color.RED);
+		lblNewLabel_7.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_7.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_9.add(lblNewLabel_7);
 		JButton btnLightMode = new JButton(btnLightModeName);
+		btnLightMode.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		panel_9.add(btnLightMode);
 		btnLightMode.setBackground(Color.GRAY);
 		
 		JButton btnReturn = new JButton("Back");
+		btnReturn.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		btnReturn.setBackground(Color.GRAY);
 		panel_9.add(btnReturn);
 		
@@ -674,6 +684,8 @@ public class mainFrame
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_6.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
 		panel_VaultView.add(lblNewLabel_6, BorderLayout.NORTH);
+		
+		
 		
 		//===============================================================
 		//                          COMBO BOX
