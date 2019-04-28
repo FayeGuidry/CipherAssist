@@ -41,4 +41,8 @@ public class VaultItem implements Serializable
 		this.data = data;
 	}
 	
+	public String toString()
+	{
+		return filename;
+	}
 }

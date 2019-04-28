@@ -22,9 +22,9 @@ public class ROT13 extends EncryptionBase implements EncryptionMethod
 	}
 
 	@Override
-	public void getKey(String key) 
+	public String genKey() 
 	{
-		//No key required for ROT13
+		return "";
 	}
 	
 	private String encrypt(String text)

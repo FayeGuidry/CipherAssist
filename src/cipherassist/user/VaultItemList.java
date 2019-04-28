@@ -207,4 +207,17 @@ public class VaultItemList implements Serializable
         }
 	}
 	
+	public String[] toStringArray()
+	{
+		checkInitialization();
+		
+		String[] result = new String[numberOfEntries];
+		for (int index = 0; index < numberOfEntries; ++index)
+		{
+			result[index] = list[index + 1].toString();
+		}
+		
+		return result;
+	}
+	
 }

@@ -32,6 +32,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JList;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.lang.model.element.QualifiedNameable;
 import javax.swing.AbstractListModel;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
@@ -56,10 +57,16 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import cipherassist.fileio.CipherIO;
 import cipherassist.user.Accounts;
 import cipherassist.user.User;
+import cipherassist.user.Vault;
+import cipherassist.user.VaultItem;
+import cipherassist.user.VaultItemList;
 //Import other packages
 //import cipherassist.encryption.*;
 import cipherassist.verification.*;
@@ -87,6 +94,8 @@ public class mainFrame
 	public User user;
 	public Hashmap hashmap;
 	JLabel lblWelcome = new JLabel("Welcome");
+	Vault vault;
+	VaultItemList itemlist;
 	
 	//public ArrayList<String> dataList = new ArrayList<String>();
 	
@@ -165,7 +174,7 @@ public class mainFrame
 		frmCipherAssist.getContentPane().setBackground(mainColor);
 		frmCipherAssist.setBackground(mainColor);
 		frmCipherAssist.setBounds(100, 100, 720, 480);
-		frmCipherAssist.setDefaultCloseOperation(0);
+		frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCipherAssist.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JPanel main_frm = new JPanel();
@@ -602,7 +611,7 @@ public class mainFrame
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setForeground(textColor);
 		
-		JComboBox comboBox_Data = new JComboBox();
+		JComboBox<String> comboBox_Data = new JComboBox<String>();
 		comboBox_Data.setBackground(mainColor);
 		panel_22.add(comboBox_Data);
 		
@@ -639,6 +648,11 @@ public class mainFrame
 		
 		btnEdit.setBackground(Color.GRAY);
 		panel_25.add(btnEdit);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBackground(Color.GRAY);
+		btnDelete.setForeground(Color.BLACK);
+		panel_25.add(btnDelete);
 		
 		panel_VaultView.setBorder(UIManager.getBorder("TitledBorder.border"));
 		panel_VaultView.setBackground(mainColor);
@@ -691,17 +705,16 @@ public class mainFrame
 		//                          COMBO BOX
 		//===============================================================
 		
-		comboBox_Data.setModel(new DefaultComboBoxModel(new String[] {"My Data", "My Data 2", "My Data 3"}));
-		comboBox_Data.setSelectedIndex(0);
 		comboBox_Data.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				dataIndex = comboBox_Data.getSelectedIndex();
+				VaultItem item = itemlist.getEntry(dataIndex + 1);
 				
 				//Get date from data at index
 				//textField_Date.setText(data.getDate(index));
-				textField_Date.setText("This will get the date for the data at the selected index...");
+				textField_Date.setText(item.getTimestamp());
 			}
 		});
 		
@@ -717,42 +730,57 @@ public class mainFrame
 				username = username_Textfield.getText();
 				password = password_Textfield.getText();
 				
-				//Get hashed password
-				String hashedPassword = "";
-				String hashFromMap = "";
+				String path = "";
 				try {
-					SHA256 hash = new SHA256(password);
-					hashedPassword = hash.getHash();
-				} catch (UnsupportedEncodingException e) {
+					path = new File(".").getCanonicalPath();
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
+				path += "\\" + username;
+				File file = new File(path);
 				
-				//ISSUE!!!!!!!!!!!!!!!!!!!!!!!!!
-				//After user deleted, code tries to access same username resulting in null pointer
-				//Fix logic for this here (or elsewhere UwU)
-				// :"(
-				
-				//Get hash 
-				hashFromMap = hashmap.get(username);
-				
-				//Check Login info here
-				if (hashFromMap.equals(hashedPassword))
-				{
-					loginTrue = true;
+				if ((hashmap.hasThisUsername(username)) && (file.exists()))
+				{	
+					//Get hashed password
+					String hashedPassword = "";
+					String hashFromMap = "";
 					try {
-						//System cannot find file from username because it has been deleted, but its still checking anyway
-						user = CipherIO.unseal(username, password);
-					} catch (InvalidKeyException | ClassNotFoundException | InvalidKeySpecException
-							| NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException e) {
+						SHA256 hash = new SHA256(password);
+						hashedPassword = hash.getHash();
+					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					//Get hash 
+					hashFromMap = hashmap.get(username);
+					
+					//Check Login info here
+					if (hashFromMap.equals(hashedPassword))
+					{
+						loginTrue = true;
+						try {
+							//System cannot find file from username because it has been deleted, but its still checking anyway
+							user = CipherIO.unseal(username, password);
+						} catch (InvalidKeyException | ClassNotFoundException | InvalidKeySpecException
+								| NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						vault = user.getVault();
+						itemlist = new VaultItemList();
+						itemlist = vault.getVaultItemList();
+						comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
+					}
+					else
+					{
+						loginTrue = false;
+					}
 				}
 				else
-				{
 					loginTrue = false;
-				}
+				
 				
 				//loginTrue = Verify.checkLogin(username, password);
 				
@@ -762,6 +790,7 @@ public class mainFrame
 					main_frm.setVisible(true);
 					login_frm.setVisible(false);
 					lblWelcome.setText("Welcome " + username);
+					frmCipherAssist.setDefaultCloseOperation(0);
 				}
 			}
 		});
@@ -818,6 +847,9 @@ public class mainFrame
 			{
 				//FINISH BACKGROUND ENCRYPTION FIRST IF NEEDED
 				boolean ready = true; 
+				vault.setVaultItemList(itemlist);
+				user.setVault(vault);
+				
 				try {
 					CipherIO.seal(user, username);
 				} catch (InvalidKeyException e1) {
@@ -850,6 +882,10 @@ public class mainFrame
 					e1.printStackTrace();
 				}
 				
+				user = null;
+				vault = null;
+				itemlist = null;
+				
 				//LOGOUT
 				if (ready == true)
 				{
@@ -857,6 +893,7 @@ public class mainFrame
 					password_Textfield.setText("");
 					login_frm.setVisible(true);
 					main_frm.setVisible(false);
+					frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				}
 			}
 		});
@@ -950,6 +987,9 @@ public class mainFrame
 			{
 				String in = input_textArea.getText();
 				String out = "";
+				int encryptIndex = comboBox_Encryption.getSelectedIndex();
+				
+				
 				
 				//Encrypt in
 				
@@ -995,8 +1035,19 @@ public class mainFrame
 					e.printStackTrace();
 				}
 				
+				
+				String path = "";
+				try {
+					path = new File(".").getCanonicalPath();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				path += "\\" + username;
+				File file = new File(path);
+				
 				//Check if account already exists
-				if(!hashmap.hasThisUsername(username))
+				if ((!hashmap.hasThisUsername(username)) && (!file.exists()))
 				{
 					hashmap.add(username, hashedPassword);
 					try {
@@ -1014,6 +1065,11 @@ public class mainFrame
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					vault = user.getVault();
+					itemlist = new VaultItemList();
+					itemlist = vault.getVaultItemList();
+					comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
 					createTrue = true;
 				}
 				
@@ -1057,9 +1113,13 @@ public class mainFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				newData = false;
-				String name = (String) comboBox_Data.getItemAt(dataIndex);
-				textField_Name.setText(name);
+				//String name = (String) comboBox_Data.getItemAt(dataIndex);
 				dataIndex = comboBox_Data.getSelectedIndex();
+				VaultItem item = itemlist.getEntry(dataIndex + 1);
+				String name = item.getFilename();
+				textField_Name.setText(name);
+				String input = item.getData();
+				textField_Input.setText(input);
 				
 				panel_VaultView.setVisible(true);
 				panel_VaultMain.setVisible(false);
@@ -1067,34 +1127,75 @@ public class mainFrame
 			}
 		});
 		
+		btnDelete.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				
+				dataIndex = comboBox_Data.getSelectedIndex();
+				itemlist.remove(dataIndex + 1);
+				
+				comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
+				
+				VaultItem item;
+				dataIndex = 0;
+				
+				item = itemlist.getEntry(dataIndex + 1);
+				//item.setTimestamp(date.format(timestamp));
+				
+				comboBox_Data.setSelectedIndex(0);
+				textField_Date.setText(item.getTimestamp());
+			}
+		});
+		
 		btn_Save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 				String name = textField_Name.getText();
 				String input = textField_Input.getText();
+				VaultItem item;
 				//dataIndex
 				//Send input and name to data structure
 				
 				//reload comboBox_Data
-				if(newData == true)
+				if(newData == true) //Add
 				{
-					comboBox_Data.addItem(name);
-					dataIndex = (comboBox_Data.getItemCount() - 1);
-					comboBox_Data.setSelectedIndex(dataIndex);
+					//comboBox_Data.addItem(name);
+					dataIndex = (comboBox_Data.getItemCount());
 					//save name and input
+					
+					item = new VaultItem();
+					item.setFilename(name);
+					item.setData(input);
+					itemlist.add(item);
+					item.setTimestamp(date.format(timestamp));
+					textField_Date.setText(item.getTimestamp());
 				}
-				if (newData == false) 
+				else if (newData == false) //Edit
 				{
-					comboBox_Data.setSelectedIndex(dataIndex);
-					comboBox_Data.getModel().setSelectedItem(name);
-					comboBox_Data.setSelectedItem(name);
+					//comboBox_Data.setSelectedIndex(dataIndex);
+					//comboBox_Data.getModel().setSelectedItem(name);
+					//comboBox_Data.setSelectedItem(name);
 					//save name and input
+					
+					item = itemlist.getEntry(dataIndex + 1);
+					item.setFilename(name);
+					item.setData(input);
 				}
 				
 				//Exit add
+				textField_Name.setText("");
+				textField_Input.setText("");
 				panel_VaultMain.setVisible(true);
 				panel_VaultView.setVisible(false);
 				btnBack.setEnabled(true);
+				
+				comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
+				comboBox_Data.setSelectedIndex(dataIndex);
 			}
 		});
 		
