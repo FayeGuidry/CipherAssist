@@ -38,7 +38,7 @@ public class BinaryStackTree
 			{
 				Stack<Character> tempStack = iter.next();
 				tempStack.push(chars[j]);
-				System.out.println(chars[j]);
+				//System.out.println(chars[j]);
 				++j;
 			}
 			
@@ -104,7 +104,7 @@ public class BinaryStackTree
 			{
 				Stack<Character> tempStack = iter.next();
 				resultString += tempStack.pop();
-				System.out.println(resultString);
+				//System.out.println(resultString);
 				//++j;
 			}
 			
@@ -127,7 +127,7 @@ public class BinaryStackTree
 					BinaryNode leftChild = new BinaryNode();
 					root.setLeftChild(leftChild);
 					levelQ.put(leftChild);
-					System.out.println("Node added!");
+					//System.out.println("Node added!");
 					--nodeCount;
 				}
 					
@@ -136,7 +136,7 @@ public class BinaryStackTree
 					BinaryNode rightChild = new BinaryNode();
 					root.setRightChild(rightChild);
 					levelQ.put(rightChild);
-					System.out.println("Node added!");
+					//System.out.println("Node added!");
 					--nodeCount;
 				}
 			
@@ -154,7 +154,7 @@ public class BinaryStackTree
 					BinaryNode leftChild = new BinaryNode();
 					newRoot.setLeftChild(leftChild);
 					levelQ.put(leftChild);
-					System.out.println("Node added!");
+					//System.out.println("Node added!");
 					--nodeCount;
 				}
 					
@@ -163,7 +163,7 @@ public class BinaryStackTree
 					BinaryNode rightChild = new BinaryNode();
 					newRoot.setRightChild(rightChild);
 					levelQ.put(rightChild);
-					System.out.println("Node added!");
+					//System.out.println("Node added!");
 					--nodeCount;
 				}
 			}

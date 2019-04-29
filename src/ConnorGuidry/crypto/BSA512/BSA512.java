@@ -44,6 +44,8 @@ public class BSA512
 	{
 		messageString = new String(plaintext);
 		keyString = new String(key);
+		
+		System.out.println("String in: " + messageString);
 	}
 	
 	public String encrypt() throws InterruptedException, UnsupportedEncodingException
@@ -100,6 +102,7 @@ public class BSA512
 		}
 		
 		messageString = new String(resultString);
+		System.out.println("Binary in: " + messageString);
 		workingBin = new Binary(messageString);
 		
 		//workingBin = new Binary(messageToBinary(messageString));
@@ -111,13 +114,22 @@ public class BSA512
 		BigInteger hex = new BigInteger(messageString, 16);
 		String str = hex.toString(2);
 		workingBin = new Binary(str);
+		messageString = workingBin.toString();
 		
-		if (str.length() % 512 != 0)
-			System.out.println("at initDecryption binary string is not a multiple of 512!");
 		
-		cipherText = str;
-		/*
-		int padding = 512 - str.length();
+		System.out.println("Binary in (pre padding): " + str);
+		
+		//cipherText = new String(str);
+		int len = messageString.length();
+		String leng = Integer.toString(len);
+		
+		BigInteger fiveTwelve = new BigInteger("512", 10);
+		BigInteger modResult;
+		BigInteger stringLength = new BigInteger(leng, 10);
+		
+		modResult = stringLength.mod(fiveTwelve);
+		
+		int padding = 512 - modResult.intValue();
 		String z = "";
 		
 		for (int i = 0; i < padding; ++i)
@@ -125,11 +137,14 @@ public class BSA512
 			z += '0';
 		}
 		
-		z += stringKey;
+		z += messageString;
 		
-		//System.out.println(z);
-		keyBin = new Binary(z);
-		*/
+		messageString = new String(z);
+		
+		System.out.println("Binary in (post padding): " + messageString);
+		
+		if (messageString.length() % 512 != 0)
+			System.out.println("at initDecryption binary string is not a multiple of 512!");
 	}
 	
 	public void shuffleBits() throws InterruptedException
@@ -166,6 +181,7 @@ public class BSA512
 		parsedForXOR = new Binary[nodes];
 		
 		String workingMessageString = new String(cipherText);
+		//System.out.println(cipherText);
 		
 		for (int i = 0; i < nodes; ++i)
 		{
@@ -186,7 +202,48 @@ public class BSA512
 			postXOR.append(result);
 		}
 		
-		cipherText = postXOR.toHexString();
+		cipherText = postXOR.toString();
+		System.out.println("Binary out: " + cipherText);
+		
+		BigInteger decimal = new BigInteger(cipherText, 2);
+		String hexStr = decimal.toString(16);
+		
+		cipherText = new String(hexStr);
+	}
+	
+	public String byteArrayToHex(byte[] b)
+	{
+		StringBuilder sb = new StringBuilder(b.length * 2);
+		for (byte byt: b)
+			sb.append(String.format("%02x", byt));
+		return sb.toString();
+			
+	}
+	
+	public byte[] binaryStringToByteArray(String str)
+	{
+		int blocks = str.length() / 8;
+		int blockIndex = 0;
+		String[] strArray = new String[blocks];
+		byte[] byteArray = new byte[blocks];
+		
+		for (int i = 0; i < blocks; ++i)
+		{
+			String messageBlockString = str.substring(blockIndex, blockIndex + 8);
+			blockIndex += 8;
+			
+			
+			strArray[i] = messageBlockString;
+		}
+		
+		for (int j = 0; j < blocks; ++j)
+		{
+			int num = Integer.parseInt(strArray[j], 2);
+			
+			byteArray[j] = (byte) num;
+		}
+		
+		return byteArray;
 	}
 	
 	public void applyDecKey()
@@ -194,11 +251,12 @@ public class BSA512
 		int blockIndex = 0;
 		parsedForXOR = new Binary[nodes];
 		
-		String workingMessageString = new String(cipherText);
+		String workingMessageString = new String(messageString);
 		
 		for (int i = 0; i < nodes; ++i)
 		{
 			String messageBlockString = workingMessageString.substring(blockIndex, blockIndex + 512);
+			//System.out.println(messageBlockString);
 			blockIndex += 512;
 			
 			
@@ -280,13 +338,15 @@ public class BSA512
 		messageArray = result;
 		String str = new String(result);
 		cipherText = new String(str);
+		System.out.println("Binary out (padded): " + cipherText);
 	}
 	
 	public void depadMessage()
 	{
 		int endIndex = cipherText.lastIndexOf('1');
-		String trimmed = cipherText.substring(0, endIndex - 1);
+		String trimmed = cipherText.substring(0, endIndex);
 		plainText = new String(trimmed);
+		System.out.println("Binary out (depadded): " + plainText);
 	}
 	
 	
@@ -302,8 +362,8 @@ public class BSA512
 		}
 		
 		result += zeros;
-		
 		messageString += result;
+		System.out.println("Padded in: " + messageString);
 		workingBin = new Binary(messageString);
 		//System.out.println(messageString);
 		messageArray = messageString.toCharArray();
