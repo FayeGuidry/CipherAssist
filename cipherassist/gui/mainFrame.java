@@ -3,18 +3,18 @@ package cipherassist.gui;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Window.Type;
+//import java.awt.Dialog.ModalExclusionType;
+//import java.awt.Window.Type;
 import java.awt.Toolkit;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.BoxLayout;
+//import java.awt.GridBagLayout;
+//import java.awt.GridBagConstraints;
+//import java.awt.Insets;
+//import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -23,35 +23,35 @@ import java.awt.CardLayout;
 //import javafx.fxml.Initializable;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+//import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
+//import javax.swing.GroupLayout;
+//import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
-import javax.swing.DropMode;
-import javax.swing.JDesktopPane;
-import javax.swing.JList;
+//import javax.swing.DropMode;
+//import javax.swing.JDesktopPane;
+//import javax.swing.JList;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.lang.model.element.QualifiedNameable;
-import javax.swing.AbstractListModel;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.ListSelectionModel;
+//import javax.lang.model.element.QualifiedNameable;
+//import javax.swing.AbstractListModel;
+//import javax.swing.border.SoftBevelBorder;
+//import javax.swing.border.BevelBorder;
+//import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
-import java.awt.Button;
+//import java.awt.Button;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import java.util.ArrayList;
+//import javax.swing.event.ListSelectionListener;
+//import javax.swing.event.ListSelectionEvent;
+//import java.util.ArrayList;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
+//import java.io.FileNotFoundException;
+//import java.io.FileOutputStream;
+//import java.io.FileReader;
+//import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+//import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -59,7 +59,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+//import java.util.Date;
 
 import cipherassist.fileio.CipherIO;
 import cipherassist.user.Accounts;
@@ -148,6 +148,7 @@ public class mainFrame
 	}
 
 	//This creates all the elements of the frame
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize() throws ClassNotFoundException, IOException 
 	{
 		String path = new File(".").getCanonicalPath();
@@ -962,7 +963,7 @@ public class mainFrame
 		btnLightMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				FileOutputStream outStream;
+				//FileOutputStream outStream;
 				
 				
 				//LEGACY CODE LIKELY NOT NEEDED
@@ -1030,9 +1031,10 @@ public class mainFrame
 			{
 				//Get encryption method
 				int encryptType = comboBox_Encryption.getSelectedIndex();
+				EncryptionMethod encryptionType = Encrypt.getMethod(encryptType);
 				//Generate Key from Data Structure
 				//1: ROT13
-				
+				key_textField.setText(encryptionType.genKey());
 			}
 		});
 
@@ -1151,8 +1153,8 @@ public class mainFrame
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				//SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+				//Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 				
 				dataIndex = comboBox_Data.getSelectedIndex();
 				itemlist.remove(dataIndex + 1);

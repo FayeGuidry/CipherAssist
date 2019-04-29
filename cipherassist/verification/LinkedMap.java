@@ -210,6 +210,10 @@ public class LinkedMap  implements Serializable
 	
 	public class HashNode implements Serializable
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6331780365384687493L;
 		private String data;
 		private String key;
 		private HashNode next;

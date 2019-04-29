@@ -3,6 +3,7 @@ package ConnorGuidry.crypto.BSA512;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.codec.DecoderException;
@@ -385,7 +386,7 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 		//System.out.println(messageString);
 		messageArray = messageString.toCharArray();
 	}
-	
+	/*
 	private String messageToBinary(String message) throws UnsupportedEncodingException
 	{
 		byte[] bytes = message.getBytes("UTF8");
@@ -406,7 +407,7 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 		}
 		
 		return convertedToBinary;
-	}
+	}*/
 
 	@Override
 	public String getEncryptedString(String plaintext) {
@@ -423,7 +424,7 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 
 	@Override
 	public String getDecryptedString(String ciphertext) {
-		
+		messageString = new String(ciphertext);
 		try {
 			return decrypt();
 		} catch (UnsupportedEncodingException | InterruptedException | DecoderException e) {
@@ -437,8 +438,16 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 
 	@Override
 	public String genKey() {
-		// TODO Auto-generated method stub
-		return null;
+		String hex = "";
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		while (sb.length() < 128)
+		{
+			sb.append(Integer.toHexString(random.nextInt()));
+		}
+		hex = sb.toString().substring(0, 128);
+		
+		return hex;
 	}
 
 	@Override

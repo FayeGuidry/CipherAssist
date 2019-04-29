@@ -1,9 +1,9 @@
 package ConnorGuidry.crypto.BSA512;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+//import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Queue;
+//import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -51,7 +51,7 @@ public class BinaryStackTree
 	{
 		
 		int i = 0;
-		int j = 0;
+		//int j = 0;
 		String resultString = "";
 		
 		while (i < 512)
@@ -62,7 +62,7 @@ public class BinaryStackTree
 				Stack<Character> tempStack = iter.next();
 				resultString += tempStack.pop();
 				//System.out.println(resultString);
-				++j;
+				//++j;
 			}
 			
 			++i;
