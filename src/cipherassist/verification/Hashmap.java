@@ -1,9 +1,16 @@
 package cipherassist.verification;
 
+import java.io.Serializable;
+
 import cipherassist.verification.LinkedMap.HashNode;
 
-public class Hashmap 
+
+public class Hashmap implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5485340010277239481L;
 	// simple HashMap implementation
 	private int capacity = 10; // number of buckets
 	private LinkedMap[] numBuckets; // An array of linked list
@@ -74,7 +81,7 @@ public class Hashmap
 		 * decline if the duplicate keys are found
 		 */
 		int index = getBucketIndex(key);
-		System.out.println(index);
+		//System.out.println(index);
 		HashNode currentNode = numBuckets[index].getFirst();
 		while(currentNode != null)
 		{
@@ -109,15 +116,39 @@ public class Hashmap
 		}
 		return null;
 	}	
+	
+	public boolean hasThisUsername(String username)
+	{
+		boolean found = false;
+		int index = getBucketIndex(username);
+		HashNode head = numBuckets[index].getHashNode(username);
+		
+		while (head != null && found == false)
+		{
+			if(head.getKey().equals(username))
+			{
+				found = true;
+			}
+			head = head.getNext();
+		}
+		
+		return found; 
+	}
 
 	public String remove(String key)
 	{
 		/*
 		 * removing the value with a given key
 		 */
-		int index = getBucketIndex(key);
-		String result = numBuckets[index].remove(key);
-		size--;
+		String result = "";
+		
+		if (hasThisUsername(key))
+		{
+			int index = getBucketIndex(key);
+			result = numBuckets[index].remove(key);
+			size--;
+		}
+		
 		return result;
 	}
 	

@@ -21,5 +21,9 @@ public interface EncryptionMethod
 	/**
 	 * @param key Encryption key as a string
 	 */
-	public void getKey(String key);
+	public String genKey();
+	
+	public void setKey(String str);
+	
+	public String encrypt(String text);
 }

@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import javafx.fxml.Initializable;
+//import javafx.fxml.Initializable;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
@@ -30,6 +30,9 @@ import javax.swing.JTextField;
 import javax.swing.DropMode;
 import javax.swing.JDesktopPane;
 import javax.swing.JList;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.lang.model.element.QualifiedNameable;
 import javax.swing.AbstractListModel;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
@@ -42,15 +45,34 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import cipherassist.fileio.CipherIO;
+import cipherassist.user.Accounts;
+import cipherassist.user.User;
+import cipherassist.user.Vault;
+import cipherassist.user.VaultItem;
+import cipherassist.user.VaultItemList;
 //Import other packages
 //import cipherassist.encryption.*;
-//import cipherassist.user.*;
-//import cipherassist.verification.*;
-//import cipherassist.fileio.*;
+import cipherassist.verification.*;
+import cipherassist.encryption.Encrypt;
+import cipherassist.encryption.EncryptionMethod;
+import cipherassist.fileio.*;
 
 public class mainFrame 
 {
@@ -65,8 +87,17 @@ public class mainFrame
 	public boolean newData;
 	Color mainColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 	Color textColor = new Color(1f, 1f, 1f, 1f);
+	Color textBoxColor = new Color(1f, 1f, 1f, 1f);
 	boolean lightMode = false;
+	Settings settings;
 	boolean CreateAccountTrue = true;
+	String username;
+	String password;
+	public User user;
+	public Hashmap hashmap;
+	JLabel lblWelcome = new JLabel("Welcome");
+	Vault vault;
+	VaultItemList itemlist;
 	
 	//public ArrayList<String> dataList = new ArrayList<String>();
 	
@@ -100,37 +131,44 @@ public class mainFrame
 	}
 
 	//This creates the frame
-	public mainFrame() 
+	public mainFrame() throws ClassNotFoundException, IOException 
 	{
+		
+		try {
+			hashmap = CipherIO.access();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		initialize();
 	}
 
 	//This creates all the elements of the frame
-	private void initialize() 
+	private void initialize() throws ClassNotFoundException, IOException 
 	{
-		FileReader inFile = null;
-        FileWriter outFile = null;
-        try {
-        	inFile = new FileReader("lightmode.txt");
-			outFile = new FileWriter("lightmode.txt");
-			
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		String path = new File(".").getCanonicalPath();
+		path += "\\" + "settings" + ".dat";
+		settings = CipherIO.access(path);
+		lightMode = settings.isLightmodeEnabled();
+		
+		
 		if (lightMode == false)
 		{
 			mainColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 			textColor = new Color(1f, 1f, 1f, 1f);
+			textBoxColor = new Color(1f, 1f, 1f, 1f);
 		}
 		else
 		{
-			mainColor = new Color(1f, 1f, 1f, 1f);
+			mainColor = new Color(0.9f, 0.9f, 0.9f, 1f);
 			textColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+			textBoxColor = new Color(1f, 1f, 1f, 1f);
 		}
 		
-		//This could could probably be organized better...
 		frmCipherAssist = new JFrame();
 		frmCipherAssist.setIconImage(Toolkit.getDefaultToolkit().getImage(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
 		frmCipherAssist.setTitle("Cipher Assist");
@@ -141,16 +179,8 @@ public class mainFrame
 		frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCipherAssist.getContentPane().setLayout(new CardLayout(0, 0));
 		
-		//===============================================================
-		//                            Forms
-		//===============================================================
-		
 		JPanel main_frm = new JPanel();
 		JPanel login_frm = new JPanel();
-		
-		//===============================================================
-		//                            Forms
-		//===============================================================
 		
 		frmCipherAssist.getContentPane().add(login_frm, "name_455107982965741");
 		login_frm.setLayout(new BorderLayout(0, 0));
@@ -215,28 +245,8 @@ public class mainFrame
 		panel_login_buttons.setLayout(new GridLayout(0, 1, 10, 5));
 		
 		
-		
-		//===============================================================
-		//                           BUTTONS
-		//===============================================================
-		
-		//Login Account Button
 		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				//Check Login info here
-				boolean loginTrue = true;
-				
-				//Continue to menu
-				if (loginTrue == true)
-				{
-					main_frm.setVisible(true);
-					login_frm.setVisible(false);
-				}
-			}
-		});
+		
 		btnLogin.setBackground(Color.GRAY);
 		panel_login_buttons.add(btnLogin);
 		
@@ -245,10 +255,14 @@ public class mainFrame
 		btnCreateAccount.setBackground(Color.GRAY);
 		panel_login_buttons.add(btnCreateAccount);
 		
+		JButton btnQuit = new JButton("Quit");
+		btnQuit.setBackground(Color.GRAY);
+		panel_login_buttons.add(btnQuit);
+		
 		JPanel panel_create_buttons = new JPanel();
 		panel_create_buttons.setBackground(mainColor);
 		panel_login_create.add(panel_create_buttons, "name_456645496345286");
-		panel_create_buttons.setLayout(new GridLayout(2, 1, 0, 5));
+		panel_create_buttons.setLayout(new GridLayout(3, 1, 0, 5));
 		
 		JButton btnCreate = new JButton("Create");
 		btnCreate.setBackground(Color.GRAY);
@@ -256,32 +270,12 @@ public class mainFrame
 		panel_create_buttons.add(btnCreate);
 		
 		JButton btnCancel_Create = new JButton("Cancel");
-		btnCancel_Create.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				CreateAccountTrue = false;
-				panel_login_buttons.setVisible(true);
-				panel_create_buttons.setVisible(false);
-			}
-		});
 		btnCancel_Create.setBackground(Color.GRAY);
 		panel_create_buttons.add(btnCancel_Create);
 		
-		//This is what happens when you click a button
-		btnCreateAccount.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				CreateAccountTrue = true;
-				panel_create_buttons.setVisible(true);
-				panel_login_buttons.setVisible(false);
-			}
-		});
-		
-		//===============================================================
-		//                           BUTTONS
-		//===============================================================
+		JButton btnQuit2 = new JButton("Quit");
+		btnQuit2.setBackground(Color.GRAY);
+		panel_create_buttons.add(btnQuit2);
 		
 		JPanel panel_6_south = new JPanel();
 		login_frm.add(panel_6_south, BorderLayout.SOUTH);
@@ -319,7 +313,11 @@ public class mainFrame
 		panel_11_center.setBorder(UIManager.getBorder("TitledBorder.border"));
 		panel_11_center.setBackground(mainColor);
 		main_frm.add(panel_11_center, BorderLayout.CENTER);
-		panel_11_center.setLayout(new GridLayout(10, 2, 0, 0));
+		panel_11_center.setLayout(new GridLayout(11, 2, 0, 0));
+		
+		
+		lblWelcome.setForeground(Color.WHITE);
+		panel_11_center.add(lblWelcome);
 		
 		JLabel lblEncrypMeth = new JLabel("Encryption Method:");
 		lblEncrypMeth.setForeground(textColor);
@@ -345,27 +343,10 @@ public class mainFrame
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnClearKey = new JButton("Clear");
-		btnClearKey.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				//Clear key
-				key_textField.setText("");
-			}
-		});
 		btnClearKey.setBackground(Color.GRAY);
 		panel.add(btnClearKey, BorderLayout.EAST);
 		
 		JButton btnGenerateKey = new JButton("Generate");
-		btnGenerateKey.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				//Get encryption method
-				int encryptType = comboBox_Encryption.getSelectedIndex();
-				//Generate Key from Data Structure
-				//1: ROT13
-				
-			}
-		});
 		btnGenerateKey.setBackground(Color.GRAY);
 		panel.add(btnGenerateKey, BorderLayout.CENTER);
 		
@@ -393,30 +374,22 @@ public class mainFrame
 		panel_13.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnEncrypt = new JButton("Encrypt");
-		btnEncrypt.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				String in = input_textArea.getText();
-				String out = "";
-				
-				//Encrypt in
-				
-				//Get encryption method
-				int encryptType = comboBox_Encryption.getSelectedIndex();
-				//Generate Key from Data Structure
-				//1: ROT13
-				
-				//This is temp
-				out = in;
-				
-				output_textArea.setText(out);
-			}
-		});
 		btnEncrypt.setBackground(Color.GRAY);
 		panel_13.add(btnEncrypt, BorderLayout.CENTER);
 		
+		JPanel panel_28 = new JPanel();
+		panel_28.setBackground(mainColor);
+		panel_13.add(panel_28, BorderLayout.EAST);
+		panel_28.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JButton btnDecrypt = new JButton("Decrypt");
+		btnDecrypt.setBackground(Color.GRAY);
+		panel_28.add(btnDecrypt);
+		
 		JButton btnClearInOut = new JButton("Clear");
+		panel_28.add(btnClearInOut);
+		btnClearInOut.setBackground(Color.GRAY);
+		
 		btnClearInOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -424,8 +397,6 @@ public class mainFrame
 				output_textArea.setText("");
 			}
 		});
-		btnClearInOut.setBackground(Color.GRAY);
-		panel_13.add(btnClearInOut, BorderLayout.EAST);
 		
 		JPanel panel_10_west = new JPanel();
 		panel_10_west.setBackground(mainColor);
@@ -450,13 +421,6 @@ public class mainFrame
 		vault_frm.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnAccessVault = new JButton("Open Vault");
-		btnAccessVault.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				vault_frm.setVisible(true);
-				main_frm.setVisible(false);
-			}
-		});
 		btnAccessVault.setBackground(Color.GRAY);
 		panel_1_west.add(btnAccessVault);
 		
@@ -471,33 +435,10 @@ public class mainFrame
 		settings_frm.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnSettings = new JButton("Settings");
-		btnSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				settings_frm.setVisible(true);
-				main_frm.setVisible(false);
-			}
-		});
 		panel_1.add(btnSettings, BorderLayout.NORTH);
 		btnSettings.setBackground(Color.GRAY);
 		
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				//FINISH BACKGROUND ENCRYPTION FIRST IF NEEDED
-				boolean ready = true;
-				
-				//LOGOUT
-				if (ready == true)
-				{
-					username_Textfield.setText("");
-					password_Textfield.setText("");
-					login_frm.setVisible(true);
-					main_frm.setVisible(false);
-				}
-			}
-		});
 		btnLogout.setBackground(Color.GRAY);
 		panel_1.add(btnLogout, BorderLayout.CENTER);
 		
@@ -552,7 +493,7 @@ public class mainFrame
 		JPanel panel_9 = new JPanel();
 		panel_9.setBackground(mainColor);
 		panel_5.add(panel_9, BorderLayout.CENTER);
-		panel_9.setLayout(new GridLayout(4, 0, 0, 0));
+		panel_9.setLayout(new GridLayout(5, 0, 0, 0));
 		
 		JLabel lblNewLabel = new JLabel("WARNING! THIS CAN NOT BE UNDONE!");
 		lblNewLabel.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -563,41 +504,34 @@ public class mainFrame
 		panel_9.add(lblNewLabel);
 		
 		JButton btnDeleteAccount = new JButton("Delete Account");
+		btnDeleteAccount.setFont(new Font("SansSerif", Font.PLAIN, 18));
+		btnDeleteAccount.setForeground(Color.RED);
 		panel_9.add(btnDeleteAccount);
 		btnDeleteAccount.setBackground(Color.GRAY);
+			
+		String btnLightModeName;
+		if (lightMode == false)
+		{
+			btnLightModeName = "Light Mode";
+		}
+		else
+		{
+			btnLightModeName = "Dark Mode";
+		}
 		
-		JButton btnLightMode = new JButton("Light Mode");
-		btnLightMode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				//LEGACY CODE LIKELY NOT NEEDED
-				background = "#ffffff";
-				//LEGACY CODE LIKELY NOT NEEDED
-				
-				if (lightMode = false)
-				{
-					lightMode = true;
-				}
-				else
-				{
-					lightMode = false;
-				}
-				
-				main_frm.setVisible(true);
-				settings_frm.setVisible(false);
-			}
-		});
+		JLabel lblNewLabel_7 = new JLabel("Theme Changes Take Effect After Restart");
+		lblNewLabel_7.setForeground(Color.RED);
+		lblNewLabel_7.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_7.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_9.add(lblNewLabel_7);
+		JButton btnLightMode = new JButton(btnLightModeName);
+		btnLightMode.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		panel_9.add(btnLightMode);
 		btnLightMode.setBackground(Color.GRAY);
 		
 		JButton btnReturn = new JButton("Back");
-		btnReturn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				main_frm.setVisible(true);
-				settings_frm.setVisible(false);
-			}
-		});
+		btnReturn.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		btnReturn.setBackground(Color.GRAY);
 		panel_9.add(btnReturn);
 		
@@ -654,13 +588,6 @@ public class mainFrame
 		
 		JButton btnBack = new JButton("Back");
 		panel_17.add(btnBack);
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				main_frm.setVisible(true);
-				vault_frm.setVisible(false);
-			}
-		});
 		btnBack.setBackground(Color.GRAY);
 		
 		JPanel panel_19 = new JPanel();
@@ -703,20 +630,7 @@ public class mainFrame
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setForeground(textColor);
 		
-		JComboBox comboBox_Data = new JComboBox();
-		comboBox_Data.setModel(new DefaultComboBoxModel(new String[] {"My Data", "My Data 2", "My Data 3"}));
-		comboBox_Data.setSelectedIndex(0);
-		comboBox_Data.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				dataIndex = comboBox_Data.getSelectedIndex();
-				
-				//Get date from data at index
-				//textField_Date.setText(data.getDate(index));
-				textField_Date.setText("This will get the date for the data at the selected index...");
-			}
-		});
+		JComboBox<String> comboBox_Data = new JComboBox<String>();
 		comboBox_Data.setBackground(mainColor);
 		panel_22.add(comboBox_Data);
 		
@@ -751,33 +665,13 @@ public class mainFrame
 		JButton btnEdit = new JButton("Edit/View");
 		JPanel panel_VaultView = new JPanel();
 		
-		//Both Buttons Here Go To The View Window
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{	
-				newData = true;
-				panel_VaultView.setVisible(true);
-				panel_VaultMain.setVisible(false);
-				btnBack.setEnabled(false);
-			}
-		});
-		btnEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				newData = false;
-				String name = (String) comboBox_Data.getItemAt(dataIndex);
-				textField_Name.setText(name);
-				dataIndex = comboBox_Data.getSelectedIndex();
-				
-				panel_VaultView.setVisible(true);
-				panel_VaultMain.setVisible(false);
-				btnBack.setEnabled(false);
-			}
-		});
-		//Both Buttons Here Go To The View Window
-		
 		btnEdit.setBackground(Color.GRAY);
 		panel_25.add(btnEdit);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBackground(Color.GRAY);
+		btnDelete.setForeground(Color.BLACK);
+		panel_25.add(btnDelete);
 		
 		panel_VaultView.setBorder(UIManager.getBorder("TitledBorder.border"));
 		panel_VaultView.setBackground(mainColor);
@@ -811,40 +705,520 @@ public class mainFrame
 		panel_VaultView.add(panel_27, BorderLayout.SOUTH);
 		
 		JButton btn_Save = new JButton("Save");
-		btn_Save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				String name = textField_Name.getText();
-				String input = textField_Input.getText();
-				//dataIndex
-				//Send input and name to data structure
-				
-				//reload comboBox_Data
-				if(newData == true)
-				{
-					comboBox_Data.addItem(name);
-					dataIndex = (comboBox_Data.getItemCount() - 1);
-					comboBox_Data.setSelectedIndex(dataIndex);
-					//save name and input
-				}
-				if (newData == false) 
-				{
-					comboBox_Data.setSelectedIndex(dataIndex);
-					comboBox_Data.getModel().setSelectedItem(name);
-					comboBox_Data.setSelectedItem(name);
-					//save name and input
-				}
-				
-				//Exit add
-				panel_VaultMain.setVisible(true);
-				panel_VaultView.setVisible(false);
-				btnBack.setEnabled(true);
-			}
-		});
 		btn_Save.setBackground(Color.GRAY);
 		panel_27.add(btn_Save);
 		
 		JButton btnCancel = new JButton("Cancel");
+		
+		btnCancel.setBackground(Color.GRAY);
+		panel_27.add(btnCancel);
+		
+		JLabel lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_6.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		panel_VaultView.add(lblNewLabel_6, BorderLayout.NORTH);
+		
+		
+		
+		//===============================================================
+		//                          COMBO BOX
+		//===============================================================
+		
+		comboBox_Data.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				dataIndex = comboBox_Data.getSelectedIndex();
+				VaultItem item = itemlist.getEntry(dataIndex + 1);
+				
+				//Get date from data at index
+				//textField_Date.setText(data.getDate(index));
+				textField_Date.setText(item.getTimestamp());
+			}
+		});
+		
+		//===============================================================
+		//                           BUTTONS
+		//===============================================================
+		
+		btnLogin.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				boolean loginTrue = false;
+				username = username_Textfield.getText();
+				password = password_Textfield.getText();
+				
+				String path = "";
+				try {
+					path = new File(".").getCanonicalPath();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				path += "\\" + username;
+				File file = new File(path);
+				
+				if ((hashmap.hasThisUsername(username)) && (file.exists()))
+				{	
+					//Get hashed password
+					String hashedPassword = "";
+					String hashFromMap = "";
+					try {
+						SHA256 hash = new SHA256(password);
+						hashedPassword = hash.getHash();
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					//Get hash 
+					hashFromMap = hashmap.get(username);
+					
+					//Check Login info here
+					if (hashFromMap.equals(hashedPassword))
+					{
+						loginTrue = true;
+						try {
+							//System cannot find file from username because it has been deleted, but its still checking anyway
+							user = CipherIO.unseal(username, password);
+						} catch (InvalidKeyException | ClassNotFoundException | InvalidKeySpecException
+								| NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						vault = user.getVault();
+						itemlist = new VaultItemList();
+						itemlist = vault.getVaultItemList();
+						comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
+					}
+					else
+					{
+						loginTrue = false;
+					}
+				}
+				else
+					loginTrue = false;
+				
+				
+				//loginTrue = Verify.checkLogin(username, password);
+				
+				//Continue to menu
+				if (loginTrue == true)
+				{
+					main_frm.setVisible(true);
+					login_frm.setVisible(false);
+					lblWelcome.setText("Welcome " + username);
+					frmCipherAssist.setDefaultCloseOperation(0);
+				}
+			}
+		});
+	
+		btnQuit.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				try {
+					CipherIO.store(settings);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.exit(0);
+			}
+		});
+		
+		btnQuit2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				try {
+					CipherIO.store(settings);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.exit(0);
+			}
+		});
+		
+		btnCancel_Create.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				CreateAccountTrue = false;
+				panel_login_buttons.setVisible(true);
+				panel_create_buttons.setVisible(false);
+			}
+		});
+		
+		btnCreateAccount.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				CreateAccountTrue = true;
+				panel_create_buttons.setVisible(true);
+				panel_login_buttons.setVisible(false);
+			}
+		});
+		
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				//FINISH BACKGROUND ENCRYPTION FIRST IF NEEDED
+				boolean ready = true; 
+				vault.setVaultItemList(itemlist);
+				user.setVault(vault);
+				
+				try {
+					CipherIO.seal(user, username);
+				} catch (InvalidKeyException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidKeySpecException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalBlockSizeException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchPaddingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidAlgorithmParameterException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				try {
+					CipherIO.store(hashmap);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				user = null;
+				vault = null;
+				itemlist = null;
+				
+				//LOGOUT
+				if (ready == true)
+				{
+					username_Textfield.setText("");
+					password_Textfield.setText("");
+					login_frm.setVisible(true);
+					main_frm.setVisible(false);
+					frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}
+			}
+		});
+		
+		btnSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				settings_frm.setVisible(true);
+				main_frm.setVisible(false);
+			}
+		});
+		
+		btnAccessVault.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				vault_frm.setVisible(true);
+				main_frm.setVisible(false);
+			}
+		});
+		
+		btnDeleteAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				//Remove user
+				hashmap.remove(username);
+				//Remove file
+				String path;
+				try {
+					path = new File(".").getCanonicalPath();
+					path += "\\" + username;
+					File file = new File(path);
+					file.delete();
+					user = null;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//Logout
+				username_Textfield.setText("");
+				password_Textfield.setText("");
+				login_frm.setVisible(true);
+				settings_frm.setVisible(false);
+			}
+		});
+		
+		btnLightMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				FileOutputStream outStream;
+				
+				
+				//LEGACY CODE LIKELY NOT NEEDED
+				background = "#ffffff";
+				//LEGACY CODE LIKELY NOT NEEDED
+				
+				if (lightMode == false)
+				{
+					btnLightMode.setText("Dark Mode");
+					lightMode = true;
+				}
+				else
+				{
+					btnLightMode.setText("Light Mode");
+					lightMode = false;
+				}
+				
+				settings.setLightmodeEnabled(lightMode);
+			}
+		});
+		
+		btnReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				main_frm.setVisible(true);
+				settings_frm.setVisible(false);
+			}
+		});
+
+		btnEncrypt.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				String in = input_textArea.getText();
+				int encryptIndex = comboBox_Encryption.getSelectedIndex();
+				
+				EncryptionMethod encryptionType = Encrypt.getMethod(encryptIndex);
+				
+				//Encrypt in
+				encryptionType.setKey(key_textField.getText());
+				String result = encryptionType.getEncryptedString(in);
+				
+				output_textArea.setText(result);
+			}
+		}); 
+		
+		btnDecrypt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				String in = input_textArea.getText();
+				int encryptIndex = comboBox_Encryption.getSelectedIndex();
+				
+				EncryptionMethod encryptionType = Encrypt.getMethod(encryptIndex);
+				
+				//Decrypt in
+				encryptionType.setKey(key_textField.getText());
+				String result = encryptionType.getDecryptedString(in);
+				
+				output_textArea.setText(result);
+			}
+		});
+
+		btnGenerateKey.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				//Get encryption method
+				int encryptType = comboBox_Encryption.getSelectedIndex();
+				//Generate Key from Data Structure
+				//1: ROT13
+				
+			}
+		});
+
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				username = username_Textfield.getText();
+				password = password_Textfield.getText();
+				//Check Login info here
+				boolean createTrue = false;
+				
+				user = Accounts.createUser(username, password);
+				String hashedPassword = "";
+				
+				try {
+					SHA256 hash = new SHA256(password);
+					hashedPassword = hash.getHash();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				String path = "";
+				try {
+					path = new File(".").getCanonicalPath();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				path += "\\" + username;
+				File file = new File(path);
+				
+				//Check if account already exists
+				if ((!hashmap.hasThisUsername(username)) && (!file.exists()))
+				{
+					hashmap.add(username, hashedPassword);
+					try {
+						CipherIO.seal(user, username);
+					} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
+							| IllegalBlockSizeException | NoSuchPaddingException | InvalidAlgorithmParameterException
+							| IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						user = CipherIO.unseal(username, password);
+					} catch (InvalidKeyException | ClassNotFoundException | InvalidKeySpecException
+							| NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					vault = user.getVault();
+					itemlist = new VaultItemList();
+					itemlist = vault.getVaultItemList();
+					comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
+					createTrue = true;
+				}
+				
+				//Continue to menu
+				if (createTrue == true)
+				{
+					lblWelcome.setText("Welcome " + user.getUsername());
+					main_frm.setVisible(true);
+					login_frm.setVisible(false);
+				}
+			}
+		});
+		
+		btnClearKey.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				//Clear key
+				key_textField.setText("");
+			}
+		});
+		
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				main_frm.setVisible(true);
+				vault_frm.setVisible(false);
+			}
+		});
+		
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{	
+				newData = true;
+				panel_VaultView.setVisible(true);
+				panel_VaultMain.setVisible(false);
+				btnBack.setEnabled(false);
+			}
+		});
+		
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				newData = false;
+				//String name = (String) comboBox_Data.getItemAt(dataIndex);
+				dataIndex = comboBox_Data.getSelectedIndex();
+				VaultItem item = itemlist.getEntry(dataIndex + 1);
+				String name = item.getFilename();
+				textField_Name.setText(name);
+				String input = item.getData();
+				textField_Input.setText(input);
+				
+				panel_VaultView.setVisible(true);
+				panel_VaultMain.setVisible(false);
+				btnBack.setEnabled(false);
+			}
+		});
+		
+		btnDelete.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				
+				dataIndex = comboBox_Data.getSelectedIndex();
+				itemlist.remove(dataIndex + 1);
+				
+				comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
+				
+				VaultItem item;
+				dataIndex = 0;
+				
+				item = itemlist.getEntry(dataIndex + 1);
+				//item.setTimestamp(date.format(timestamp));
+				
+				comboBox_Data.setSelectedIndex(0);
+				textField_Date.setText(item.getTimestamp());
+			}
+		});
+		
+		btn_Save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				String name = textField_Name.getText();
+				String input = textField_Input.getText();
+				VaultItem item;
+				//dataIndex
+				//Send input and name to data structure
+				
+				//reload comboBox_Data
+				if(newData == true) //Add
+				{
+					//comboBox_Data.addItem(name);
+					dataIndex = (comboBox_Data.getItemCount());
+					//save name and input
+					
+					item = new VaultItem();
+					item.setFilename(name);
+					item.setData(input);
+					itemlist.add(item);
+					item.setTimestamp(date.format(timestamp));
+					textField_Date.setText(item.getTimestamp());
+				}
+				else if (newData == false) //Edit
+				{
+					//comboBox_Data.setSelectedIndex(dataIndex);
+					//comboBox_Data.getModel().setSelectedItem(name);
+					//comboBox_Data.setSelectedItem(name);
+					//save name and input
+					
+					item = itemlist.getEntry(dataIndex + 1);
+					item.setFilename(name);
+					item.setData(input);
+				}
+				
+				//Exit add
+				textField_Name.setText("");
+				textField_Input.setText("");
+				panel_VaultMain.setVisible(true);
+				panel_VaultView.setVisible(false);
+				btnBack.setEnabled(true);
+				
+				comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
+				comboBox_Data.setSelectedIndex(dataIndex);
+			}
+		});
+		
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -855,18 +1229,9 @@ public class mainFrame
 				btnBack.setEnabled(true);
 			}
 		});
-		btnCancel.setBackground(Color.GRAY);
-		panel_27.add(btnCancel);
-		
-		JLabel lblNewLabel_6 = new JLabel("");
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
-		panel_VaultView.add(lblNewLabel_6, BorderLayout.NORTH);
-	}
-	
-	public void colorInitialize()
-	{
-		//This can change all the colors to light mode
-		initialize();
+
+		//===============================================================
+		//                       BUTTONS END
+		//===============================================================
 	}
 }

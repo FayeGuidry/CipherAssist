@@ -22,12 +22,18 @@ public class ROT13 extends EncryptionBase implements EncryptionMethod
 	}
 
 	@Override
-	public void getKey(String key) 
+	public String genKey() 
 	{
-		//No key required for ROT13
+		return "";
 	}
 	
-	private String encrypt(String text)
+	public String getKey() 
+	{
+		return "";
+	}
+	
+	@Override
+	public String encrypt(String text)
 	{
 		String result = "";
 		
@@ -209,6 +215,12 @@ public class ROT13 extends EncryptionBase implements EncryptionMethod
 		}
 		
 		return shiftedChar;
+	}
+
+	@Override
+	public void setKey(String str) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -1,9 +1,14 @@
 package cipherassist.user;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class VaultItemList 
+public class VaultItemList implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1122361571989935464L;
 	private VaultItem[] list;
 	private int numberOfEntries;
 	private final static int DEFAULT_CAPACITY = 20;
@@ -200,6 +205,19 @@ public class VaultItemList
         {
             throw new SecurityException ("VaultItemList object set beyond MAX_CAPACITY.");
         }
+	}
+	
+	public String[] toStringArray()
+	{
+		checkInitialization();
+		
+		String[] result = new String[numberOfEntries];
+		for (int index = 0; index < numberOfEntries; ++index)
+		{
+			result[index] = list[index + 1].toString();
+		}
+		
+		return result;
 	}
 	
 }
