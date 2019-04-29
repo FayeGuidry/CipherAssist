@@ -26,14 +26,18 @@ public class DemoBSA512
 		System.out.println("Output: " + bsa2.decrypt());
 		System.out.println();
 		
+		
 		String key = "5468576D5A7134743677397A24432646294A404E635266556A586E327235753878214125442A472D4B6150645367566B597033733676397924423F4528482B4D";
 		String text = "I really love doggos a lot.";
 		BSA512 bsa3 = new BSA512(text, key);
-		System.out.println("Output: " + bsa3.decrypt());
+		System.out.println("Output: " + bsa3.encrypt());
+		System.out.println();
 		
 		//String key = "5468576D5A7134743677397A24432646294A404E635266556A586E327235753878214125442A472D4B6150645367566B597033733676397924423F4528482B4D";
-		//String text = "I really love doggos a lot.";
-		//BSA512 bsa3 = new BSA512(text, key);
+		String ciphertext = "5468576d5a7134743677397a24432646294a404e635266556a586e327235753878214125455e69db7d65d6609d91b08daf5637d558800f7dba7409c38e062fdf";
+		BSA512 bsa4 = new BSA512(ciphertext, key);
+		System.out.println("Output: " + bsa4.decrypt());
+		System.out.println();
 		
 		/*
 		String str = "zZf27";

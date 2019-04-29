@@ -12,6 +12,7 @@ public class BinaryStackTree
 	//ea. node has an empty stack instantiated upon creation
 	
 	private BinaryNode root;
+	public int nodeCounts = 0;
 	
 	public BinaryStackTree()
 	{
@@ -83,7 +84,7 @@ public class BinaryStackTree
 			{
 				Stack<Character> tempStack = iter.next();
 				tempStack.push(chars[j]);
-				//System.out.println(j);
+				//System.out.println(chars[j]);
 				++j;
 			}
 			
@@ -114,13 +115,14 @@ public class BinaryStackTree
 		return resultString.toCharArray();
 	}
 	
-	//Just wanna say I'm very proud of this particular method.
+	
 	public void addNodes(LinkedBlockingQueue<BinaryNode> levelQ, int nodeCount) throws InterruptedException
 	{
 		
 		if (levelQ.isEmpty())
 		{
 			--nodeCount;
+			++nodeCounts;
 			
 				if ((!root.hasLeftChild()) && (nodeCount != 0))
 				{
@@ -128,6 +130,7 @@ public class BinaryStackTree
 					root.setLeftChild(leftChild);
 					levelQ.put(leftChild);
 					//System.out.println("Node added!");
+					++nodeCounts;
 					--nodeCount;
 				}
 					
@@ -137,13 +140,15 @@ public class BinaryStackTree
 					root.setRightChild(rightChild);
 					levelQ.put(rightChild);
 					//System.out.println("Node added!");
+					++nodeCounts;
 					--nodeCount;
 				}
 			
-			addNodes(levelQ, nodeCount);
+			if (nodeCount != 0)
+				addNodes(levelQ, nodeCount);
 		}
 		
-		else
+		else if (nodeCount != 0)
 		{
 			while (nodeCount > 0)
 			{
@@ -155,6 +160,7 @@ public class BinaryStackTree
 					newRoot.setLeftChild(leftChild);
 					levelQ.put(leftChild);
 					//System.out.println("Node added!");
+					++nodeCounts;
 					--nodeCount;
 				}
 					
@@ -164,13 +170,14 @@ public class BinaryStackTree
 					newRoot.setRightChild(rightChild);
 					levelQ.put(rightChild);
 					//System.out.println("Node added!");
+					++nodeCounts;
 					--nodeCount;
 				}
 			}
 		}
 		
 	}
-	
+	/*
 	public static void generateNodes(BinaryStackTree tree, int innodeCount)
 	{
 		int nodeCount = innodeCount - 1;
@@ -212,6 +219,7 @@ public class BinaryStackTree
 		}
 			
 	}
+	*/
 	
 	public BinaryNode getRoot()
 	{
