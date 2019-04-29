@@ -1,5 +1,7 @@
 package cipherassist.encryption;
 
+import ConnorGuidry.crypto.BSA512.BSA512;
+
 public class Encrypt 
 {
 	//update the switch statement in the GUI to add new encryption methods
@@ -15,6 +17,9 @@ public class Encrypt
 		{
 		case 0: //ROT13
 			method = new ROT13();
+			break;
+		case 1: //BSA512
+			method = new BSA512();
 			break;
 		default: method = null;//Encryption doesn't exist
 			break;

@@ -25,5 +25,5 @@ public interface EncryptionMethod
 	
 	public void setKey(String str);
 	
-	public String encrypt(String text);
+	//public String encrypt(String text);
 }

@@ -324,7 +324,7 @@ public class mainFrame
 		panel_11_center.add(lblEncrypMeth);
 		
 		JComboBox comboBox_Encryption = new JComboBox();
-		comboBox_Encryption.setModel(new DefaultComboBoxModel(new String[] {"ROT13"}));
+		comboBox_Encryption.setModel(new DefaultComboBoxModel(new String[] {"ROT13", "BSA512"}));
 		comboBox_Encryption.setBackground(mainColor);
 		panel_11_center.add(comboBox_Encryption);
 		

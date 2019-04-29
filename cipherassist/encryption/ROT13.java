@@ -32,7 +32,7 @@ public class ROT13 extends EncryptionBase implements EncryptionMethod
 		return "";
 	}
 	
-	@Override
+	
 	public String encrypt(String text)
 	{
 		String result = "";

@@ -20,6 +20,8 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 	
 	public String plainText;
 	
+	public String inputKey;
+	
 	public String cipherText;
 	
 	public char[] messageArray;
@@ -409,13 +411,26 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 	@Override
 	public String getEncryptedString(String plaintext) {
 		
-		return null;
+		messageString = new String(plaintext);
+		try {
+			return encrypt();
+		} catch (UnsupportedEncodingException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "UnsupportedEncoding Exception OR InterruptedException!!";
+		}
 	}
 
 	@Override
 	public String getDecryptedString(String ciphertext) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		try {
+			return decrypt();
+		} catch (UnsupportedEncodingException | InterruptedException | DecoderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "UnsupportedEncoding Exception OR InterruptedException!!";
+		}
 	}
 
 
@@ -429,12 +444,9 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 	@Override
 	public void setKey(String str) {
 		// TODO Auto-generated method stub
-		
+		inputKey = str;
+		keyString = new String(inputKey);
 	}
 
-	@Override
-	public String encrypt(String text) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }
