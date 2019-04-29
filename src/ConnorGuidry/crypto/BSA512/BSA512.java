@@ -9,8 +9,10 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import ConnorGuidry.BinaryUtil.Binary;
+import cipherassist.encryption.EncryptionBase;
+import cipherassist.encryption.EncryptionMethod;
 
-public class BSA512 
+public class BSA512 extends EncryptionBase implements EncryptionMethod
 {
 	public String messageString;
 	
@@ -41,6 +43,19 @@ public class BSA512
 	public BinaryStackTree tree;
 	
 	public BSA512(String plaintext, String key) throws UnsupportedEncodingException
+	{
+		messageString = new String(plaintext);
+		keyString = new String(key);
+		
+		//System.out.println("String in: " + messageString);
+	}
+	
+	public BSA512()
+	{
+	
+	}
+	
+	public void setup(String plaintext, String key)
 	{
 		messageString = new String(plaintext);
 		keyString = new String(key);
@@ -389,5 +404,23 @@ public class BSA512
 		}
 		
 		return convertedToBinary;
+	}
+
+	@Override
+	public String getEncryptedString(String plaintext) {
+		
+		return null;
+	}
+
+	@Override
+	public String getDecryptedString(String ciphertext) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void getKey(String key) {
+		
+		
 	}
 }
