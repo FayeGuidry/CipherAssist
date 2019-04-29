@@ -151,7 +151,7 @@ public class mainFrame
 	private void initialize() throws ClassNotFoundException, IOException 
 	{
 		String path = new File(".").getCanonicalPath();
-		path += "\\" + "settings" + ".dat";
+		path += "//" + "settings" + ".dat";
 		settings = CipherIO.access(path);
 		lightMode = settings.isLightmodeEnabled();
 		
@@ -170,7 +170,7 @@ public class mainFrame
 		}
 		
 		frmCipherAssist = new JFrame();
-		frmCipherAssist.setIconImage(Toolkit.getDefaultToolkit().getImage(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		frmCipherAssist.setIconImage(Toolkit.getDefaultToolkit().getImage(mainFrame.class.getResource("/src/cipherassist/resources/cipher_assist_logo_100.png")));
 		frmCipherAssist.setTitle("Cipher Assist");
 		frmCipherAssist.setResizable(false);
 		frmCipherAssist.getContentPane().setBackground(mainColor);
@@ -299,7 +299,7 @@ public class mainFrame
 		JLabel logoImage = new JLabel("");
 		panel_4_north.add(logoImage);
 		logoImage.setHorizontalAlignment(SwingConstants.CENTER);
-		logoImage.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logoandtext_150.png")));
+		logoImage.setIcon(new ImageIcon(mainFrame.class.getResource("/src/cipherassist/resources/cipher_assist_logoandtext_150.png")));
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBackground(mainColor);
@@ -455,7 +455,7 @@ public class mainFrame
 		
 		JLabel imageLogo = new JLabel("");
 		panel_3.add(imageLogo, BorderLayout.SOUTH);
-		imageLogo.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		imageLogo.setIcon(new ImageIcon(mainFrame.class.getResource("/src/cipherassist/resources/cipher_assist_logo_100.png")));
 		
 		JPanel panel_4 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
@@ -612,7 +612,7 @@ public class mainFrame
 		panel_VaultMain.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel_1 = new JLabel("Vault");
-		lblNewLabel_1.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		lblNewLabel_1.setIcon(new ImageIcon(mainFrame.class.getResource("/src/cipherassist/resources/cipher_assist_logo_100.png")));
 		panel_VaultMain.add(lblNewLabel_1, BorderLayout.NORTH);
 		lblNewLabel_1.setForeground(textColor);
 		lblNewLabel_1.setBackground(Color.WHITE);
@@ -715,7 +715,7 @@ public class mainFrame
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6.setIcon(new ImageIcon(mainFrame.class.getResource("/cipherassist/resources/cipher_assist_logo_100.png")));
+		lblNewLabel_6.setIcon(new ImageIcon(mainFrame.class.getResource("/src/cipherassist/resources/cipher_assist_logo_100.png")));
 		panel_VaultView.add(lblNewLabel_6, BorderLayout.NORTH);
 		
 		
@@ -756,7 +756,7 @@ public class mainFrame
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				path += "\\" + username;
+				path += "//" + username;
 				File file = new File(path);
 				
 				if ((hashmap.hasThisUsername(username)) && (file.exists()))
@@ -942,7 +942,7 @@ public class mainFrame
 				String path;
 				try {
 					path = new File(".").getCanonicalPath();
-					path += "\\" + username;
+					path += "//" + username;
 					File file = new File(path);
 					file.delete();
 					user = null;
@@ -1063,7 +1063,7 @@ public class mainFrame
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				path += "\\" + username;
+				path += "//" + username;
 				File file = new File(path);
 				
 				//Check if account already exists

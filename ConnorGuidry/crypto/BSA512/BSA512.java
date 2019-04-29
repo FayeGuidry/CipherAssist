@@ -418,9 +418,23 @@ public class BSA512 extends EncryptionBase implements EncryptionMethod
 		return null;
 	}
 
+
+
 	@Override
-	public void getKey(String key) {
+	public String genKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setKey(String str) {
+		// TODO Auto-generated method stub
 		
-		
+	}
+
+	@Override
+	public String encrypt(String text) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
