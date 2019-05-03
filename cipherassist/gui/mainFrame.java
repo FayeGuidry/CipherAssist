@@ -801,6 +801,12 @@ public class mainFrame
 				else
 					loginTrue = false;
 				
+				//Clear Values Before Starting
+				username_Textfield.setText("");
+				password_Textfield.setText("");
+				key_textField.setText("");
+				input_textArea.setText("");
+				output_textArea.setText("");
 				
 				//loginTrue = Verify.checkLogin(username, password);
 				
@@ -911,8 +917,11 @@ public class mainFrame
 				{
 					username_Textfield.setText("");
 					password_Textfield.setText("");
+					key_textField.setText("");
+					input_textArea.setText("");
+					output_textArea.setText("");
 					login_frm.setVisible(true);
-					main_frm.setVisible(false);
+					settings_frm.setVisible(false);
 					frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				}
 			}
@@ -955,8 +964,12 @@ public class mainFrame
 				//Logout
 				username_Textfield.setText("");
 				password_Textfield.setText("");
+				key_textField.setText("");
+				input_textArea.setText("");
+				output_textArea.setText("");
 				login_frm.setVisible(true);
 				settings_frm.setVisible(false);
+				frmCipherAssist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}
 		});
 		
@@ -1127,7 +1140,7 @@ public class mainFrame
 				newData = true;
 				panel_VaultView.setVisible(true);
 				panel_VaultMain.setVisible(false);
-				btnBack.setEnabled(false);
+				btnBack.setVisible(false);
 			}
 		});
 		
@@ -1145,7 +1158,7 @@ public class mainFrame
 				
 				panel_VaultView.setVisible(true);
 				panel_VaultMain.setVisible(false);
-				btnBack.setEnabled(false);
+				btnBack.setVisible(false);
 			}
 		});
 		
@@ -1214,7 +1227,7 @@ public class mainFrame
 				textField_Input.setText("");
 				panel_VaultMain.setVisible(true);
 				panel_VaultView.setVisible(false);
-				btnBack.setEnabled(true);
+				btnBack.setVisible(true);
 				
 				comboBox_Data.setModel(new DefaultComboBoxModel<String>(itemlist.toStringArray()));
 				comboBox_Data.setSelectedIndex(dataIndex);
@@ -1228,12 +1241,13 @@ public class mainFrame
 				textField_Input.setText("");
 				panel_VaultMain.setVisible(true);
 				panel_VaultView.setVisible(false);
-				btnBack.setEnabled(true);
+				btnBack.setVisible(true);
 			}
 		});
 
 		//===============================================================
 		//                       BUTTONS END
 		//===============================================================
+		
 	}
 }
