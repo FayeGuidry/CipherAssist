@@ -37,4 +37,4 @@ Design, GUI Design/Implementation, and Integration - Geoffery Powell (Geoffery10
 Design, Data Structures, and Integration - Khe Kit Shum (KheKit)
 
 ## License
-![License](https://github.com/ConnorGuidry/CipherAssist/blob/master/LICENSE)
+[License](https://github.com/ConnorGuidry/CipherAssist/blob/master/LICENSE)
